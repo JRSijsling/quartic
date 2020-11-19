@@ -1,0 +1,12 @@
+{
+  minred.m
+  TernaryForms.m
+  DixmierOhnoInvariants.m
+  JointCovariants.dat
+  JointCovariants.m
+  Interpolations.m
+  Descent.m
+  AutStrataChar0Equations.m
+  AutStrataChar0Reconstruction.m
+  DixmierOhnoToQuartic.m
+}
