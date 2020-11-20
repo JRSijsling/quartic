@@ -73,7 +73,7 @@ if IsInStratumC1orC2Proper(I1) and (f1 eq f2) then
     geometric := false;
 end if;
 
-try
+//try
 //Finding a suitable quadratic contravariant
 stop := false;
 teller := 0;
@@ -536,7 +536,7 @@ I2,J2,Delta2 := BinQuadInvs(bq2);
 
 if Delta1 ne 0 then
 
-test5,List := IsGL2GeometricEquivalent(hbq1,hbq2,4 : geometric := geometric);
+test5,List := IsGL2GeometricEquivalent(hbq1,hbq2,4 : geometric := geometric, commonfield := true);
 //test5,List := IsGL2Equivalent(bq1,bq2);
 //"test5:",test5;
 
@@ -545,6 +545,7 @@ if test5 then
 Ts := [* *];
 for l in List do
     FF := L;
+    FF := Parent(l[1]);
     P2FF := ProjectiveSpace(FF,2);
     RFF<x1,x2,x3> := CoordinateRing(P2FF);
     f1newFF := f1new;
@@ -613,7 +614,7 @@ I2,J2,Delta2 := BinQuadInvs(bq2T);
 
 if Delta1 ne 0 then
 
-test6,List := IsGL2GeometricEquivalent(h(bq1T),h(bq2T),4 : geometric := geometric);
+test6,List := IsGL2GeometricEquivalent(h(bq1T),h(bq2T),4 : geometric := geometric, commonfield := true);
 //"test6:",test6;
 
 if test6 then
@@ -677,7 +678,7 @@ end if;
 hbo1 := h(bo1);
 hbo2 := h(bo2);
 if (Degree(hbo1) gt 6) and (Discriminant(hbo1) ne 0) then
-test7,List := IsGL2GeometricEquivalent(hbo1,hbo2,8 : geometric := geometric);
+test7,List := IsGL2GeometricEquivalent(hbo1,hbo2,8 : geometric := geometric, commonfield := true);
 //"test7:",test7;
 
 if test7 then
@@ -751,7 +752,7 @@ if (deg1 eq deg2) and (Degree(hbf1) lt 12) and (Degree(hbf2) lt 12) then
     m := m + 1;
 end if;
 
-test8,List := IsGL2GeometricEquivalent(hbf1red,hbf2red,m : geometric := geometric);
+test8,List := IsGL2GeometricEquivalent(hbf1red,hbf2red,m : geometric := geometric, commonfield := true);
 //"test8:",test8;
 
 if test8 then
@@ -816,10 +817,10 @@ end if;
 end if;
 
 end while;
-catch e
-    test, Ms := SPQIsIsomorphic(f1, f2 : geometric := geometric);
-    return test, Ms, true;
-end try;
+//catch e
+//    test, Ms := SPQIsIsomorphic(f1, f2 : geometric := geometric);
+//    return test, Ms, true;
+//end try;
 
 test, Ms := SPQIsIsomorphic(f1, f2 : geometric := geometric);
 return test, Ms, true;

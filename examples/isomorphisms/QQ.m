@@ -39,7 +39,7 @@ while not stop do
         f2 := a2*g2(f);
 
         time test,Ts,IINeeded := QuarticIsomorphisms(f1,f2);
-        //time test,Ts,IINeeded := QuarticIsomorphisms(f1,f2 : geometric := true);
+        time test,Ts,IINeeded := QuarticIsomorphisms(f1,f2 : geometric := true);
         //Ts;
 
         if (not test) and (not IINeeded) then

@@ -9,6 +9,8 @@
 
 import "QuarticIsoFF.m": QuarticIsomorphismsFF;
 import "QuarticIsoQQ.m": QuarticIsomorphismsQQ;
+import "Sutherland.m": SPQIsIsomorphic;
+
 
 intrinsic QuarticIsomorphisms(f1::RngMPolElt, f2::RngMPolElt : geometric := false) -> .
 {Finds the isomorphisms between the ternary quartic forms f1 and f2. Matrices T returned as a second value satisfy f2 = f1 T up to scalar.}
@@ -19,7 +21,7 @@ if Type(K) eq FldFin then
 elif Type(K) eq FldRat then
     return QuarticIsomorphismsQQ(f1, f2 : geometric := geometric);
 else
-    error "Base field currently not handled";
+    return SPQIsIsomorphic(f1, f2 : geometric := geometric);
 end if;
 
 end intrinsic;
@@ -42,7 +44,15 @@ assert Degree(f1) eq 4;
 assert Degree(f2) eq 4;
 
 test, Ts := QuarticIsomorphisms(f1, f2 : geometric := geometric);
-return test, [ T^(-1) : T in Ts ];
+return test, [ Transpose(T) : T in Ts ];
+
+end intrinsic;
+
+
+intrinsic IsIsomorphicQuartic(X1::CrvPln, X2::CrvPln : geometric := false) -> .
+{Finds the isomorphisms between the plane quartic curves X1 and X2. Matrices T returned as a second value map X1 onto X2.}
+
+return QuarticIsomorphisms(X1, X2 : geometric := geometric);
 
 end intrinsic;
 

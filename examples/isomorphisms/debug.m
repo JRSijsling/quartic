@@ -18,4 +18,3 @@ for f in fs do
     test, isos := QuarticIsomorphisms(f, f : geometric := true);
     print BaseRing(isos[1]);
 end for;
-
