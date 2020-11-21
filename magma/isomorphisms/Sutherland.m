@@ -4,6 +4,8 @@
  *  See LICENSE.txt for license details.
  */
 
+import "Ingredients.m": Normalize33;
+
 
 function DemPoints(S : geometric := false)
 
@@ -130,6 +132,7 @@ function SPQIsIsomorphic(f1, f2 : geometric := false)
     hAL := hom< A -> L | L.1 >;
     Ms := [ ConjugateMatrix(hKbarA, M) : M in Ms ];
     Ms := [ ConjugateMatrix(hAL, M) : M in Ms ];
+    Ms := [ Normalize33(M) : M in Ms ];
 
     /* Polredabs */
     /*

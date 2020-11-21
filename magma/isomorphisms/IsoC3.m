@@ -7,7 +7,7 @@
  */
 
 
-import "Ingredients.m": FlexesThroughPoint, AssertTs;
+import "Ingredients.m": FlexesThroughPoint, AssertTs, Normalize33;
 
 
 function IsoC3(f01,f02 : geometric := false);
@@ -165,6 +165,7 @@ end for;
 if #Ts eq 0 then
     return false,[* *],0;
 else
+    Ts := [* Normalize33(T) : T in Ts *];
     AssertTs(f1, f2, Ts : geometric := geometric);
     return (#Ts ne 0),Ts,StF;
 end if;

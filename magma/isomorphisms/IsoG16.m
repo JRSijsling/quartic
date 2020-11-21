@@ -7,7 +7,7 @@
  */
 
 
-import "Ingredients.m": TransformBinaryForm, AssertTs, IsMultiplePolynomial;
+import "Ingredients.m": TransformBinaryForm, AssertTs, IsMultiplePolynomial, Normalize33;
 
 
 function IsoG16(f01,f02 : geometric := false);
@@ -156,6 +156,7 @@ end if;
 if #Ts eq 0 then
     return false,[* *];
 else
+    Ts := [* Normalize33(T) : T in Ts *];
     AssertTs(f1, f2, Ts : geometric := geometric);
     return (#Ts ne 0),Ts;
 end if;
