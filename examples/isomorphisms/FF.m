@@ -16,6 +16,8 @@ while not stop do
         f  := Random(F)*x^4 + Random(F)*x^3*y + Random(F)*x^2*y^2 + Random(F)*x*y^3 + Random(F)*y^4 + Random(F)*x^3*z + Random(F)*x^2*y*z + Random(F)*x*y^2*z + Random(F)*y^3*z + Random(F)*x^2*z^2 + Random(F)*x*y*z^2 + Random(F)*y^2*z^2 + Random(F)*x*z^3 + Random(F)*y*z^3 + Random(F)*z^4;
         T1 := Matrix(F,3,3,[Random(F),Random(F),Random(F),Random(F),Random(F),Random(F),Random(F),Random(F),Random(F)]);
         T2 := Matrix(F,3,3,[Random(F),Random(F),Random(F),Random(F),Random(F),Random(F),Random(F),Random(F),Random(F)]);
+        //T1 := IdentityMatrix(F, 3);
+        //T2 := Matrix(F,3,3,[0,Random(F),Random(F),Random(F),Random(F),Random(F),Random(F),Random(F),Random(F)]);
     until f ne 0 and (Determinant(T1) ne 0) and (Determinant(T2) ne 0);
     I := DixmierOhnoInvariantsEchidna(f);
 
@@ -41,6 +43,7 @@ while not stop do
 
         time test,Ts,IINeeded := QuarticIsomorphisms(f1,f2);
         time test,Ts,IINeeded := QuarticIsomorphisms(f1,f2 : geometric := true);
+        //print Ts;
 
         if (not test) and (not IINeeded) then
             //stop := true;

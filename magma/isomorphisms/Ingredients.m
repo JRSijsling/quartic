@@ -993,24 +993,9 @@ end function;
 function Normalize33(M);
 //Divides out scalars in 3x3 invertible matrix.
 
-a := M[1,1];
-b := M[1,2];
-c := M[1,3];
-d := M[2,1];
-e := M[2,2];
-f := M[2,3];
-g := M[3,1];
-h := M[3,2];
-i := M[3,3];
-F := Parent(a);
-
-if a ne 0 then
-	return Matrix(F,3,3,[1,b/a,c/a,d/a,e/a,f/a,g/a,h/a,i/a]);
-elif d ne 0 then
-	return Matrix(F,3,3,[0,b/d,c/d,1,e/d,f/d,g/d,h/d,i/d]);
-else
-	return Matrix(F,3,3,[0,b/g,c/g,0,e/g,f/g,1,h/g,i/g]);
-end if;
+S := Eltseq(M);
+i0 := Minimum([ i : i in [1..#S] | S[i] ne 0 ]);
+return (1/S[i0])*M;
 
 end function;
 
