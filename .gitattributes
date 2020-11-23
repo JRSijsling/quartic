@@ -4,3 +4,4 @@
 # ============
 *.m    linguist-language=magma
 *.mag  linguist-language=magma
+*.spec  linguist-language=magma
