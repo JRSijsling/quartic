@@ -34,7 +34,7 @@
 
 */
 
-import "DixmierOhnoInvariants.m":
+import "../invariants/DixmierOhnoInvariants.m":
     Rho, DixmierInvariant;
 import "TernaryForms.m":
     TernaryToBinary, BinaryToTernary, Homogenization;

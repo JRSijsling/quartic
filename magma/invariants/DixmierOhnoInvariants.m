@@ -30,7 +30,14 @@
  * intrinsic DixmierOhnoInvariants(f::RngMPolElt : normalize := false) -> SeqEnum, SeqEnum
  *
  ********************************************************************/
-import "Interpolations.m" : DixmierOhnoAlgebraicRelations;
+import "../reconstruction/Interpolations.m" : DixmierOhnoAlgebraicRelations;
+
+import "DOmod2.m": DOInvariantsChar2;
+import "DOmod3.m": DOInvariantsChar3;
+import "DOmod5.m": DOInvariantsChar5;
+import "DOmod7.m": DOInvariantsChar7;
+import "DOmodAnyp.m": DOInvariantsCharAnyp;
+
 
 function DerivativeSequence(f,n)
     S := [ Parent(f) | ];
@@ -350,7 +357,8 @@ function Xi(Phi)
 end function;
 
 
-function QuarticDiscriminant(Phi)
+intrinsic QuarticDiscriminant(Phi::RngMPolElt : IntegralNormalization := false) -> Any
+    {Discriminant of a quartic}
     P := Parent(Phi);
     K := BaseRing(P);
     X,Y,Z := Explode([ P.i : i in [1..3] ]);
@@ -434,9 +442,13 @@ function QuarticDiscriminant(Phi)
         Y*Z^4,
         Z^5
         ];
-    R27 := Matrix(K,[ [MonomialCoefficient(Eqql,Ll): Ll in L]: Eqql in Eqq ]);
-    return Determinant(R27);
-end function;
+    R27 := Matrix(K,[ [MonomialCoefficient(Eqql,Ll): Ll in L]: Eqql in Eqq ]);R27;
+    I27 := Determinant(R27);
+    if IntegralNormalization then
+    I27 *:= 1099511627776;
+    end if;
+    return I27;
+end intrinsic;
 
 
 function DixmierInvariant(Phi,i :IntegralNormalization := false)
@@ -565,7 +577,7 @@ function DixmierInvariant(Phi,i :IntegralNormalization := false)
 end function;
 
 
-intrinsic DixmierOhnoInvariants(f::RngMPolElt : normalize := false) -> SeqEnum, SeqEnum
+intrinsic DixmierOhnoInvariants(f::RngMPolElt : normalize := false, IntegralNormalization := false) -> SeqEnum, SeqEnum
     {
     Compute the 13 Dixmier-Ohno invariants 'I3', 'I6', 'I9', 'J9', 'I12',
     'J12', 'I15', 'J15', 'I18', 'J18', 'I21', 'J21' and 'I27' of a quartic
@@ -621,9 +633,52 @@ intrinsic DixmierOhnoInvariants(f::RngMPolElt : normalize := false) -> SeqEnum, 
     //   J27 := JOperation11(Nu,Chi); // Ohno (not given name) not returned
 
     ww := [3*w : w in [1,2,3,3,4,4,5,5,6,6,7,7,9]];
-    DD := [I03,I06,I09,J09,I12,J12,I15,J15,I18,J18,I21,J21,I27];
-
+    if IntegralNormalization then
+        DD := [
+            2^4  * 3^2 * I03,
+            2^12 * 3^6 * I06,
+            2^12 * 3^8 * I09,
+            2^12 * 3^7 * J09,
+            2^16 * 3^12 * I12,
+            2^17 * 3^10 * J12,
+            2^23 * 3^15 * I15,
+            2^23 * 3^12 * J15,
+            2^27 * 3^17 * I18,
+            2^27 * 3^15 * J18,
+            2^31 * 3^18 * I21,
+            2^33 * 3^16 * J21,
+            2^40 * I27];
+    else
+        DD := [I03,I06,I09,J09,I12,J12,I15,J15,I18,J18,I21,J21,I27];
+    end if;
     if normalize eq false then return DD, ww; end if;
     return WPSNormalize(ww, DD), ww;
+
+end intrinsic;
+
+intrinsic DOInvariants(F::RngMPolElt, p::RngIntElt : PrimaryOnly := false, degmax := 10^6, degmin := 1, AllInvs:=true) -> SeqEnum, SeqEnum
+    {Lift in characteristic 0 of the Dixmier-Ohno invariants defined modulo p}
+    if p eq 2 then
+	DOs, WG := DOInvariantsChar2(F : PrimaryOnly := PrimaryOnly, degmax := degmax, degmin := degmin);
+    elif p eq 3 then
+	DOs, WG := DOInvariantsChar3(F : PrimaryOnly := PrimaryOnly, degmax := degmax, degmin := degmin, AllInvs := AllInvs);
+    elif p eq 5 then
+	DOs, WG := DOInvariantsChar5(F : PrimaryOnly := PrimaryOnly, degmax := degmax, degmin := degmin);
+    elif p eq 7 then
+	DOs, WG := DOInvariantsChar7(F : PrimaryOnly := PrimaryOnly, degmax := degmax, degmin := degmin);
+    else
+	DOs, WG := DOInvariantsCharAnyp(F : PrimaryOnly := PrimaryOnly, degmax := degmax, degmin := degmin);
+    end if;
+
+    return DOs, WG;
+
+end intrinsic;
+
+intrinsic DOInvariants(F::RngMPolElt : PrimaryOnly := false, degmax := 10^6, degmin := 1, AllInvs:=true) -> SeqEnum, SeqEnum
+    {Dixmier-Ohno invariants well defined modulo p}
+
+    DOs, WG := DOInvariants(F, Characteristic(Parent(F)));
+
+    return DOs, WG;
 
 end intrinsic;

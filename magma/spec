@@ -9,4 +9,8 @@
   {
     +spec
   }
+  invariants
+  {
+    +invariants.spec
+  }
 }
