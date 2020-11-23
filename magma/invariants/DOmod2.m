@@ -1,6 +1,6 @@
 import "DixmierOhnoInvariants.m" : DerivativeSequence,  PowerDerivative, DifferentialOperation, JOperation11, JOperation22, JOperation30, JOperation03, CovariantHessian,    ContravariantSigmaAndPsi, DixmierInvariant;
 
-import "g3twists_v2-0/misc.m" : ChangeBaseRing, LiftRing;
+import "../toolbox/misc.m" : ChangeBaseRing, LiftRing;
 
 function DOInvariantsChar2(F : PrimaryOnly := false, degmax := 10^6, degmin := 1)
 
