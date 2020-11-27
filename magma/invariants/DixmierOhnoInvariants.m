@@ -30,8 +30,6 @@
  * intrinsic DixmierOhnoInvariants(f::RngMPolElt : normalize := false) -> SeqEnum, SeqEnum
  *
  ********************************************************************/
-import "../reconstruction/Interpolations.m" : DixmierOhnoAlgebraicRelations;
-
 import "DOmod2.m": DOInvariantsChar2;
 import "DOmod3.m": DOInvariantsChar3;
 import "DOmod5.m": DOInvariantsChar5;

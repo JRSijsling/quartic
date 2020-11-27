@@ -1,3 +1,4 @@
 {
   DixmierOhnoInvariants.m
+  DOrelations.m
 }
