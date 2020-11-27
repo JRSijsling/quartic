@@ -21,7 +21,7 @@
  *  Copyright:
  *  2004 M. Girard, C. Ritzenthaler
  *  2006 D. Kohel
- *  2016 R. Lercier, C. Ritzenthaler & J.R. Sijsling
+ *  2016-2020 R. Lercier, C. Ritzenthaler & J.R. Sijsling
  */
 
  /***
@@ -357,9 +357,25 @@ function Xi(Phi)
 end function;
 
 
-intrinsic QuarticDiscriminant(Phi::RngMPolElt : IntegralNormalization := false) -> Any
+intrinsic QuarticDiscriminant(f::RngMPolElt : IntegralNormalization := false) -> Any
     {Discriminant of a quartic}
-    P := Parent(Phi);
+
+    P := Parent(f);
+    require
+        ((Rank(P) eq 3 and {Degree(e) : e in Monomials(f)} eq {4}) or
+        (Rank(P) eq 2 and Degree(f) le 4))
+        :
+        "Input must be a ternary homogeneous polynomial of degree  4 or a binary polynomial of degree <= 4";
+
+    Phi := f;
+    if Rank(P) eq 2 then
+        Phi := Basis(Homogenization(ideal<P|f>))[1];
+        if Characteristic(P) eq 0 then
+            Phi *:= LCM([Denominator(e) : e in Coefficients(Phi)]);
+        end if;
+        P := Parent(Phi);
+    end if;
+
     K := BaseRing(P);
     X,Y,Z := Explode([ P.i : i in [1..3] ]);
 
@@ -442,11 +458,10 @@ intrinsic QuarticDiscriminant(Phi::RngMPolElt : IntegralNormalization := false) 
         Y*Z^4,
         Z^5
         ];
-    R27 := Matrix(K,[ [MonomialCoefficient(Eqql,Ll): Ll in L]: Eqql in Eqq ]);R27;
+    R27 := Matrix(K,[ [MonomialCoefficient(Eqql,Ll): Ll in L]: Eqql in Eqq ]);
     I27 := Determinant(R27);
-    if IntegralNormalization then
-    I27 *:= 1099511627776;
-    end if;
+    if IntegralNormalization then I27 *:= 2^40; end if;
+
     return I27;
 end intrinsic;
 
@@ -576,109 +591,116 @@ function DixmierInvariant(Phi,i :IntegralNormalization := false)
     end if;
 end function;
 
-
-intrinsic DixmierOhnoInvariants(f::RngMPolElt : normalize := false, IntegralNormalization := false) -> SeqEnum, SeqEnum
+intrinsic DixmierOhnoInvariants(f::RngMPolElt, p::RngIntElt :
+    PrimaryOnly := false,
+    IntegralNormalization := false,
+    degmax := Infinity(), degmin := 1,
+    PolynomialOnly := false) -> SeqEnum, SeqEnum
     {
-    Compute the 13 Dixmier-Ohno invariants 'I3', 'I6', 'I9', 'J9', 'I12',
-    'J12', 'I15', 'J15', 'I18', 'J18', 'I21', 'J21' and 'I27' of a quartic
-    given as a binary (or a ternary homogeneous) polynomial of degree 4.
+    Compute the Dixmier-Ohno invariants of a quartic given as a binary (or a ternary homogeneous) polynomial of degree 4.
 
-    The characteristic of the coefficient ring must be 0 or greater than 7.
+    When the characteristic of the coefficient ring is 0 or greater than 7, the returned invariants are 'I3', 'I6', 'I9', 'J9', 'I12', 'J12', 'I15', 'J15', 'I18', 'J18', 'I21', 'J21' and 'I27'. If furthermore IntegralNormalization is set to true, invariants are scaled in order to be integers.
 
     Weights of these invariants are returned as well. If normalize is set to true, then the invariants are normalized in the corresponding weighted projective space before being returned.
     }
 
     P := Parent(f);
-
     require
-        Rank(P) in {2, 3} and
         ((Rank(P) eq 3 and {Degree(e) : e in Monomials(f)} eq {4}) or
         (Rank(P) eq 2 and Degree(f) le 4))
         :
         "Input must be a ternary homogeneous polynomial of degree  4 or a binary polynomial of degree <= 4";
 
-    require
-        (Characteristic(P) eq 0) or (Characteristic(P) gt 7)
-        :
-        "Characteristic must be 0 or > 7";
-
-    Phi := f;
+    F := f;
     if Rank(P) eq 2 then
-        Phi := Basis(Homogenization(ideal<Parent(f)|f>))[1];
-        P := Parent(Phi);
+        F := Basis(Homogenization(ideal<P|f>))[1];
+        if Characteristic(P) eq 0 then
+            F *:= LCM([Denominator(e) : e in Coefficients(F)]);
+        end if;
     end if;
 
-    Sigma, Psi := ContravariantSigmaAndPsi(Phi);
-    Rho := (1/144)*DifferentialOperation(Phi,Psi);
-    He := (1/1728)*CovariantHessian(Phi); // deg = 3, ord = 6
-    Tau := (1/12)*DifferentialOperation(Rho,Phi);
-    Xi := (1/72)*DifferentialOperation(Sigma,He);
-    Eta := (1/12)*DifferentialOperation(Xi,Sigma);
-    //    Chi := (1/8)*DifferentialOperation(Tau,DifferentialOperation(Tau,Psi));
-    Nu := (1/8)*DifferentialOperation(Eta,DifferentialOperation(Rho,He));
-    I03 := DixmierInvariant(Phi,3 : IntegralNormalization := false);
-    I06 := DixmierInvariant(Phi,6 : IntegralNormalization := false);
-    //   J06 := DifferentialOperation(Psi,He);
-    I09 := JOperation11(Tau,Rho);
-    J09 := JOperation11(Xi,Rho); // Ohno
-    I12 := JOperation03(Rho);
-    J12 := JOperation11(Tau,Eta); // Ohno
-    I15 := JOperation30(Tau);
-    J15 := JOperation30(Xi); // Ohno
-    I18 := JOperation22(Tau,Rho);
-    J18 := JOperation22(Xi,Rho); // Ohno
-    I21 := JOperation03(Eta); // Ohno
-    J21 := JOperation11(Nu,Eta); // Ohno
-    I27 := QuarticDiscriminant(Phi);
-    //   J27 := JOperation11(Nu,Chi); // Ohno (not given name) not returned
-
-    ww := [3*w : w in [1,2,3,3,4,4,5,5,6,6,7,7,9]];
-    if IntegralNormalization then
-        DD := [
-            2^4  * 3^2 * I03,
-            2^12 * 3^6 * I06,
-            2^12 * 3^8 * I09,
-            2^12 * 3^7 * J09,
-            2^16 * 3^12 * I12,
-            2^17 * 3^10 * J12,
-            2^23 * 3^15 * I15,
-            2^23 * 3^12 * J15,
-            2^27 * 3^17 * I18,
-            2^27 * 3^15 * J18,
-            2^31 * 3^18 * I21,
-            2^33 * 3^16 * J21,
-            2^40 * I27];
-    else
-        DD := [I03,I06,I09,J09,I12,J12,I15,J15,I18,J18,I21,J21,I27];
-    end if;
-    if normalize eq false then return DD, ww; end if;
-    return WPSNormalize(ww, DD), ww;
-
-end intrinsic;
-
-intrinsic DOInvariants(F::RngMPolElt, p::RngIntElt : PrimaryOnly := false, degmax := 10^6, degmin := 1, AllInvs:=true) -> SeqEnum, SeqEnum
-    {Lift in characteristic 0 of the Dixmier-Ohno invariants defined modulo p}
     if p eq 2 then
 	DOs, WG := DOInvariantsChar2(F : PrimaryOnly := PrimaryOnly, degmax := degmax, degmin := degmin);
+
     elif p eq 3 then
-	DOs, WG := DOInvariantsChar3(F : PrimaryOnly := PrimaryOnly, degmax := degmax, degmin := degmin, AllInvs := AllInvs);
+	DOs, WG := DOInvariantsChar3(F : PrimaryOnly := PrimaryOnly, degmax := degmax, degmin := degmin, AllInvs := not PolynomialOnly);
+
     elif p eq 5 then
 	DOs, WG := DOInvariantsChar5(F : PrimaryOnly := PrimaryOnly, degmax := degmax, degmin := degmin);
+
     elif p eq 7 then
 	DOs, WG := DOInvariantsChar7(F : PrimaryOnly := PrimaryOnly, degmax := degmax, degmin := degmin);
+
     else
-	DOs, WG := DOInvariantsCharAnyp(F : PrimaryOnly := PrimaryOnly, degmax := degmax, degmin := degmin);
+	DOs, WG := DOInvariantsCharAnyp(F : IntegralNormalization := IntegralNormalization, PrimaryOnly := PrimaryOnly, degmax := degmax, degmin := degmin);
+
     end if;
 
     return DOs, WG;
 
 end intrinsic;
 
-intrinsic DOInvariants(F::RngMPolElt : PrimaryOnly := false, degmax := 10^6, degmin := 1, AllInvs:=true) -> SeqEnum, SeqEnum
-    {Dixmier-Ohno invariants well defined modulo p}
+intrinsic DixmierOhnoInvariants(f::RngMPolElt :
+    normalize := false,
+    IntegralNormalization := false,
+    PrimaryOnly := false, degmax := 10^6, degmin := 1,
+    PolynomialOnly:=true) -> SeqEnum, SeqEnum
+    {
+    Compute the Dixmier-Ohno invariants of a quartic given as a binary (or a ternary homogeneous) polynomial of degree 4.
 
-    DOs, WG := DOInvariants(F, Characteristic(Parent(F)));
+    When the characteristic of the coefficient ring is 0 or greater than 7, the returned invariants are 'I3', 'I6', 'I9', 'J9', 'I12', 'J12', 'I15', 'J15', 'I18', 'J18', 'I21', 'J21' and 'I27'. If furthermore IntegralNormalization is set to true, invariants are scaled in order to be integers.
 
-    return DOs, WG;
+    Weights of these invariants are returned as well.
 
+    If normalize is set to true, then the invariants are normalized in the corresponding weighted projective space before being returned.
+    }
+
+    P := Parent(f);
+    require
+        ((Rank(P) eq 3 and {Degree(e) : e in Monomials(f)} eq {4}) or
+        (Rank(P) eq 2 and Degree(f) le 4))
+        :
+        "Input must be a ternary homogeneous polynomial of degree  4 or a binary polynomial of degree <= 4";
+
+    F := f;
+    if Rank(P) eq 2 then
+        F := Basis(Homogenization(ideal<P|f>))[1];
+        if Characteristic(P) eq 0 then
+            F *:= LCM([Denominator(e) : e in Coefficients(F)]);
+        end if;
+    end if;
+
+    DOs, WG := DixmierOhnoInvariants(F, Characteristic(Parent(F)) :
+        IntegralNormalization := IntegralNormalization,
+        PrimaryOnly := PrimaryOnly,
+        degmax := degmax^6, degmin := degmin,
+        PolynomialOnly:= PolynomialOnly);
+
+    if normalize eq false then return DOs, WG; end if;
+
+    w := GCD(WG);
+    return WPSNormalize([e div w : e in WG], DOs), WG;
+
+end intrinsic;
+
+intrinsic DixmierOhnoInvariants(C::Crv :
+    normalize := false,
+    IntegralNormalization := false,
+    PrimaryOnly := false, degmax := 10^6, degmin := 1,
+    PolynomialOnly:=true) -> SeqEnum, SeqEnum
+    {
+    Compute the Dixmier-Ohno invariants of a plane projective quartic curve.
+
+    When the characteristic of the coefficient ring is 0 or greater than 7, the returned invariants are 'I3', 'I6', 'I9', 'J9', 'I12', 'J12', 'I15', 'J15', 'I18', 'J18', 'I21', 'J21' and 'I27'. If furthermore IntegralNormalization is set to true, invariants are scaled in order to be integers.
+
+    Weights of these invariants are returned as well.
+
+    If normalize is set to true, then the invariants are normalized in the corresponding weighted projective space before being returned.
+    }
+
+    PP := AmbientSpace(C);
+    require IsProjective(PP) and Dimension(PP) eq 2 and Degree(C) eq 4 :
+	"Argument must be a projective plane quartic curve.";
+
+    return DixmierOhnoInvariants(DefiningPolynomial(C));
 end intrinsic;

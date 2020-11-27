@@ -71,5 +71,3 @@ while not stop do
         end if;
     end if;
 end while;
-
-
