@@ -19,7 +19,7 @@ while not stop do
         //T1 := IdentityMatrix(F, 3);
         //T2 := Matrix(F,3,3,[0,Random(F),Random(F),Random(F),Random(F),Random(F),Random(F),Random(F),Random(F)]);
     until f ne 0 and (Determinant(T1) ne 0) and (Determinant(T2) ne 0);
-    I := DixmierOhnoInvariantsEchidna(f);
+    I := DixmierOhnoInvariants(f : IntegralNormalization := true);
 
     if I[13] ne 0 then
 

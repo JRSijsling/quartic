@@ -16,7 +16,7 @@ while not stop do
         T1 := Matrix(F,3,3,[Random([-M..M]),Random([-M..M]),Random([-M..M]),Random([-M..M]),Random([-M..M]),Random([-M..M]),Random([-M..M]),Random([-M..M]),Random([-M..M])]);
         T2 := Matrix(F,3,3,[Random([-M..M]),Random([-M..M]),Random([-M..M]),Random([-M..M]),Random([-M..M]),Random([-M..M]),Random([-M..M]),Random([-M..M]),Random([-M..M])]);
     until f ne 0 and (Determinant(T1) ne 0) and (Determinant(T2) ne 0);
-    I := DixmierOhnoInvariantsEchidna(f);
+    I := DixmierOhnoInvariants(f : IntegralNormalization := true);
 
     if I[13] ne 0 then
 

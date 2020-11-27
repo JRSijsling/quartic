@@ -356,116 +356,6 @@ function Xi(Phi)
     return      (1/72)*DifferentialOperation(Sigma, He);
 end function;
 
-
-intrinsic QuarticDiscriminant(f::RngMPolElt : IntegralNormalization := false) -> Any
-    {Discriminant of a quartic}
-
-    P := Parent(f);
-    require
-        ((Rank(P) eq 3 and {Degree(e) : e in Monomials(f)} eq {4}) or
-        (Rank(P) eq 2 and Degree(f) le 4))
-        :
-        "Input must be a ternary homogeneous polynomial of degree  4 or a binary polynomial of degree <= 4";
-
-    Phi := f;
-    if Rank(P) eq 2 then
-        Phi := Basis(Homogenization(ideal<P|f>))[1];
-        if Characteristic(P) eq 0 then
-            Phi *:= LCM([Denominator(e) : e in Coefficients(Phi)]);
-        end if;
-        P := Parent(Phi);
-    end if;
-
-    K := BaseRing(P);
-    X,Y,Z := Explode([ P.i : i in [1..3] ]);
-
-    CLASSICAL := true;
-
-    if CLASSICAL then
-        C1 := (1/4)*Derivative(Phi,X);
-        C2 := (1/4)*Derivative(Phi,Y);
-        C3 := (1/4)*Derivative(Phi,Z);
-    else
-        C1 := Derivative(Phi,X);
-        C2 := Derivative(Phi,Y);
-        C3 := Derivative(Phi,Z);
-    end if;
-
-    C1X2 := X^2*C1;
-    C2X2 := X^2*C2;
-    C3X2 := X^2*C3;
-    C1Y2 := Y^2*C1;
-    C2Y2 := Y^2*C2;
-    C3Y2 := Y^2*C3;
-    C1Z2 := Z^2*C1;
-    C2Z2 := Z^2*C2;
-    C3Z2 := Z^2*C3;
-    C1YZ := Y*Z*C1;
-    C2YZ := Y*Z*C2;
-    C3YZ := Y*Z*C3;
-    C1ZX := Z*X*C1;
-    C2ZX := Z*X*C2;
-    C3ZX := Z*X*C3;
-    C1XY := X*Y*C1;
-    C2XY := X*Y*C2;
-    C3XY := X*Y*C3;
-
-    if CLASSICAL then
-        He := (1/1728)*CovariantHessian(Phi);
-    else
-        He := (1/54)*CovariantHessian(Phi);
-    end if;
-
-    if CLASSICAL then
-        DHe1 := (1/2)*Derivative(He,X);
-        DHe2 := (1/2)*Derivative(He,Y);
-        DHe3 := (1/2)*Derivative(He,Z);
-    else
-        DHe1 := Derivative(He,X);
-        DHe2 := Derivative(He,Y);
-        DHe3 := Derivative(He,Z);
-    end if;
-
-    Eqq := [
-        DHe1,DHe2,DHe3,
-        C1X2,C2X2,C3X2,
-        C1Y2,C2Y2,C3Y2,
-        C1Z2,C2Z2,C3Z2,
-        C1YZ,C2YZ,C3YZ,
-        C1ZX,C2ZX,C3ZX,
-        C1XY,C2XY,C3XY];
-
-    L := [
-        X^5,
-        X^4*Y,
-        X^4*Z,
-        X^3*Y^2,
-        X^3*Y*Z,
-        X^3*Z^2,
-        X^2*Y^3,
-        X^2*Y^2*Z,
-        X^2*Y*Z^2,
-        X^2*Z^3,
-        X*Y^4,
-        X*Y^3*Z,
-        X*Y^2*Z^2,
-        X*Y*Z^3,
-        X*Z^4,
-        Y^5,
-        Y^4*Z,
-        Y^3*Z^2,
-        Y^2*Z^3,
-        Y*Z^4,
-        Z^5
-        ];
-    R27 := Matrix(K,[ [MonomialCoefficient(Eqql,Ll): Ll in L]: Eqql in Eqq ]);
-    I27 := Determinant(R27);
-    if IntegralNormalization then I27 *:= 2^40; end if;
-
-    return I27;
-end intrinsic;
-
-
 function DixmierInvariant(Phi,i :IntegralNormalization := false)
     P := Parent(Phi);
     K := BaseRing(P);
@@ -590,6 +480,215 @@ function DixmierInvariant(Phi,i :IntegralNormalization := false)
         return K!I18;
     end if;
 end function;
+
+intrinsic CovariantHessian(Phi::RngMPolElt) -> RngMPolElt
+    {}
+    require Rank(Parent(Phi)) eq 3 and IsHomogeneous(Phi) :
+	"Argument must be a homogeneous ternary forms.";
+    DPhi_i := [ Derivative(Phi,i) : i in [1..3] ];
+    DPhi_ij := MatrixAlgebra(Parent(Phi),3)!0;
+    for i in [1..3] do
+	DPhi_ij[i,i] := Derivative(DPhi_i[i],i);
+	for j in [i+1..3] do
+	    DPhi_ij[i,j] := Derivative(DPhi_i[i],j);
+	    DPhi_ij[j,i] := DPhi_ij[i,j];
+	end for;
+    end for;
+    return Determinant(DPhi_ij);
+end intrinsic;
+
+
+intrinsic ContravariantSigmaAndPsi(Phi::RngMPolElt) -> RngMPolElt, RngMPolElt
+    {}
+    // Input: Homogeneous ternary quartic.
+    // Output: Contravariants Sigma and Psi of Dixmier & Ohno
+    // (Salmon 3rd ed. p. 78). These should really be in the
+    // dual ring PUVW, but we return them in PXYZ.
+    PXYZ := Parent(Phi);
+    XYZ_orig := [ PXYZ.i : i in [1..3] ];
+    K := BaseRing(PXYZ);
+    PUVW<u,v,w> := PolynomialRing(K,3);
+    PXYZUVW<X,Y,Z> := PolynomialRing(PUVW,3);
+    L := u*X + v*Y + w*Z;
+    Q := Evaluate(Phi,[X,Y,Z]);
+    R := Resultant(Q,L,3);
+    R := (-1)^Degree(Q,Z)*Resultant(Q,L,Z);
+    // This definition of Psi follows Dixmier; there is also
+    // the 'symbolic notation' of Salmon, p. 78 & p. 271 as
+    // \psi = (a12)^2(a23)^2(a31)^2.
+    A := MonomialCoefficient(R,X^4);
+    B := (1/4)*MonomialCoefficient(R,X^3*Y);
+    C := (1/6)*MonomialCoefficient(R,X^2*Y^2);
+    D := (1/4)*MonomialCoefficient(R,Y^3*X);
+    E := MonomialCoefficient(R,Y^4);
+    Psi := Determinant(Matrix(3,[A,B,C,B,C,D,C,D,E]));
+    //Psi := Evaluate(Numerator(Psi/w^(TotalDegree(Psi)-6)),XYZ_orig);
+    totdeg := TotalDegree(Psi)-6;
+    if totdeg ge 0 then
+        Psi := Evaluate(PUVW!(Psi/w^totdeg),XYZ_orig);
+    else
+        Psi := Evaluate(PUVW!(Psi*w^(-totdeg)),XYZ_orig);
+    end if;
+    // This definition of Sigma follows Salmon's 'symbolic notation' (a12)^4.
+    Pxy<x,y> := PolynomialRing(PUVW,2);
+    Rxy := Evaluate(R,[x,y,0]);
+    Sigma := (1/2)*PUVW!Coefficients(Transvectant(Rxy,Rxy,4))[1];
+    //Sigma := Evaluate(Numerator(Sigma/w^(TotalDegree(Sigma)-4)),XYZ_orig);
+    totdeg := TotalDegree(Sigma)-4;
+    if totdeg ge 0 then
+        Sigma := Evaluate(PUVW!(Sigma/w^totdeg),XYZ_orig);
+    else
+        Sigma := Evaluate(PUVW!(Sigma*w^(-totdeg)),XYZ_orig);
+    end if;
+    return Sigma, Psi;
+end intrinsic;
+
+intrinsic QuarticCovariantsAndContravariants(Phi::RngMPolElt) -> SeqEnum
+    {}
+    P := Parent(Phi);
+    K := BaseRing(P);
+    require IsUnit(K!12) :
+	"Argument must be a polynomial over a ring in which 2 and 3 are units.";
+    require Rank(P) eq 3 and IsHomogeneous(Phi) and TotalDegree(Phi) eq 4 :
+	"Argument must be a homogeneous ternary quartic polynomial.";
+    X := P.1; Y := P.2; Z := P.3;
+    // Phi itself is a contravariant:
+    // Phi:   deg = 1, ord = 4
+    //
+    // Contravariants:
+    Sigma, Psi := ContravariantSigmaAndPsi(Phi);
+    Rho := (1/144)*DifferentialOperation(Phi,Psi);
+    // Sigma: deg = 2, ord = 4
+    // Psi:   deg = 3, ord = 6
+    // Rho:   deg = 4, ord = 2
+    // Covariants:
+    He := (1/1728)*CovariantHessian(Phi); // deg = 3, ord = 6
+    Tau := (1/12)*DifferentialOperation(Rho,Phi);
+    Xi := (1/72)*DifferentialOperation(Sigma,He);
+    // He:    deg = 3, ord = 6
+    // Tau:   deg = 5, ord = 2
+    // Xi:    deg = 5, ord = 2
+    // More contravariants:
+    Eta := (1/12)*DifferentialOperation(Xi,Sigma);
+    Chi := (1/8)*DifferentialOperation(Tau,DifferentialOperation(Tau,Psi));
+    // Eta:   deg = 7, ord = 2
+    // Chi:   deg =13, ord = 2
+    // More covariants:
+    Nu := (1/8)*DifferentialOperation(Eta,DifferentialOperation(Rho,He));
+    // Chi:   deg =14, ord = 2
+    return [ Phi, He, Tau, Xi, Nu ], [ Sigma, Psi, Rho, Eta, Chi ];
+end intrinsic;
+
+
+intrinsic QuarticDiscriminant(f::RngMPolElt : IntegralNormalization := false) -> Any
+    {Discriminant of a quartic}
+
+    P := Parent(f);
+    require
+        ((Rank(P) eq 3 and {Degree(e) : e in Monomials(f)} eq {4}) or
+        (Rank(P) eq 2 and Degree(f) le 4))
+        :
+        "Input must be a ternary homogeneous polynomial of degree  4 or a binary polynomial of degree <= 4";
+
+    Phi := f;
+    if Rank(P) eq 2 then
+        Phi := Basis(Homogenization(ideal<P|f>))[1];
+        if Characteristic(P) eq 0 then
+            Phi *:= LCM([Denominator(e) : e in Coefficients(Phi)]);
+        end if;
+        P := Parent(Phi);
+    end if;
+
+    K := BaseRing(P);
+    X,Y,Z := Explode([ P.i : i in [1..3] ]);
+
+    CLASSICAL := true;
+
+    if CLASSICAL then
+        C1 := (1/4)*Derivative(Phi,X);
+        C2 := (1/4)*Derivative(Phi,Y);
+        C3 := (1/4)*Derivative(Phi,Z);
+    else
+        C1 := Derivative(Phi,X);
+        C2 := Derivative(Phi,Y);
+        C3 := Derivative(Phi,Z);
+    end if;
+
+    C1X2 := X^2*C1;
+    C2X2 := X^2*C2;
+    C3X2 := X^2*C3;
+    C1Y2 := Y^2*C1;
+    C2Y2 := Y^2*C2;
+    C3Y2 := Y^2*C3;
+    C1Z2 := Z^2*C1;
+    C2Z2 := Z^2*C2;
+    C3Z2 := Z^2*C3;
+    C1YZ := Y*Z*C1;
+    C2YZ := Y*Z*C2;
+    C3YZ := Y*Z*C3;
+    C1ZX := Z*X*C1;
+    C2ZX := Z*X*C2;
+    C3ZX := Z*X*C3;
+    C1XY := X*Y*C1;
+    C2XY := X*Y*C2;
+    C3XY := X*Y*C3;
+
+    if CLASSICAL then
+        He := (1/1728)*CovariantHessian(Phi);
+    else
+        He := (1/54)*CovariantHessian(Phi);
+    end if;
+
+    if CLASSICAL then
+        DHe1 := (1/2)*Derivative(He,X);
+        DHe2 := (1/2)*Derivative(He,Y);
+        DHe3 := (1/2)*Derivative(He,Z);
+    else
+        DHe1 := Derivative(He,X);
+        DHe2 := Derivative(He,Y);
+        DHe3 := Derivative(He,Z);
+    end if;
+
+    Eqq := [
+        DHe1,DHe2,DHe3,
+        C1X2,C2X2,C3X2,
+        C1Y2,C2Y2,C3Y2,
+        C1Z2,C2Z2,C3Z2,
+        C1YZ,C2YZ,C3YZ,
+        C1ZX,C2ZX,C3ZX,
+        C1XY,C2XY,C3XY];
+
+    L := [
+        X^5,
+        X^4*Y,
+        X^4*Z,
+        X^3*Y^2,
+        X^3*Y*Z,
+        X^3*Z^2,
+        X^2*Y^3,
+        X^2*Y^2*Z,
+        X^2*Y*Z^2,
+        X^2*Z^3,
+        X*Y^4,
+        X*Y^3*Z,
+        X*Y^2*Z^2,
+        X*Y*Z^3,
+        X*Z^4,
+        Y^5,
+        Y^4*Z,
+        Y^3*Z^2,
+        Y^2*Z^3,
+        Y*Z^4,
+        Z^5
+        ];
+    R27 := Matrix(K,[ [MonomialCoefficient(Eqql,Ll): Ll in L]: Eqql in Eqq ]);
+    I27 := Determinant(R27);
+    if IntegralNormalization then I27 *:= 2^40; end if;
+
+    return I27;
+end intrinsic;
+
+
 
 intrinsic DixmierOhnoInvariants(f::RngMPolElt, p::RngIntElt :
     PrimaryOnly := false,
