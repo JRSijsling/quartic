@@ -33,3 +33,12 @@ Credits
 --
 
 This package uses code from the Magma package [`echidna`](http://iml.univ-mrs.fr/~kohel/alg/index.html) by David Kohel for an implementation of the Dixmier--Ohno invariants.
+
+Citing this code
+--
+
+Please cite the following preprint if this code has been helpful in your research:
+
+Reynald Lercier, Christophe Ritzenthaler, and Jeroen Sijsling  
+*Reconstructing plane quartics from their invariants*  
+[Discrete Comput. Geom. 63 (2020), no. 1, 73–113](https://doi.org/10.1007/s00454-018-0047-4)
