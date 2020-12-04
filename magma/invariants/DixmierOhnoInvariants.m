@@ -775,7 +775,7 @@ intrinsic DixmierOhnoInvariants(f::RngMPolElt :
         normalize := normalize,
         IntegralNormalization := IntegralNormalization,
         PrimaryOnly := PrimaryOnly,
-        degmax := degmax^6, degmin := degmin,
+        degmax := degmax, degmin := degmin,
         PolynomialOnly:= PolynomialOnly);
 
 end intrinsic;
