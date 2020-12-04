@@ -689,6 +689,7 @@ end intrinsic;
 
 
 intrinsic DixmierOhnoInvariants(f::RngMPolElt, p::RngIntElt :
+    normalize := false,
     PrimaryOnly := false,
     IntegralNormalization := false,
     degmax := Infinity(), degmin := 1,
@@ -733,7 +734,10 @@ intrinsic DixmierOhnoInvariants(f::RngMPolElt, p::RngIntElt :
 
     end if;
 
-    return DOs, WG;
+    if normalize eq false then return DOs, WG; end if;
+
+    w := GCD(WG);
+    return WPSNormalize([e div w : e in WG], DOs), WG;
 
 end intrinsic;
 
@@ -767,16 +771,12 @@ intrinsic DixmierOhnoInvariants(f::RngMPolElt :
         end if;
     end if;
 
-    DOs, WG := DixmierOhnoInvariants(F, Characteristic(Parent(F)) :
+    return DixmierOhnoInvariants(F, Characteristic(Parent(F)) :
+        normalize := normalize,
         IntegralNormalization := IntegralNormalization,
         PrimaryOnly := PrimaryOnly,
         degmax := degmax^6, degmin := degmin,
         PolynomialOnly:= PolynomialOnly);
-
-    if normalize eq false then return DOs, WG; end if;
-
-    w := GCD(WG);
-    return WPSNormalize([e div w : e in WG], DOs), WG;
 
 end intrinsic;
 
