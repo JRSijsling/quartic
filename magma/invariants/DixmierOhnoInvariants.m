@@ -586,7 +586,7 @@ intrinsic QuarticDiscriminant(f::RngMPolElt : IntegralNormalization := false) ->
         ((Rank(P) eq 3 and {Degree(e) : e in Monomials(f)} eq {4}) or
         (Rank(P) eq 2 and Degree(f) le 4))
         :
-        "Input must be a ternary homogeneous polynomial of degree  4 or a binary polynomial of degree <= 4";
+        "Input must be a ternary homogeneous polynomial of degree 4 or a binary polynomial of degree <= 4";
 
     Phi := f;
     if Rank(P) eq 2 then
