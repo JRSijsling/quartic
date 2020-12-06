@@ -32,6 +32,8 @@
     and the normalized contravariant constraints are not enough to get a fixed
     number of solutions. (but I never encoutered such a problem).
 
+  _ The characteristic p is <= 7
+
 */
 
 import "../invariants/DixmierOhnoInvariants.m":

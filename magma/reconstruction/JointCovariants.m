@@ -31,6 +31,8 @@
  * GetJointCovariant does not seem to be used for now.
  */
 
+ /* he characteristic must not be in [ 2, 3, 5, 7, 11, 13, 37 ] */
+
 import "TernaryForms.m": Homogenization, Dehomogenization;
 import "JointCovariants.dat": S8S4Cov;
 
