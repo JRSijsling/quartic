@@ -64,5 +64,3 @@ print "Test for equality of invariants:", DOf eq DOg;
 print "";
 print "Test for equality of normalized invariants:", DOf_norm eq DOg_norm;
 print DOg_norm;
-
-exit;

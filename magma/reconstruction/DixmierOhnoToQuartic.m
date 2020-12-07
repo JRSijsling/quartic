@@ -749,3 +749,29 @@ intrinsic TernaryQuarticFromDixmierOhnoInvariants(DO::SeqEnum : exact := false, 
     return twists[1], aut, twists;
 
 end intrinsic;
+
+
+intrinsic PlaneQuarticFromDixmierOhnoInvariants(DO::SeqEnum : exact := false, minimize := true, descent := true, search_point := true) -> Crv, SeqEnum
+    {Reconstructs a plane quartic from a given tuple of Dixmier-Ohno
+    invariants DO.
+
+    If the flag exact is set to true, then a ternary forms is returned whose
+    Dixmier-Ohno invariants exactly equal DOInv (instead of merely being
+    equal in the corresponding weighted projective space).
+
+    If the flag descent is set to true, then the curve is descended to its base
+    field.
+
+    If the flag minimize is set to true, then over the rationals an effort is
+    made to return as small a model as possible.
+
+    If the flag search_point is set to true, then the algorithm tries to find a
+    rational point of the Mestre conic of the associated binary form.}
+
+    f, aut, twists := TernaryQuarticFromDixmierOhnoInvariants(DO : exact := exact, minimize := minimize, descent := descent, search_point := search_point);
+    PP2 := ProjectiveSpace(Parent(f));
+    X := Curve(PP2, f);
+    twists := [ Curve(PP2, twist) : twist in twists ];
+    return X, aut, twists;
+
+end intrinsic;
