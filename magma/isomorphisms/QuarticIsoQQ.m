@@ -537,6 +537,7 @@ I2,J2,Delta2 := BinQuadInvs(bq2);
 if Delta1 ne 0 then
 
 test5,List := IsGL2Equivalent(hbq1,hbq2,4 : geometric := geometric, commonfield := true);
+List := [ Eltseq(c) : c in List ];
 //test5,List := IsGL2Equivalent(bq1,bq2);
 //"test5:",test5;
 
@@ -615,6 +616,7 @@ I2,J2,Delta2 := BinQuadInvs(bq2T);
 if Delta1 ne 0 then
 
 test6,List := IsGL2Equivalent(h(bq1T),h(bq2T),4 : geometric := geometric, commonfield := true);
+List := [ Eltseq(c) : c in List ];
 //"test6:",test6;
 
 if test6 then
@@ -679,6 +681,7 @@ hbo1 := h(bo1);
 hbo2 := h(bo2);
 if (Degree(hbo1) gt 6) and (Discriminant(hbo1) ne 0) then
 test7,List := IsGL2Equivalent(hbo1,hbo2,8 : geometric := geometric, commonfield := true);
+List := [ Eltseq(c) : c in List ];
 //"test7:",test7;
 
 if test7 then
@@ -753,6 +756,7 @@ if (deg1 eq deg2) and (Degree(hbf1) lt 12) and (Degree(hbf2) lt 12) then
 end if;
 
 test8,List := IsGL2Equivalent(hbf1red,hbf2red,m : geometric := geometric, commonfield := true);
+List := [ Eltseq(c) : c in List ];
 //"test8:",test8;
 
 if test8 then
