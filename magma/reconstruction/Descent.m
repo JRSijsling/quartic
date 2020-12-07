@@ -29,7 +29,7 @@
 import "TernaryForms.m": ConjugateForm, ConjugateMatrix;
 
 function GL2ToGL3(U);
-    a,b,c,d := Explode(U);
+    a,b,c,d := Explode(Eltseq(U));
     return Matrix([[a^2, a*b, b^2], [2*a*c, a*d + b*c, 2*b*d], [c^2, c*d, d^2]]);
 end function;
 
@@ -41,7 +41,7 @@ function IsomorphismFromB8(b8 : RandomOne := false);
     g := MinimalPolynomial(s);
     sigma := hom<L -> L | -Coefficient(g,1) - s>;
 
-    test, L := IsGL2Geometric(b8, ConjugateForm(sigma, b8), 8);
+    test, L := IsGL2Equivalent(b8, ConjugateForm(sigma, b8), 8 : geometric := true);
 
     if RandomOne then
         return GL2ToGL3(L[Random([1..#L])]);
