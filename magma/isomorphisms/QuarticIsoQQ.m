@@ -50,23 +50,23 @@ else
 I1 := DixmierOhnoInvariants(f1);
 if IsInStratumC3Proper(I1) then
     vprint QuarticIso : "In stratum C3";
-    try
-        test,Ts,StF := IsoC3(f1,f2 : geometric := geometric);
-        return test,Ts,false;
-    catch e
+    //try
+    //    test,Ts,StF := IsoC3(f1,f2 : geometric := geometric);
+    //    return test,Ts,false;
+    //catch e
         test, Ms := SPQIsIsomorphic(f1, f2 : geometric := geometric);
         return test, Ms, true;
-    end try;
+    //end try;
 end if;
 if IsInStratumG16Proper(I1) then
     vprint QuarticIso : "In stratum G16";
-    try
-        test,Ts := IsoG16(f1,f2 : geometric := geometric);
-        return test,Ts,false;
-    catch e
+    //try
+    //    test,Ts := IsoG16(f1,f2 : geometric := geometric);
+    //    return test,Ts,false;
+    //catch e
         test, Ms := SPQIsIsomorphic(f1, f2 : geometric := geometric);
         return test, Ms, true;
-    end try;
+    //end try;
 end if;
 
 if IsInStratumC1orC2Proper(I1) and (f1 eq f2) then
@@ -659,7 +659,7 @@ for l in List do
             test := test and (C[i] in F);
         end for;
         if test then
-            C0 := [* *];
+            C0 := [ ];
             for c in C do
                 Append(~C0,F!c);
             end for;
@@ -724,7 +724,7 @@ for l in List do
             test := test and (C[i] in F);
         end for;
         if test then
-            C0 := [* *];
+            C0 := [ ];
             for c in C do
                 Append(~C0,F!c);
             end for;
@@ -799,7 +799,7 @@ for l in List do
             test := test and (C[i] in F);
         end for;
         if test then
-            C0 := [* *];
+            C0 := [ ];
             for c in C do
                 Append(~C0,F!c);
             end for;
