@@ -687,7 +687,7 @@ intrinsic QuarticDiscriminant(f::RngMPolElt : IntegralNormalization := false) ->
 end intrinsic;
 
 
-intrinsic QuarticDiscriminant(Q::RngMPolElt) -> Any
+intrinsic QuarticDiscriminantNew(Q::RngMPolElt) -> Any
     {Discriminant of a quartic}
 
 P<x,y,z>:=Parent(Q);

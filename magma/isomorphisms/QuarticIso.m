@@ -50,7 +50,7 @@ end intrinsic;
 intrinsic AutomorphismGroupQuartic(f::RngMPolElt : geometric := false) -> .
 {Finds the automorphism group of the plane quartic curve X as matrices.}
 
-test, Ts := QuarticIsomorphisms(f, f : geometric := geometric);
+test, Ts := IsIsomorphicQuartic(f, f : geometric := geometric);
 return Ts;
 
 end intrinsic;
@@ -74,7 +74,7 @@ end intrinsic;
 intrinsic AutomorphismGroupQuartic(X::CrvPln : geometric := false) -> .
 {Finds the automorphism group of the plane quartic curve X as matrices.}
 
-test, Ts := QuarticIsomorphisms(X, X : geometric := geometric);
+test, Ts := IsIsomorphicQuartic(X, X : geometric := geometric);
 return Ts;
 
 end intrinsic;
