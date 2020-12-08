@@ -13,8 +13,4 @@
   {
     +invariants.spec
   }
-  twists
-  {
-    twists.m
-  }
 }
