@@ -1,5 +1,6 @@
 /* Examples with group C3 */
 SetVerbose("QuarticIso", 1);
+import "../../magma/isomorphisms/QuarticIsoQQ.m": QuarticIsomorphismsQQ;
 load "IsMult.m";
 
 N := 10^100;
@@ -38,8 +39,8 @@ for i:=1 to 2^5 do
     end while;
     f2 := a2*g2(f2);
 
-    time test,Ts,IINeeded := QuarticIsomorphisms(f1,f2);
-    time test,Ts,IINeeded := QuarticIsomorphisms(f1,f2 : geometric := true);
+    time test,Ts,IINeeded := QuarticIsomorphismsQQ(f1,f2);
+    time test,Ts,IINeeded := QuarticIsomorphismsQQ(f1,f2 : geometric := true);
 
     if (not test) and (not IINeeded) then
         //stop := true;

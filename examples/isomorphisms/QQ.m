@@ -1,5 +1,6 @@
 /* Examples over the rationals */
 SetVerbose("QuarticIso", 1);
+import "../../magma/isomorphisms/QuarticIsoQQ.m": QuarticIsomorphismsQQ;
 SetSeed(1);
 load "IsMult.m";
 
@@ -39,8 +40,8 @@ while not stop do
         end while;
         f2 := a2*g2(f);
 
-        time test,Ts,IINeeded := QuarticIsomorphisms(f1,f2);
-        time test,Ts,IINeeded := QuarticIsomorphisms(f1,f2 : geometric := true);
+        time test,Ts,IINeeded := QuarticIsomorphismsQQ(f1,f2);
+        time test,Ts,IINeeded := QuarticIsomorphismsQQ(f1,f2 : geometric := true);
         //Ts;
 
         if (not test) and (not IINeeded) then

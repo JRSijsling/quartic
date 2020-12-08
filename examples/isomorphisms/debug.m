@@ -1,5 +1,6 @@
 /* Examples over finite fields */
 SetVerbose("QuarticIso", 1);
+import "../../magma/isomorphisms/QuarticIsoQQ.m": QuarticIsomorphismsQQ;
 load "IsMult.m";
 
 N := 50;
@@ -16,6 +17,6 @@ f := x^4 + y^4 + z^4; Append(~fs, f);
 f := x^4 + 2*x*y^3 - 2*x*z^3 + z^4; Append(~fs, f);
 
 for f in fs do
-    test, isos := QuarticIsomorphisms(f, f : geometric := true);
+    test, isos := QuarticIsomorphismsQQ(f, f : geometric := true);
     print BaseRing(isos[1]);
 end for;
