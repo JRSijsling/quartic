@@ -1,5 +1,6 @@
 /* Examples over the rationals */
 SetVerbose("QuarticIso", 1);
+SetSeed(1);
 load "IsMult.m";
 
 N := 250;

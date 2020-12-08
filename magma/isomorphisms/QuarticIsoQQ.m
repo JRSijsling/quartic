@@ -545,21 +545,13 @@ if test5 then
 
 Ts := [* *];
 for l in List do
-    FF := L;
     FF := Parent(l[1]);
     P2FF := ProjectiveSpace(FF,2);
     RFF<x1,x2,x3> := CoordinateRing(P2FF);
-    f1newFF := f1new;
-    f2newFF := f2new;
+    f1newFF := RFF ! f1new;
+    f2newFF := RFF ! f2new;
     TT1FF := Matrix(FF,3,3,ElementToSequence(TT1));
     TT2FF := Matrix(FF,3,3,ElementToSequence(TT2));
-//    FF := Parent(l[1]);
-//    P2FF := ProjectiveSpace(FF,2);
-//    RFF<x1,x2,x3> := CoordinateRing(P2FF);
-//    f1newFF := RFF ! f1new;
-//    f2newFF := RFF ! f2new;
-//    TT1FF := Matrix(FF,3,3,ElementToSequence(TT1));
-//    TT2FF := Matrix(FF,3,3,ElementToSequence(TT2));
 
     a := l[1];
     b := l[3];
@@ -623,20 +615,13 @@ if test6 then
 
 Ts := [* *];
 for l in List do
-    FF := L;
+    FF := Parent(l[1]);
     P2FF := ProjectiveSpace(FF,2);
     RFF<x1,x2,x3> := CoordinateRing(P2FF);
-    f1newFF := f1new;
-    f2newFF := f2new;
+    f1newFF := RFF ! f1new;
+    f2newFF := RFF ! f2new;
     TT1FF := Matrix(FF,3,3,ElementToSequence(TT1));
     TT2FF := Matrix(FF,3,3,ElementToSequence(TT2));
-//    FF := Parent(l[1]);
-//    P2FF := ProjectiveSpace(FF,2);
-//    RFF<x1,x2,x3> := CoordinateRing(P2FF);
-//    f1newFF := RFF ! f1new;
-//    f2newFF := RFF ! f2new;
-//    TT1FF := Matrix(FF,3,3,ElementToSequence(TT1));
-//    TT2FF := Matrix(FF,3,3,ElementToSequence(TT2));
 
     a := l[1];
     b := l[3];
@@ -688,20 +673,13 @@ if test7 then
 
 Ts := [* *];
 for l in List do
-    FF := L;
+    FF := Parent(l[1]);
     P2FF := ProjectiveSpace(FF,2);
     RFF<x1,x2,x3> := CoordinateRing(P2FF);
-    f1newFF := f1new;
-    f2newFF := f2new;
+    f1newFF := RFF ! f1new;
+    f2newFF := RFF ! f2new;
     TT1FF := Matrix(FF,3,3,ElementToSequence(TT1));
     TT2FF := Matrix(FF,3,3,ElementToSequence(TT2));
-//    FF := Parent(l[1]);
-//    P2FF := ProjectiveSpace(FF,2);
-//    RFF<x1,x2,x3> := CoordinateRing(P2FF);
-//    f1newFF := RFF ! f1new;
-//    f2newFF := RFF ! f2new;
-//    TT1FF := Matrix(FF,3,3,ElementToSequence(TT1));
-//    TT2FF := Matrix(FF,3,3,ElementToSequence(TT2));
 
     a := l[1];
     b := l[3];
@@ -763,20 +741,13 @@ if test8 then
 
 Ts := [* *];
 for l in List do
-    FF := L;
+    FF := Parent(l[1]);
     P2FF := ProjectiveSpace(FF,2);
     RFF<x1,x2,x3> := CoordinateRing(P2FF);
-    f1newFF := f1new;
-    f2newFF := f2new;
+    f1newFF := RFF ! f1new;
+    f2newFF := RFF ! f2new;
     TT1FF := Matrix(FF,3,3,ElementToSequence(TT1));
     TT2FF := Matrix(FF,3,3,ElementToSequence(TT2));
-//    FF := Parent(l[1]);
-//    P2FF := ProjectiveSpace(FF,2);
-//    RFF<x1,x2,x3> := CoordinateRing(P2FF);
-//    f1newFF := RFF ! f1new;
-//    f2newFF := RFF ! f2new;
-//    TT1FF := Matrix(FF,3,3,ElementToSequence(TT1));
-//    TT2FF := Matrix(FF,3,3,ElementToSequence(TT2));
 
     a := l[1];
     b := l[3];
