@@ -119,7 +119,7 @@ d2 := MonomialCoefficient(g2,y*z^3);
 e2 := MonomialCoefficient(g2,z^4);
 bq2 := a2*s^4 + b2*s^3*t + c2*s^2*t^2 + d2*s*t^3 + e2*t^4;
 
-test1,L := IsGL2Equivalent(h(bq1),h(bq2),4 : geometric := geometric);
+test1,L := IsGL2EquivalentNew(h(bq1),h(bq2),4 : geometric := geometric);
 L := [ Eltseq(c) : c in L ];
 
 if test1 then

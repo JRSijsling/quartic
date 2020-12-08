@@ -7,7 +7,7 @@
  */
 
 
-function IsGL2Equivalent(q1,q2)
+function IsGL2EquivalentNew(q1,q2)
 //Exploits Cremona-Fisher for a general iso test.
 
 R1<x,y> := Parent(q1);
