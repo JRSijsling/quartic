@@ -13,7 +13,7 @@ NormalizedM := function(M)
   return 0;
 end function;
 
-P<x,y,z>:=PolynomialRing(GF(13),3);
+P<x,y,z>:=PolynomialRing(GF(5),3);
 PP:=ProjectiveSpace(P);
 f:=x^4+y^4+z^4+3*(x^2*y^2+y^2*z^2);
 //f:=x^3*y+y^3*z+z^4;
@@ -27,6 +27,7 @@ T:=GeneralTwists(C);
 #T;
 [[[i,j] : j in [i+1..#T], i in [1..#T-1] | IsIsomorphic(T[i],T[j])]];
 
+exit;
 
 // part to be integrated
 _,Aut:= IsIsomorphicQuartic(f,f : geometric:=true);
