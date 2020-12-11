@@ -228,7 +228,7 @@ function DOInvariantsChar2(F : PrimaryOnly := false, degmax := 10^6, degmin := 1
 
     if degmin le 27 then
 	//    "I27...";
-	I27 := 2^40 * QuarticDiscriminant(Phi);
+	I27 := /* 2^40 *  */ QuarticDiscriminant(F);
 
 	Kx := I27;
 	Append(~DOs, ConvFct(Kx, PolRing));     Append(~WG, 27);
