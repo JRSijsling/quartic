@@ -23,7 +23,7 @@ f:=x^4+y^4+z^4+3*(x^2*y^2+y^2*z^2);
 f:=x^4+y^4+z^4;
 C:=Curve(PP,f);
 
-T:=GeneralTwists(C);
+T:=Twists(C);
 #T;
 [[[i,j] : j in [i+1..#T], i in [1..#T-1] | IsIsomorphic(T[i],T[j])]];
 
@@ -35,7 +35,7 @@ e:=Lcm([Degree(BaseRing(M)) : M in Aut]);
 p:=Characteristic(BaseRing(Aut[1]));
 F:=GF(p^e);
 for M in Aut do Embed(BaseRing(M),F); end for;
-// Be careful about the transpose to have the right action of automorphims 
+// Be careful about the transpose to have the right action of automorphims
 Aut:=[NormalizedM(ChangeRing(Transpose(M),GF(p^e))) : M in Aut];
 #Aut;
 
@@ -44,5 +44,3 @@ T:=TwistsOverFiniteField(C,Aut);
 #T;
 //[LPolynomial(D) : D in T];
 [[[i,j] : j in [i+1..#T], i in [1..#T-1] | IsIsomorphic(T[i],T[j])]];
-
-
