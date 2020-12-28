@@ -41,7 +41,7 @@ function IsomorphismFromB8(b8 : RandomOne := false);
     g := MinimalPolynomial(s);
     sigma := hom<L -> L | -Coefficient(g,1) - s>;
 
-    test, L := IsGL2EquivalentNewNew(b8, ConjugateForm(sigma, b8), 8 : geometric := true);
+    test, L := IsGL2EquivalentExtended(b8, ConjugateForm(sigma, b8), 8 : geometric := true);
 
     if RandomOne then
         return GL2ToGL3(L[Random([1..#L])]);
