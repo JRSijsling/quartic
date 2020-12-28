@@ -876,3 +876,35 @@ intrinsic DixmierOhnoInvariants(C::Crv :
 
     return DixmierOhnoInvariants(DefiningPolynomial(C));
 end intrinsic;
+
+intrinsic DixmierOhnoInvariantsEqual(V1::SeqEnum, V2::SeqEnum) -> BoolElt
+    {Check whether Dixmier-Ohno Invariants V1 and V2 of two quartics are equivalent.}
+
+    CR := Universe(V1);
+
+    /* Rings of small characteristic  */
+    case Characteristic(CR):
+
+    when 2:
+        require (#V1 eq 19 and #V2 eq 19)
+            : "V1, V2 must be of size 19 in characteristic 2";
+
+        return WPSEqual([1, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 11, 12], V1, V2);
+
+    when 3:
+        require #V1 eq 70 and #V2 eq 70
+            : "V1, V2 must be of size 70 in characteristic 3";
+
+        return WPSEqual([1, 2, 2, 3, 5, 5, 6, 6, 7, 7, 8, 8, 8, 9, 9, 9, 9, 9, 9, 10, 10, 10, 10, 10, 11, 11, 11, 11, 11, 12,
+            12, 12, 12, 13, 13, 13, 13, 13, 14, 14, 14, 14, 14, 15, 15, 15, 15, 15, 15, 16, 16, 16, 16, 17, 17, 18,
+            18, 18, 18, 19, 19, 19, 19, 19, 20, 20, 21, 21, 21, 27], V1, V2);
+
+    end case;
+
+    /* Other rings (p = 0 or p > 3) */
+    require #V1 eq 13 and #V2 eq 13
+        : "V1, V2 must be of size 13 in characteristic > 3";
+
+    return WPSEqual([1, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 9], V1, V2);
+
+end intrinsic;
