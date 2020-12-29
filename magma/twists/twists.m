@@ -76,26 +76,7 @@ intrinsic Twists(C::Crv : AutomorphismGroup := false) -> SeqEnum[Crv], GrpPerm
         Ec := EllipticCurve(C);
         twists := Twists(Ec);
         if not AutomorphismGroup then return twists; end if;
-
-        p := Characteristic(BaseRing(Ec));
-        j := jInvariant(Ec);
-
-        if j ne 0 and j ne 12^3 then
-            Aut := CyclicGroup(2);
-        elif p eq 2 then
-            Aut := sub<Sym(24) |
-                (1, 17, 9)(2, 18, 10)(3, 19, 11)(4, 20, 12)(5, 21, 13)(6, 22, 14)(7, 23, 15)(8, 24, 16),
-                (1, 6, 2, 5)(3, 8, 4, 7)(9, 12, 10, 11)(13, 15, 14, 16)(17, 24, 18, 23)(19, 21, 20, 22)>;
-        elif p eq 3 then
-            Aut := sub<Sym(12) |
-                (1, 3, 2)(4, 6, 5)(7, 8, 9)(10, 11, 12),
-                (1, 10, 4, 7)(2, 11, 5, 8)(3, 12, 6, 9)>;
-        elif j eq 0 then
-            Aut := CyclicGroup(6);
-        elif j eq 12^3 then
-            Aut := CyclicGroup(4);
-        end if;
-        return twists, Aut;
+        return twists, GeometricAutomorphismGroup(Ec);
     end if;
 
     ishyper, H :=  IsHyperelliptic(C);
@@ -105,7 +86,7 @@ intrinsic Twists(C::Crv : AutomorphismGroup := false) -> SeqEnum[Crv], GrpPerm
 
     PP := AmbientSpace(C);
     require IsProjective(PP) and Dimension(PP) eq 2 and Degree(C) eq 4 and Genus(C) eq 3 :
-        "Argument must be a smooth projective plane quartic curve.";
+        "If not hyperelliptic, Argument must be a smooth projective plane quartic curve.";
 
     _, Aut := IsIsomorphicQuartic(C, C : geometric:=true);
     Aut := [ NormalizedM(Transpose(A^(-1))) : A in Aut ];
@@ -115,5 +96,30 @@ intrinsic Twists(C::Crv : AutomorphismGroup := false) -> SeqEnum[Crv], GrpPerm
     end if;
 
     return twists;
+
+end intrinsic;
+
+intrinsic GeometricAutomorphismGroup(C::Crv) -> GrpPerm
+    {Compute the automorphism group of elliptic or hyperelliptic or genus 3 plane curves.}
+
+    F := CoefficientRing(C);
+
+    if Genus(C) eq 1 then
+        Ec := EllipticCurve(C);
+        return GeometricAutomorphismGroup(Ec);
+    end if;
+
+    ishyper, H :=  IsHyperelliptic(C);
+    if ishyper then
+        return GeometricAutomorphismGroup(H);
+    end if;
+
+    PP := AmbientSpace(C);
+    require IsProjective(PP) and Dimension(PP) eq 2 and Degree(C) eq 4 and Genus(C) eq 3 :
+        "If not hyperelliptic, argument must be a smooth projective plane quartic curve.";
+
+    _, Aut := IsIsomorphicQuartic(C, C : geometric:=true);
+    Aut := [ NormalizedM(Transpose(A^(-1))) : A in Aut ];
+    return ProjectiveMatrixGroup(Aut);
 
 end intrinsic;

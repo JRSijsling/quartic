@@ -643,8 +643,6 @@ function QuarticDiscriminantByDeformation(Q)
         [0,3*c1,2*c3,c6,c3,c6,c10]
         ]);
 
-    Parent(M);
-
     return Coefficient(Determinant(M) div (Determinant(N) div c0), 0);
 
 end function;
@@ -875,6 +873,35 @@ intrinsic DixmierOhnoInvariants(C::Crv :
 	"Argument must be a projective plane quartic curve.";
 
     return DixmierOhnoInvariants(DefiningPolynomial(C));
+end intrinsic;
+
+intrinsic DiscriminantFromDixmierOhnoInvariants(DO::SeqEnum) -> .
+    {Compute the discriminant of a quartic curve from the given
+    Dixmier-Ohno Invariants}
+
+    FF := Universe(DO);
+    p := Characteristic(FF);
+
+    /* Rings of small characteristic */
+    case p:
+
+    when 2:
+        require #DO eq 19 : "Argument must be a sequence of 19 Dixmier-Ohno invariants";
+
+        return DO[15];
+
+    when 3:
+        require #DO eq 70 : "Argument must be a sequence of 70 Dixmier-Ohno invariants";
+
+        return 2*DO[14];
+
+    end case;
+
+    /* Other rings (p = 0 or p > 3) */
+    require #DO eq 13 : "Argument must be a sequence of 13 Dixmier-Ohno invariants.";
+
+    return DO[13];
+
 end intrinsic;
 
 intrinsic DixmierOhnoInvariantsEqual(V1::SeqEnum, V2::SeqEnum) -> BoolElt

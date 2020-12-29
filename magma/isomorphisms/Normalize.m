@@ -21,7 +21,7 @@ f0 := f; counter := 0;
 while true do
     counter +:= 1;
     f := f0;
-    test, Ts := QuarticIsomorphisms(f, f);
+    test, Ts := AutomorphismGroupQuartic(f, f);
     Ts := [ T : T in Ts | IsScalar(T^2) and not IsScalar(T) ];
     if #Ts ne 1 then
         return R ! f, CyclicGroup(1);
