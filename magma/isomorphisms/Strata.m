@@ -1962,7 +1962,5 @@ end function;
 
 
 function IsInStratumC1orC2Proper(DO)
-
-return &and([ not IsInStratumC3(DO), not IsInStratumS3(DO), not IsInStratumD4(DO) ]);
-
+    return &and([ not IsInStratumC3(DO), not IsInStratumS3(DO), not IsInStratumD4(DO) ]);
 end function;

@@ -21,9 +21,18 @@
  *  Copyright 2016 R. Lercier, C. Ritzenthaler & J.R. Sijsling
  */
 
+ /***
+ * Exported intrinsics.
+ *
+ * intrinsic TransformForm(f::RngMPolElt, T::AlgMatElt :
+ *     co := true, contra := false) -> .
+ *
+ ********************************************************************/
+
 /* Current transformation algorithm: */
 
-intrinsic TransformForm(f::RngMPolElt, T::AlgMatElt : co := true, contra := false) -> .
+intrinsic TransformForm(f::RngMPolElt, T::AlgMatElt :
+    co := true, contra := false) -> .
 {Transforms the form f by the matrix T.}
     R := Parent(f);
     vars := Matrix([ [ mon ] : mon in MonomialsOfDegree(R, 1) ]);

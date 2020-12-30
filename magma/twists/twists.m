@@ -36,6 +36,15 @@
   *
   *********************************************************************/
 
+/***
+ * Exported intrinsics.
+ *
+ * intrinsic Twists(C::Crv :
+ *     AutomorphismGroup := false) -> SeqEnum[Crv], GrpPerm
+ * intrinsic GeometricAutomorphismGroup(C::Crv) -> GrpPerm
+ *
+ ********************************************************************/
+
 // This function returns a Matrix with a 1 which is a multiple of M
 
 function NormalizedM(M)
@@ -64,7 +73,8 @@ function ProjectiveMatrixGroup(L)
 end function;
 
 
-intrinsic Twists(C::Crv : AutomorphismGroup := false) -> SeqEnum[Crv], GrpPerm
+intrinsic Twists(C::Crv :
+    AutomorphismGroup := false) -> SeqEnum[Crv], GrpPerm
     {Compute twisted elliptic or hyperelliptic or genus 3 plane curves, and their automorphism groups}
 
     F := CoefficientRing(C);

@@ -21,7 +21,7 @@ AttachSpec("~/Programs/quartic/magma/spec");
 Usage
 --
 
-Examples are given in the directory [`examples/`](examples) (a full list of intrinsics is [here](intrinsics.md)).
+Examples are given in the directory [`examples`](examples) (a full list of intrinsics is [here](intrinsics.md)).
 
 Verbose comments are enabled by
 ```

@@ -1,13 +1,14 @@
 {
+  minred_extended.m
   BugFix.m
   Verbose.m
   isomorphisms
   {
-    +spec
+    +isomorphisms.spec
   }
   reconstruction
   {
-    +spec
+    +reconstruction.spec
   }
   invariants
   {

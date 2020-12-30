@@ -1,7 +1,7 @@
 //freeze;
 
 /***
- *  Miscellaneous stuff
+ *  Lifts over the p-adics, or the rationals
  *
  *  Distributed under the terms of the GNU Lesser General Public License (L-GPL)
  *                  http://www.gnu.org/licenses/
@@ -22,6 +22,8 @@
  *
  *  Copyright 2011-2012, R. Basson & R. Lercier & C. Ritzenthaler & J. Sijsling
  */
+
+ /* Copy of hyperelliptic/magma/toolbox/misc.m */
 
 function MyBaseRing(Rg)
     if IsField(Rg) then

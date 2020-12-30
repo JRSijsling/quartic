@@ -23,7 +23,7 @@
 
  /* Reconstruction in small dimension strata, it should work in characteristic p,
 
-    but with p not in
+    but with p possibly not in
 
      [ 2, 3, 5, 7, 11, 13, 17, 19, 23, 31, 41, 43, 47, 67, 79, 137, 167, 229, 239,
        491, 503, 787, 977, 1423, 2237, 3067, 180307, 41762629 ]

@@ -22,7 +22,7 @@
  *  2016-2020 R. Lercier, C. Ritzenthaler & J.R. Sijsling
  */
 
- /***
+/***
  * Exported intrinsics.
  *
  * intrinsic DixmierOhnoAlgebraicRelations(DOinv::SeqEnum) -> SeqEnum

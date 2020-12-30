@@ -36,6 +36,18 @@
 
 */
 
+/***
+ * Exported intrinsics.
+ *
+ * intrinsic TernaryQuarticFromDixmierOhnoInvariantsI12ne0(DO::SeqEnum :
+ *     exact := false, minimize := true, descent := true, search_point := true) -> RngMPolElt, SeqEnum
+ * intrinsic TernaryQuarticFromDixmierOhnoInvariants(DO::SeqEnum :
+ *     exact := false, minimize := true, descent := true, search_point := true) -> RngMPolElt, SeqEnum
+ * intrinsic PlaneQuarticFromDixmierOhnoInvariants(DO::SeqEnum :
+    exact := false, minimize := true, descent := true, search_point := true) -> Crv, SeqEnum
+ *
+ ********************************************************************/
+
 import "../invariants/DixmierOhnoInvariants.m":
     Rho, DixmierInvariant;
 import "TernaryForms.m":
@@ -67,7 +79,8 @@ forward HyperellipticPolynomialFromJointShiodaInvariants;
 forward DixmierOhnoToJointShioda;
 forward DixmierOhnoToBinaryQuartic;
 
-intrinsic TernaryQuarticFromDixmierOhnoInvariantsI12ne0(DO::SeqEnum : exact := false, minimize := true, descent := true, search_point := true) -> RngMPolElt, SeqEnum
+intrinsic TernaryQuarticFromDixmierOhnoInvariantsI12ne0(DO::SeqEnum :
+    exact := false, minimize := true, descent := true, search_point := true) -> RngMPolElt, SeqEnum
     {Reconstructs a ternary quartic from a given tuple of Dixmier-Ohno
     invariants DO, and also returns the binary forms associated to it by the
     usual equivariant morphism. The invariant I12 is supposed to be not equal
@@ -578,7 +591,8 @@ function DixmierOhnoToBinaryQuartic(DO, b8 : lambda := 1);
 end function;
 
 
-intrinsic TernaryQuarticFromDixmierOhnoInvariants(DO::SeqEnum : exact := false, minimize := true, descent := true, search_point := true) -> RngMPolElt, SeqEnum
+intrinsic TernaryQuarticFromDixmierOhnoInvariants(DO::SeqEnum :
+    exact := false, minimize := true, descent := true, search_point := true) -> RngMPolElt, SeqEnum
     {Reconstructs a ternary quartic from a given tuple of Dixmier-Ohno
     invariants DO.
 
@@ -752,7 +766,8 @@ intrinsic TernaryQuarticFromDixmierOhnoInvariants(DO::SeqEnum : exact := false, 
 end intrinsic;
 
 
-intrinsic PlaneQuarticFromDixmierOhnoInvariants(DO::SeqEnum : exact := false, minimize := true, descent := true, search_point := true) -> Crv, SeqEnum
+intrinsic PlaneQuarticFromDixmierOhnoInvariants(DO::SeqEnum :
+    exact := false, minimize := true, descent := true, search_point := true) -> Crv, SeqEnum
     {Reconstructs a plane quartic from a given tuple of Dixmier-Ohno
     invariants DO.
 
@@ -769,10 +784,13 @@ intrinsic PlaneQuarticFromDixmierOhnoInvariants(DO::SeqEnum : exact := false, mi
     If the flag search_point is set to true, then the algorithm tries to find a
     rational point of the Mestre conic of the associated binary form.}
 
-    f, aut, twists := TernaryQuarticFromDixmierOhnoInvariants(DO : exact := exact, minimize := minimize, descent := descent, search_point := search_point);
+    f, aut, twists := TernaryQuarticFromDixmierOhnoInvariants(DO :
+        exact := exact, minimize := minimize, descent := descent, search_point := search_point);
+
     PP2 := ProjectiveSpace(Parent(f));
     X := Curve(PP2, f);
     twists := [ Curve(PP2, twist) : twist in twists ];
+
     return X, aut, twists;
 
 end intrinsic;
