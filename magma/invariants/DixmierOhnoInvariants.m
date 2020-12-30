@@ -897,7 +897,13 @@ intrinsic DixmierOhnoInvariants(C::Crv :
     require IsProjective(PP) and Dimension(PP) eq 2 and Degree(C) eq 4 :
 	"Argument must be a projective plane quartic curve.";
 
-    return DixmierOhnoInvariants(DefiningPolynomial(C));
+    return DixmierOhnoInvariants(DefiningPolynomial(C) :
+        normalize := normalize,
+        IntegralNormalization := IntegralNormalization,
+        PrimaryOnly := PrimaryOnly,
+        degmax := degmax, degmin := degmin,
+        PolynomialOnly:= PolynomialOnly);
+
 end intrinsic;
 
 intrinsic DiscriminantFromDixmierOhnoInvariants(DO::SeqEnum) -> .
