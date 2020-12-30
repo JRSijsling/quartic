@@ -44,7 +44,8 @@ import "JointCovariants.dat":
     S8S4Cov;
 import "JointCovariants.m":
     IthJointInvariant, JointCovariant,
-    FirstJointInvariants, JointShiodaInvariants;
+    FirstJointInvariants, JointShiodaInvariants,
+    ShiodaInvariantsFromJointShiodaInvariants;
 import "Interpolations.m":
     JointInvariantFromDixmierOhno;
 import "Descent.m":

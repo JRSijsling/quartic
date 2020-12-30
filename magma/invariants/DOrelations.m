@@ -22,13 +22,20 @@
  *  2016-2020 R. Lercier, C. Ritzenthaler & J.R. Sijsling
  */
 
+ /***
+ * Exported intrinsics.
+ *
+ * intrinsic DixmierOhnoAlgebraicRelations(DOinv::SeqEnum) -> SeqEnum
+ *
+ ********************************************************************/
+
 intrinsic DixmierOhnoAlgebraicRelations(DOinv::SeqEnum) -> SeqEnum
-    {}
+    {Return the relation ideal of Dixmier-Ohno invariants}
 
     K := Universe(DOinv);
 
     require IsUnit(K!(2*3*5*7)) :
-       "Argument must be a polynomial over a ring in which 2, 3 5 and 7 are units.";
+       "Argument must be a sequence over a ring in which 2, 3 5 and 7 are units.";
 
     I03,I06,I09,J09,I12,J12,I15,J15,I18,J18,I21,J21,I27 := Explode(DOinv);
 

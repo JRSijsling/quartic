@@ -27,9 +27,34 @@
  /***
  * Exported intrinsics.
  *
- * intrinsic DixmierOhnoInvariants(f::RngMPolElt : normalize := false) -> SeqEnum, SeqEnum
+ * intrinsic DixmierOhnoInvariants(f::RngMPolElt, p::RngIntElt :
+ *     normalize := false,
+ *     PrimaryOnly := false,
+ *     IntegralNormalization := false,
+ *     degmax := Infinity(), degmin := 1,
+ *     PolynomialOnly := false) -> SeqEnum, SeqEnum
+ * intrinsic DixmierOhnoInvariants(f::RngMPolElt :
+ *     normalize := false,
+ *     IntegralNormalization := false,
+ *     PrimaryOnly := false, degmax := 10^6, degmin := 1,
+ *     PolynomialOnly:=true) -> SeqEnum, SeqEnum
+ * intrinsic DixmierOhnoInvariants(C::Crv :
+ *     normalize := false,
+ *     IntegralNormalization := false,
+ *     PrimaryOnly := false, degmax := 10^6, degmin := 1,
+ *     PolynomialOnly:=true) -> SeqEnum, SeqEnum
+ *
+ * intrinsic QuarticDiscriminant(f::RngMPolElt :
+ *     IntegralNormalization := false) -> Any
+ * intrinsic DiscriminantFromDixmierOhnoInvariants(DO::SeqEnum) -> .
+ * intrinsic DixmierOhnoInvariantsEqual(V1::SeqEnum, V2::SeqEnum) -> BoolElt
+ *
+ * intrinsic CovariantHessian(Phi::RngMPolElt) -> RngMPolElt
+ * intrinsic ContravariantSigmaAndPsi(Phi::RngMPolElt) -> RngMPolElt, RngMPolElt
+ * intrinsic QuarticCovariantsAndContravariants(Phi::RngMPolElt) -> SeqEnum
  *
  ********************************************************************/
+
 import "DOmod2.m": DOInvariantsChar2;
 import "DOmod3.m": DOInvariantsChar3;
 import "DOmod5.m": DOInvariantsChar5;
@@ -480,7 +505,7 @@ function DixmierInvariant(Phi,i :IntegralNormalization := false)
 end function;
 
 intrinsic CovariantHessian(Phi::RngMPolElt) -> RngMPolElt
-    {}
+    {Hessian covariant of a plane quartic}
     require Rank(Parent(Phi)) eq 3 and IsHomogeneous(Phi) :
 	"Argument must be a homogeneous ternary forms.";
     DPhi_i := [ Derivative(Phi,i) : i in [1..3] ];
@@ -497,7 +522,7 @@ end intrinsic;
 
 
 intrinsic ContravariantSigmaAndPsi(Phi::RngMPolElt) -> RngMPolElt, RngMPolElt
-    {}
+    {Sigma and Psi contravariants of a plane quartic (Salmon 3rd ed. p. 78)}
     // Input: Homogeneous ternary quartic.
     // Output: Contravariants Sigma and Psi of Dixmier & Ohno
     // (Salmon 3rd ed. p. 78). These should really be in the
@@ -542,7 +567,7 @@ intrinsic ContravariantSigmaAndPsi(Phi::RngMPolElt) -> RngMPolElt, RngMPolElt
 end intrinsic;
 
 intrinsic QuarticCovariantsAndContravariants(Phi::RngMPolElt) -> SeqEnum
-    {}
+    {Covariant and contravariant algebra of a plane quartic}
     P := Parent(Phi);
     K := BaseRing(P);
     require IsUnit(K!12) :
@@ -649,7 +674,7 @@ end function;
 
 
 intrinsic QuarticDiscriminant(f::RngMPolElt : IntegralNormalization := false) -> Any
-    {Discriminant of a quartic}
+    {Discriminant of a plane quartic}
 
     P := Parent(f);
     require

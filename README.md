@@ -21,7 +21,7 @@ AttachSpec("~/Programs/quartic/magma/spec");
 Usage
 --
 
-Examples are given in the directory `examples/`.
+Examples are given in the directory [`examples/`](examples) (a full list of intrinsics is [here](intrinsics.md)).
 
 Verbose comments are enabled by
 ```
@@ -39,6 +39,6 @@ Citing this code
 
 Please cite the following preprint if this code has been helpful in your research:
 
-Reynald Lercier, Christophe Ritzenthaler, and Jeroen Sijsling  
-*Reconstructing plane quartics from their invariants*  
+Reynald Lercier, Christophe Ritzenthaler, and Jeroen Sijsling
+*Reconstructing plane quartics from their invariants*
 [Discrete Comput. Geom. 63 (2020), no. 1, 73–113](https://doi.org/10.1007/s00454-018-0047-4)

@@ -31,7 +31,7 @@
  * GetJointCovariant does not seem to be used for now.
  */
 
- /* he characteristic must not be in [ 2, 3, 5, 7, 11, 13, 37 ] */
+ /* The characteristic must not be in [ 2, 3, 5, 7, 11, 13, 37 ] */
 
 import "TernaryForms.m": Homogenization, Dehomogenization;
 import "JointCovariants.dat": S8S4Cov;
@@ -247,15 +247,15 @@ function IthJointInvariant(FdCov, forms, idx)
 end function;
 
 
-intrinsic JointShiodaInvariants(f :: RngMPolElt) -> SeqEnum
-    {Calculates the joint Shioda invariants of an octic polynomial f.}
-
+/* Calculate the joint Shioda invariants of an octic polynomial f.
+ */
+function JointShiodaInvariants(f)
     return FirstJointInvariants(S8S4Cov, [0, f], 9), [2..10];
-end intrinsic;
+end function;
 
-
-intrinsic ShiodaInvariantsFromJointShiodaInvariants(JS :: SeqEnum) -> SeqEnum
-    {Converts joint Shioda invariants to Shioda invariants.}
+/* Convert joint Shioda invariants to Shioda invariants.
+ */
+function ShiodaInvariantsFromJointShiodaInvariants(JS)
 
     JS2, JS3, JS4, JS5, JS6, JS7, JS8, JS9, JS10 := Explode(JS);
 
@@ -269,13 +269,14 @@ intrinsic ShiodaInvariantsFromJointShiodaInvariants(JS :: SeqEnum) -> SeqEnum
     S8 := -(-419552059981824000*JS8+29302048633651200/7*JS4^2+337105649664000*JS5*JS3-6568744373452800*JS6*JS2-74950281422438400/7*JS4*JS2^2+46292784906240000/7*JS2^4);
     S9 := -(-30904504418304000000*JS9+495682899148800000*JS5*JS4-244650412081152000*JS6*JS3-9438958190592000*JS3^3+1699352331839078400*JS7*JS2-276699527774208000*JS4*JS3*JS2-1724275332218880000*JS5*JS2^2+441265944526848000*JS3*JS2^3);
     S10 := -(-131372369891827384320000/37*JS10-54611115245568000000*JS5^2-89184780750422016000*JS6*JS4-18795932287185715200*JS7*JS3-101709590298624000*JS4*JS3^2+704847460769464320000*JS8*JS2-22376109865697280000*JS4^2*JS2+3398024948613120000*JS5*JS3*JS2+146163946229858304000*JS6*JS2^2+154105439846400000*JS3^2*JS2^2+63059945985146880000*JS4*JS2^3-44176892755968000000*JS2^5);
+
     return [S2, S3, S4, S5, S6, S7, S8, S9, S10];
 
-end intrinsic;
+end function;
 
-
-intrinsic JointShiodaInvariantsFromShiodaInvariants(S :: SeqEnum) -> SeqEnum
-    {Converts Shioda invariants to joint Shioda invariants.}
+/* Convert Shioda invariants to joint Shioda invariants.
+ */
+function JointShiodaInvariantsFromShiodaInvariants(S)
 
     S2, S3, S4, S5, S6, S7, S8, S9, S10 := Explode(S);
 
@@ -289,6 +290,7 @@ intrinsic JointShiodaInvariantsFromShiodaInvariants(S :: SeqEnum) -> SeqEnum
     JS8 := (1/419552059981824000)*(S8+29302048633651200/7*JS4^2+337105649664000*JS5*JS3-6568744373452800*JS6*JS2-74950281422438400/7*JS4*JS2^2+46292784906240000/7*JS2^4);
     JS9 := (1/30904504418304000000)*(S9+495682899148800000*JS5*JS4-244650412081152000*JS6*JS3-9438958190592000*JS3^3+1699352331839078400*JS7*JS2-276699527774208000*JS4*JS3*JS2-1724275332218880000*JS5*JS2^2+441265944526848000*JS3*JS2^3);
     JS10 := (37/131372369891827384320000)*(S10-54611115245568000000*JS5^2-89184780750422016000*JS6*JS4-18795932287185715200*JS7*JS3-101709590298624000*JS4*JS3^2+704847460769464320000*JS8*JS2-22376109865697280000*JS4^2*JS2+3398024948613120000*JS5*JS3*JS2+146163946229858304000*JS6*JS2^2+154105439846400000*JS3^2*JS2^2+63059945985146880000*JS4*JS2^3-44176892755968000000*JS2^5);
+
     return [JS2, JS3, JS4, JS5, JS6, JS7, JS8, JS9, JS10];
 
-end intrinsic;
+end function;
