@@ -1,7 +1,7 @@
 Description
 --
 
-This repository contains Magma code for reconstructing plane quartic curves from their Dixmier--Ohno invariants and for calculating isomorphisms between plane quartic curves. The latter code is written in terrible style for now, and it only works over the rationals and finite fields. In some non-generic cases, we use an approach due to Andrew Sutherland that involves Groebner bases.
+This repository contains Magma code for reconstructing plane quartic curves from their Dixmier--Ohno invariants and for calculating isomorphisms between plane quartic curves. The latter code only works over the rationals and finite fields. In some non-generic cases, we use an approach due to Andrew Sutherland that involves Groebner bases.
 
 Prerequisites
 --
