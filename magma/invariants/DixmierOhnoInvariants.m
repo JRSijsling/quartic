@@ -22,6 +22,11 @@
  *  2004 M. Girard, C. Ritzenthaler
  *  2006 D. Kohel
  *  2016-2020 R. Lercier, C. Ritzenthaler & J.R. Sijsling
+
+ *  Bibliography
+ *
+ *   [BJ14] L. Busé and J.-P. Jouanolou. On the discriminant scheme of
+ *   homogeneous polynomials. Math. Comput. Sci., 8(2):175–234, 2014.
  */
 
  /***
@@ -604,7 +609,8 @@ end intrinsic;
 
 
 // Discriminant of a quartic
-// (by a deformation method, to be characteristic safe)
+// (by a deformation method, to be characteristic safe,
+// see [BJ14])
 function QuarticDiscriminantByDeformation(Q)
 
     Pxyz := Parent(Q);
