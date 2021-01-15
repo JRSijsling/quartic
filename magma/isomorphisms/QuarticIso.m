@@ -34,7 +34,6 @@
  *     geometric := false, explicit := false) ->  GrpPerm, Map
  *
  ********************************************************************/
-
 import "QuarticIsoFF.m": QuarticIsomorphismsFF;
 import "QuarticIsoQQ.m": QuarticIsomorphismsQQ;
 import "Sutherland.m": SPQIsIsomorphic;
