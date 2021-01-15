@@ -222,7 +222,7 @@ intrinsic AutomorphismGroupQuartic(f::RngMPolElt :
     {Finds the automorphism group of ternary quartic f as matrices.}
 
     _, Autos := IsIsomorphicQuartic(f, f : geometric := geometric);
-    return AutomorphismGroupQuartic(f, Autos : geometric := geometric, explicit := explicit);
+    return AutomorphismGroupQuartic(f, Autos : explicit := explicit);
 
 end intrinsic;
 
