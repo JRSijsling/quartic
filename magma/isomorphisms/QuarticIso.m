@@ -222,7 +222,7 @@ intrinsic AutomorphismGroupQuartic(f::RngMPolElt :
     {Finds the automorphism group of ternary quartic f as matrices.}
 
     _, Autos := IsIsomorphicQuartic(f, f : geometric := geometric);
-    return AutomorphismGroupQuartic(f, Autos : explicit := explicit);
+    return AutomorphismGroupQuartic(f, Autos : geometric := geometric, explicit := explicit);
 
 end intrinsic;
 
@@ -235,6 +235,6 @@ intrinsic AutomorphismGroupQuartic(X::CrvPln :
         "X must be a smooth projective plane quartic curve.";
 
     f := DefiningPolynomial(X);
-    return AutomorphismGroupQuartic(f : explicit := explicit);
+    return AutomorphismGroupQuartic(f : geometric := geometric, explicit := explicit);
 
 end intrinsic;
