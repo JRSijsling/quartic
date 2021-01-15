@@ -39,8 +39,13 @@
 /***
  * Exported intrinsics.
  *
- * intrinsic Twists(C::Crv :
+ * intrinsic QuarticTwists(C::Crv, Autos::SeqEnum  :
  *     AutomorphismGroup := false) -> SeqEnum[Crv], GrpPerm
+ * intrinsic QuarticTwists(C::Crv :
+ *     AutomorphismGroup := false) -> SeqEnum[Crv], GrpPerm
+ *
+ * intrinsic Twists(C::Crv :
+ *     AutomorphismGroup := false) -> SeqEnum, GrpPerm
  * intrinsic GeometricAutomorphismGroup(C::Crv) -> GrpPerm
  *
  ********************************************************************/
@@ -61,21 +66,63 @@ end function;
 
 function ProjectiveMatrixGroup(L)
 
-    n := Nrows(L[1]);
-    FF := BaseRing(L[1]);
-    prim := PrimitiveElement(FF);
-    MM := MatrixAlgebra(FF,n);
-    H :=  MatrixGroup< n, FF | L cat [prim*Identity(MM)]>;
-    C :=  MatrixGroup< n, FF | [prim*Identity(MM)]>;
-    _, I, _ := CosetAction(H,C);
+    _L := [a : a in L];
+    GG, psi := GenericGroup(_L : Mult := func<a,b | NormalizedM(a*b)>);
 
-    return I;
+    for i := NumberOfGenerators(GG) to 1 by -1 do
+        pmp, GPrm := CosetAction(GG, sub< GG | [ GG | GG.j : j in [1..i-1] ] >);
+        if #GPrm eq #GG then break; end if;
+    end for;
+    ReduceGenerators(~GPrm);
+    return GPrm, Inverse(pmp)*psi;
+
 end function;
 
 
-intrinsic Twists(C::Crv :
+intrinsic QuarticTwists(C::Crv, Autos::SeqEnum  :
     AutomorphismGroup := false) -> SeqEnum[Crv], GrpPerm
     {Compute twisted elliptic or hyperelliptic or genus 3 plane curves, and their automorphism groups}
+
+    F := CoefficientRing(C);
+
+    require Type(F) eq FldFin :
+        "Twist computations only available in finite fields";
+
+    PP := AmbientSpace(C);
+    require IsProjective(PP) and Dimension(PP) eq 2 and Degree(C) eq 4 and Genus(C) eq 3 :
+        "C must be a smooth projective plane quartic curve.";
+
+    Aut := [ NormalizedM(Transpose(A^(-1))) : A in Autos ];
+    twists := TwistsOverFiniteField(C, Aut);
+    if AutomorphismGroup then
+        aut, _ := ProjectiveMatrixGroup(Aut);
+        return twists, aut;
+    end if;
+
+    return twists;
+
+end intrinsic;
+
+intrinsic QuarticTwists(C::Crv :
+    AutomorphismGroup := false) -> SeqEnum[Crv], GrpPerm
+    {Compute twisted genus 3 plane curves, and their automorphism groups}
+
+    F := CoefficientRing(C);
+
+    require Type(F) eq FldFin :
+        "Twist computations only available in finite fields";
+
+    PP := AmbientSpace(C);
+    require IsProjective(PP) and Dimension(PP) eq 2 and Degree(C) eq 4 and Genus(C) eq 3 :
+        "C must be a smooth projective plane quartic curve.";
+
+    return Twists(C : AutomorphismGroup := AutomorphismGroup);
+
+end intrinsic;
+
+intrinsic Twists(C::Crv :
+    AutomorphismGroup := false) -> SeqEnum, GrpPerm
+    {Compute twisted elliptic or hyperelliptic or genus 3 plane curves, and their geometric automorphism groups}
 
     F := CoefficientRing(C);
 
@@ -98,14 +145,9 @@ intrinsic Twists(C::Crv :
     require IsProjective(PP) and Dimension(PP) eq 2 and Degree(C) eq 4 and Genus(C) eq 3 :
         "If not hyperelliptic, Argument must be a smooth projective plane quartic curve.";
 
-    _, Aut := IsIsomorphicQuartic(C, C : geometric:=true);
-    Aut := [ NormalizedM(Transpose(A^(-1))) : A in Aut ];
-    twists := TwistsOverFiniteField(C, Aut);
-    if AutomorphismGroup then
-        return twists, ProjectiveMatrixGroup(Aut);
-    end if;
+    _, Autos := IsIsomorphicQuartic(C, C : geometric:=true);
 
-    return twists;
+    return QuarticTwists(C, Autos : AutomorphismGroup := AutomorphismGroup);
 
 end intrinsic;
 
@@ -128,8 +170,10 @@ intrinsic GeometricAutomorphismGroup(C::Crv) -> GrpPerm
     require IsProjective(PP) and Dimension(PP) eq 2 and Degree(C) eq 4 and Genus(C) eq 3 :
         "If not hyperelliptic, argument must be a smooth projective plane quartic curve.";
 
-    _, Aut := IsIsomorphicQuartic(C, C : geometric:=true);
-    Aut := [ NormalizedM(Transpose(A^(-1))) : A in Aut ];
-    return ProjectiveMatrixGroup(Aut);
+    _, Autos := IsIsomorphicQuartic(C, C : geometric:=true);
+    Autos := [ NormalizedM(Transpose(A^(-1))) : A in Autos ];
+    aut, _ := ProjectiveMatrixGroup(Autos);
+
+    return aut;
 
 end intrinsic;

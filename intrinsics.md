@@ -1,7 +1,7 @@
 Exported intrinsics
 --
 
-### Calculate invariants
+### Invariants
 
 ```
 intrinsic DixmierOhnoInvariants(f::RngMPolElt, p::RngIntElt :
@@ -39,25 +39,44 @@ intrinsic TernaryQuarticFromDixmierOhnoInvariants(DO::SeqEnum :
     exact := false, minimize := true, descent := true, search_point := true) -> RngMPolElt, SeqEnum
 ```
 
-### Compute twists
-
-```
-intrinsic Twists(C::Crv :
-    AutomorphismGroup := false) -> SeqEnum[Crv], GrpPerm
-```
-
 ### Isomorphisms
 
 ```
 intrinsic IsIsomorphicQuartic(X1::CrvPln, X2::CrvPln :
-    geometric := false) -> .
-intrinsic IsIsomorphicQuartic(f1::RngMPolElt, f2::RngMPolElt :
-    geometric := false) -> .
+    geometric := false) -> BoolElt, SeqEnum
+intrinsic QuarticIsomorphisms(X1::CrvPln, X2::CrvPln :
+    geometric := false) -> SeqEnum
 
+intrinsic IsIsomorphicQuartic(f1::RngMPolElt, f2::RngMPolElt :
+    geometric := false) -> BoolElt, SeqEnum
+intrinsic QuarticIsomorphisms(f1::RngMPolElt, f2::RngMPolElt :
+    geometric := false) -> SeqEnum
+
+
+intrinsic QuarticAutomorphisms(X::CrvPln :
+    geometric := false) -> SeqEnum
 intrinsic AutomorphismGroupQuartic(X::CrvPln :
-    geometric := false) -> .
+    geometric := false, explicit := false) ->  GrpPerm, Map
+intrinsic AutomorphismGroupQuartic(X::CrvPln, Autos::SeqEnum :
+    explicit := false) ->  GrpPerm, Map
+
+intrinsic QuarticAutomorphisms(f::RngMPolElt :
+    geometric := false) -> SeqEnum
 intrinsic AutomorphismGroupQuartic(f::RngMPolElt :
-    geometric := false) -> .
+    geometric := false, explicit := false) ->  GrpPerm, Map
+intrinsic AutomorphismGroupQuartic(f::RngMPolElt, Autos::SeqEnum :
+    explicit := false) -> GrpPerm, Map
 
 intrinsic GeometricAutomorphismGroup(C::Crv) -> GrpPerm
+```
+
+### Twists
+
+```
+intrinsic QuarticTwists(C::Crv, Autos::SeqEnum  :
+    AutomorphismGroup := false) -> SeqEnum[Crv], GrpPerm
+intrinsic QuarticTwists(C::Crv :
+    AutomorphismGroup := false) -> SeqEnum[Crv], GrpPerm
+intrinsic Twists(C::Crv :
+    AutomorphismGroup := false) -> SeqEnum, GrpPerm
 ```

@@ -9,14 +9,29 @@
 /***
  * Exported intrinsics.
  *
+ * intrinsic QuarticIsomorphisms(f1::RngMPolElt, f2::RngMPolElt :
+ *     geometric := false) -> SeqEnum
+ * intrinsic QuarticIsomorphisms(X1::CrvPln, X2::CrvPln :
+ *     geometric := false) -> SeqEnum
+ *
  * intrinsic IsIsomorphicQuartic(f1::RngMPolElt, f2::RngMPolElt :
- *     geometric := false) -> .
- * intrinsic AutomorphismGroupQuartic(f::RngMPolElt :
- *     geometric := false) -> .
+ *     geometric := false) -> BoolElt, SeqEnum
  * intrinsic IsIsomorphicQuartic(X1::CrvPln, X2::CrvPln :
- *     geometric := false) -> .
+ *     geometric := false) -> BoolElt, SeqEnum
+ *
+ * intrinsic QuarticAutomorphisms(f::RngMPolElt :
+ *     geometric := false) -> SeqEnum
+ * intrinsic QuarticAutomorphisms(X::CrvPln :
+ *     geometric := false) -> SeqEnum
+ *
+ * intrinsic AutomorphismGroupQuartic(f::RngMPolElt, Autos::SeqEnum :
+ *     explicit := false) -> GrpPerm, Map
+ * intrinsic AutomorphismGroupQuartic(X::CrvPln, Autos::SeqEnum :
+ *     explicit := false) ->  GrpPerm, Map
+ * intrinsic AutomorphismGroupQuartic(f::RngMPolElt :
+ *     geometric := false, explicit := false) ->  GrpPerm, Map
  * intrinsic AutomorphismGroupQuartic(X::CrvPln :
- *     geometric := false) -> .
+ *     geometric := false, explicit := false) ->  GrpPerm, Map
  *
  ********************************************************************/
 
@@ -24,69 +39,203 @@ import "QuarticIsoFF.m": QuarticIsomorphismsFF;
 import "QuarticIsoQQ.m": QuarticIsomorphismsQQ;
 import "Sutherland.m": SPQIsIsomorphic;
 
-function Normalize33Row(T)
+function NormalizedM(M)
 
-    row := Eltseq(Rows(T)[1]);
-    i0 := Minimum([ i : i in [1..#row] | row[i] ne 0 ]);
-    return (1/row[i0])*T;
+    for j := 1 to Nrows(M) do
+        for i := 1 to Ncols(M) do
+            if M[i,j] ne 0 then return (1 / M[i,j]) * M; end if;
+        end for;
+    end for;
+
+    return M;
+end function;
+
+function ProjectiveMatrixGroup(L)
+
+    _L := [a : a in L];
+    GG, psi := GenericGroup(_L : Mult := func<a,b | NormalizedM(a*b)>);
+
+    for i := NumberOfGenerators(GG) to 1 by -1 do
+        pmp, GPrm := CosetAction(GG, sub< GG | [ GG | GG.j : j in [1..i-1] ] >);
+        if #GPrm eq #GG then break; end if;
+    end for;
+    ReduceGenerators(~GPrm);
+
+    return GPrm, Inverse(pmp)*psi;
 
 end function;
 
+/**/
+intrinsic QuarticIsomorphisms(f1::RngMPolElt, f2::RngMPolElt :
+    geometric := false) -> SeqEnum
+    {Isomorphisms between the ternary quartics f1 and f2.}
 
-function Normalize33Column(T)
-
-    col := Eltseq(Rows(Transpose(T))[1]);
-    i0 := Minimum([ i : i in [1..#col] | col[i] ne 0 ]);
-    return (1/col[i0])*T;
-
-end function;
-
-
-intrinsic IsIsomorphicQuartic(f1::RngMPolElt, f2::RngMPolElt : geometric := false) -> .
-{Tests for the existence of isomorphisms between the ternary quartics f1 and f2, and returns these if they exist.}
-
-    K := BaseRing(Parent(f1));
-    if Type(K) eq FldFin then
-        test, Ts := QuarticIsomorphismsFF(f1, f2 : geometric := geometric);
-    elif Type(K) eq FldRat then
-        test, Ts := QuarticIsomorphismsQQ(f1, f2 : geometric := geometric);
-    else
-        test, Ts := SPQIsIsomorphic(f1, f2 : geometric := geometric);
+    P := Parent(f1);
+    require
+        ((Rank(P) eq 3 and {Degree(e) : e in Monomials(f1)} eq {4}) or
+        (Rank(P) eq 2 and Degree(f1) le 4))
+        :
+        "f1 must be a ternary homogeneous polynomial of degree 4 or a binary polynomial of degree <= 4";
+    _f1 := f1;
+    if Rank(P) eq 2 then
+        _f1 := Basis(Homogenization(ideal<P|f1>))[1];
+        if Characteristic(P) eq 0 then
+            _f1 *:= LCM([Denominator(e) : e in Coefficients(_f1)]);
+        end if;
     end if;
-    Ts := [ Normalize33Row(T) : T in Ts ];
-    return test, Ts;
+
+    P := Parent(f2);
+    require
+        ((Rank(P) eq 3 and {Degree(e) : e in Monomials(f2)} eq {4}) or
+        (Rank(P) eq 2 and Degree(f2) le 4))
+        :
+        "f2 must be a ternary homogeneous polynomial of degree 4 or a binary polynomial of degree <= 4";
+    _f2 := f2;
+    if Rank(P) eq 2 then
+        _f2 := Basis(Homogenization(ideal<P|f2>))[1];
+        if Characteristic(P) eq 0 then
+            _f2 *:= LCM([Denominator(e) : e in Coefficients(_f2)]);
+        end if;
+    end if;
+
+    K := BaseRing(Parent(_f1));
+
+    if Type(K) eq FldFin then
+        _, Autos := QuarticIsomorphismsFF(_f1, _f2 : geometric := geometric);
+    elif Type(K) eq FldRat then
+        _, Autos := QuarticIsomorphismsQQ(_f1, _f2 : geometric := geometric);
+    else
+        _, Autos := SPQIsIsomorphic(_f1, _f2 : geometric := geometric);
+    end if;
+
+    return [ NormalizedM(T) : T in Autos ];
 
 end intrinsic;
 
+intrinsic QuarticIsomorphisms(X1::CrvPln, X2::CrvPln :
+    geometric := false) -> SeqEnum
+    {Isomorphisms between the ternary quartics f1 and f2.}
 
-intrinsic AutomorphismGroupQuartic(f::RngMPolElt : geometric := false) -> .
-    {Finds the automorphism group of the plane quartic curve X as matrices.}
+    PP1 := AmbientSpace(X1);
+    require IsProjective(PP1) and Dimension(PP1) eq 2 and Degree(X1) eq 4 and Genus(X1) eq 3 :
+        "X1 must be a smooth projective plane quartic curve.";
 
-    test, Ts := IsIsomorphicQuartic(f, f : geometric := geometric);
-    return Ts;
-
-end intrinsic;
-
-
-intrinsic IsIsomorphicQuartic(X1::CrvPln, X2::CrvPln : geometric := false) -> .
-    {Tests for the existence of isomorphisms between the plane quartic curves X1 and X2, and returns these if they exist.}
+    PP2 := AmbientSpace(X2);
+    require IsProjective(PP2) and Dimension(PP2) eq 2 and Degree(X2) eq 4 and Genus(X2) eq 3 :
+        "X2 must be a smooth projective plane quartic curve.";
 
     f1 := DefiningPolynomial(X1);
     f2 := DefiningPolynomial(X2);
-    assert Degree(f1) eq 4;
-    assert Degree(f2) eq 4;
 
-    test, Ts := IsIsomorphicQuartic(f2, f1 : geometric := geometric);
-    Ts := [ Normalize33Column(T) : T in Ts ];
-    return test, Ts;
+    return QuarticIsomorphisms(f1, f2 : geometric := geometric);
 
 end intrinsic;
 
+/**/
+intrinsic IsIsomorphicQuartic(f1::RngMPolElt, f2::RngMPolElt :
+    geometric := false) -> BoolElt, SeqEnum
+    {Tests for the existence of isomorphisms between the ternary quartics f1 and f2, and returns these if they exist.}
 
-intrinsic AutomorphismGroupQuartic(X::CrvPln : geometric := false) -> .
+    Autos := QuarticIsomorphisms(f1, f2 : geometric := geometric);
+    return #Autos ne 0, Autos;
+
+end intrinsic;
+
+intrinsic IsIsomorphicQuartic(X1::CrvPln, X2::CrvPln :
+    geometric := false) -> BoolElt, SeqEnum
+    {Tests for the existence of isomorphisms between the plane quartic curves X1 and X2, and returns these if they exist.}
+
+    Autos := QuarticIsomorphisms(X1, X2 : geometric := geometric);
+    return #Autos ne 0, Autos;
+
+end intrinsic;
+
+/**/
+intrinsic QuarticAutomorphisms(f::RngMPolElt :
+    geometric := false) -> SeqEnum
+    {Find the automorphism group of the ternary quartic f as matrices.}
+
+    P := Parent(f);
+    require
+        ((Rank(P) eq 3 and {Degree(e) : e in Monomials(f)} eq {4}) or
+        (Rank(P) eq 2 and Degree(f) le 4))
+        :
+        "f must be a ternary homogeneous polynomial of degree 4 or a binary polynomial of degree <= 4";
+    _f := f;
+    if Rank(P) eq 2 then
+        _f := Basis(Homogenization(ideal<P|f>))[1];
+        if Characteristic(P) eq 0 then
+            _f *:= LCM([Denominator(e) : e in Coefficients(_f)]);
+        end if;
+    end if;
+
+    return QuarticIsomorphisms(_f, _f : geometric := geometric);
+
+end intrinsic;
+
+intrinsic QuarticAutomorphisms(X::CrvPln :
+    geometric := false) -> SeqEnum
+    {Find the automorphism group of the plane quartic curve X as matrices.}
+
+    PP := AmbientSpace(X);
+    require IsProjective(PP) and Dimension(PP) eq 2 and Degree(X) eq 4 and Genus(X) eq 3 :
+        "X must be a smooth projective plane quartic curve.";
+
+    return QuarticIsomorphisms(X, X : geometric := geometric);
+
+end intrinsic;
+
+/**/
+intrinsic AutomorphismGroupQuartic(f::RngMPolElt, Autos::SeqEnum :
+    explicit := false) -> GrpPerm, Map
+    {Finds the automorphism group of ternary quartic f as matrices.}
+
+    P := Parent(f);
+    require
+        ((Rank(P) eq 3 and {Degree(e) : e in Monomials(f)} eq {4}) or
+        (Rank(P) eq 2 and Degree(f) le 4))
+        :
+        "f must be a ternary homogeneous polynomial of degree 4 or a binary polynomial of degree <= 4";
+
+    aut, phi := ProjectiveMatrixGroup(Autos);
+
+    if explicit then return aut, phi; end if;
+    return aut;
+
+end intrinsic;
+
+intrinsic AutomorphismGroupQuartic(X::CrvPln, Autos::SeqEnum :
+    explicit := false) ->  GrpPerm, Map
     {Finds the automorphism group of the plane quartic curve X as matrices.}
 
-    test, Ts := IsIsomorphicQuartic(X, X : geometric := geometric);
-    return Ts;
+    PP := AmbientSpace(X);
+    require IsProjective(PP) and Dimension(PP) eq 2 and Degree(X) eq 4 and Genus(X) eq 3 :
+        "X must be a smooth projective plane quartic curve.";
+
+    f := DefiningPolynomial(X);
+    return AutomorphismGroupQuartic(f, Autos : explicit := explicit);
+
+end intrinsic;
+
+/**/
+intrinsic AutomorphismGroupQuartic(f::RngMPolElt :
+    geometric := false, explicit := false) ->  GrpPerm, Map
+    {Finds the automorphism group of ternary quartic f as matrices.}
+
+    _, Autos := IsIsomorphicQuartic(f, f : geometric := geometric);
+    return AutomorphismGroupQuartic(f, Autos : explicit := explicit);
+
+end intrinsic;
+
+intrinsic AutomorphismGroupQuartic(X::CrvPln :
+    geometric := false, explicit := false) ->  GrpPerm, Map
+    {Finds the automorphism group of the plane quartic curve X as matrices.}
+
+    PP := AmbientSpace(X);
+    require IsProjective(PP) and Dimension(PP) eq 2 and Degree(X) eq 4 and Genus(X) eq 3 :
+        "X must be a smooth projective plane quartic curve.";
+
+    f := DefiningPolynomial(X);
+    return AutomorphismGroupQuartic(f : explicit := explicit);
 
 end intrinsic;
