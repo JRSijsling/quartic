@@ -44,6 +44,8 @@
  * intrinsic QuarticTwists(C::Crv :
  *     AutomorphismGroup := false) -> SeqEnum[Crv], GrpPerm
  *
+ * intrinsic Twists(C::Crv, Autos::SeqEnum  :
+       AutomorphismGroup := false) -> SeqEnum[Crv], GrpPerm
  * intrinsic Twists(C::Crv :
  *     AutomorphismGroup := false) -> SeqEnum, GrpPerm
  * intrinsic GeometricAutomorphismGroup(C::Crv) -> GrpPerm
@@ -105,7 +107,7 @@ end intrinsic;
 
 intrinsic QuarticTwists(C::Crv :
     AutomorphismGroup := false) -> SeqEnum[Crv], GrpPerm
-    {Compute twisted genus 3 plane curves, and their automorphism groups}
+    {Compute twisted curves and their automorphism groups, given a curve and a list of its automorphisms}
 
     F := CoefficientRing(C);
 
@@ -150,6 +152,27 @@ intrinsic Twists(C::Crv :
     return QuarticTwists(C, Autos : AutomorphismGroup := AutomorphismGroup);
 
 end intrinsic;
+
+intrinsic Twists(C::Crv, Autos::SeqEnum  :
+    AutomorphismGroup := false) -> SeqEnum[Crv], GrpPerm
+    {Compute twists of a curve, given the list of its automorphisms}
+
+    F := CoefficientRing(C);
+
+    require Type(F) eq FldFin :
+        "Twist computations only available in finite fields";
+
+    Aut := [ NormalizedM(Transpose(A^(-1))) : A in Autos ];
+    twists := TwistsOverFiniteField(C, Aut);
+    if AutomorphismGroup then
+        aut, _ := ProjectiveMatrixGroup(Aut);
+        return twists, aut;
+    end if;
+
+    return twists;
+
+end intrinsic;
+
 
 intrinsic GeometricAutomorphismGroup(C::Crv) -> GrpPerm
     {Compute the automorphism group of elliptic or hyperelliptic or genus 3 plane curves.}

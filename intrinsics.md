@@ -77,6 +77,9 @@ intrinsic QuarticTwists(C::Crv, Autos::SeqEnum  :
     AutomorphismGroup := false) -> SeqEnum[Crv], GrpPerm
 intrinsic QuarticTwists(C::Crv :
     AutomorphismGroup := false) -> SeqEnum[Crv], GrpPerm
+
 intrinsic Twists(C::Crv :
     AutomorphismGroup := false) -> SeqEnum, GrpPerm
+intrinsic Twists(C::Crv, Autos::SeqEnum  :
+    AutomorphismGroup := false) -> SeqEnum[Crv], GrpPerm
 ```
