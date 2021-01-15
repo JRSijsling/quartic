@@ -83,7 +83,7 @@ end function;
 
 intrinsic QuarticTwists(C::Crv, Autos::SeqEnum  :
     AutomorphismGroup := false) -> SeqEnum[Crv], GrpPerm
-    {Compute twisted elliptic or hyperelliptic or genus 3 plane curves, and their automorphism groups}
+    {Compute twisted genus 3 plane curves, and their automorphism groups}
 
     F := CoefficientRing(C);
 
@@ -107,7 +107,7 @@ end intrinsic;
 
 intrinsic QuarticTwists(C::Crv :
     AutomorphismGroup := false) -> SeqEnum[Crv], GrpPerm
-    {Compute twisted curves and their automorphism groups, given a curve and a list of its automorphisms}
+    {Compute twisted genus 3 plane curves, and their automorphism groups}
 
     F := CoefficientRing(C);
 
@@ -118,7 +118,7 @@ intrinsic QuarticTwists(C::Crv :
     require IsProjective(PP) and Dimension(PP) eq 2 and Degree(C) eq 4 and Genus(C) eq 3 :
         "C must be a smooth projective plane quartic curve.";
 
-    return Twists(C : AutomorphismGroup := AutomorphismGroup);
+    return QuarticTwists(C : AutomorphismGroup := AutomorphismGroup);
 
 end intrinsic;
 
