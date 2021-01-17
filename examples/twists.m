@@ -40,7 +40,7 @@ Aut:=[NormalizedM(ChangeRing(Transpose(M),GF(p^e))) : M in Aut];
 #Aut;
 
 
-T:=TwistsOverFiniteField(C,Aut);
+T:=Twists(C,Aut);
 #T;
 //[LPolynomial(D) : D in T];
 [[[i,j] : j in [i+1..#T], i in [1..#T-1] | IsIsomorphic(T[i],T[j])]];

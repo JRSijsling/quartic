@@ -31,7 +31,7 @@
   * - For C hyperelliptic g>3 with q odd
   * - For C plane smooth quartic and q a power of a prime>7.
   *
-  * It is based on the function TwistsOverFiniteField defined in the
+  * It is based on the function Twists(C, Aut) defined in the
   * hyperelliptic package.
   *
   *********************************************************************/
@@ -44,8 +44,6 @@
  * intrinsic QuarticTwists(C::Crv :
  *     AutomorphismGroup := false) -> SeqEnum[Crv], GrpPerm
  *
- * intrinsic Twists(C::Crv, Autos::SeqEnum  :
-       AutomorphismGroup := false) -> SeqEnum[Crv], GrpPerm
  * intrinsic Twists(C::Crv :
  *     AutomorphismGroup := false) -> SeqEnum, GrpPerm
  * intrinsic GeometricAutomorphismGroup(C::Crv) -> GrpPerm
@@ -95,7 +93,7 @@ intrinsic QuarticTwists(C::Crv, Autos::SeqEnum  :
         "C must be a smooth projective plane quartic curve.";
 
     Aut := [ NormalizedM(Transpose(A^(-1))) : A in Autos ];
-    twists := TwistsOverFiniteField(C, Aut);
+    twists := Twists(C, Aut);
     if AutomorphismGroup then
         aut, _ := ProjectiveMatrixGroup(Aut);
         return twists, aut;
@@ -153,25 +151,6 @@ intrinsic Twists(C::Crv :
 
 end intrinsic;
 
-intrinsic Twists(C::Crv, Autos::SeqEnum  :
-    AutomorphismGroup := false) -> SeqEnum[Crv], GrpPerm
-    {Compute twists of a curve, given the list of its automorphisms}
-
-    F := CoefficientRing(C);
-
-    require Type(F) eq FldFin :
-        "Twist computations only available in finite fields";
-
-    Aut := [ NormalizedM(Transpose(A^(-1))) : A in Autos ];
-    twists := TwistsOverFiniteField(C, Aut);
-    if AutomorphismGroup then
-        aut, _ := ProjectiveMatrixGroup(Aut);
-        return twists, aut;
-    end if;
-
-    return twists;
-
-end intrinsic;
 
 
 intrinsic GeometricAutomorphismGroup(C::Crv) -> GrpPerm
