@@ -30,7 +30,7 @@ T:=Twists(C);
 exit;
 
 // part to be integrated
-_,Aut:= IsIsomorphicQuartic(f,f : geometric:=true);
+_,Aut:= IsIsomorphicTernaryQuartics(f,f : geometric:=true);
 e:=Lcm([Degree(BaseRing(M)) : M in Aut]);
 p:=Characteristic(BaseRing(Aut[1]));
 F:=GF(p^e);

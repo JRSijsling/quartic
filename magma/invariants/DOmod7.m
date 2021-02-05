@@ -189,7 +189,7 @@ function DOInvariantsChar7(F : PrimaryOnly := false, degmax := 10^6, degmin := 1
     if degmin le 27 then
 
 	//    "I27...";
-	I27 := QuarticDiscriminant(Phi);
+	I27 := TernaryQuarticDiscriminant(Phi);
 
 	Kx := I27;
 	Append(~DOs, ChangeBaseRing(Kx, PolRing)); Append(~WG, 27);

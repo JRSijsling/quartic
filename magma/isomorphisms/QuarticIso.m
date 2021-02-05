@@ -9,28 +9,28 @@
 /***
  * Exported intrinsics.
  *
- * intrinsic QuarticIsomorphisms(f1::RngMPolElt, f2::RngMPolElt :
+ * intrinsic IsomorphismsOfTernaryQuartics(f1::RngMPolElt, f2::RngMPolElt :
  *     geometric := false) -> SeqEnum
- * intrinsic QuarticIsomorphisms(X1::CrvPln, X2::CrvPln :
+ * intrinsic IsomorphismsOfPlaneQuartics(X1::CrvPln, X2::CrvPln :
  *     geometric := false) -> SeqEnum
  *
- * intrinsic IsIsomorphicQuartic(f1::RngMPolElt, f2::RngMPolElt :
+ * intrinsic IsIsomorphicTernaryQuartics(f1::RngMPolElt, f2::RngMPolElt :
  *     geometric := false) -> BoolElt, SeqEnum
- * intrinsic IsIsomorphicQuartic(X1::CrvPln, X2::CrvPln :
+ * intrinsic IsIsomorphicPlaneQuartics(X1::CrvPln, X2::CrvPln :
  *     geometric := false) -> BoolElt, SeqEnum
  *
- * intrinsic QuarticAutomorphisms(f::RngMPolElt :
+ * intrinsic AutomorphismsOfTernaryQuartic(f::RngMPolElt :
  *     geometric := false) -> SeqEnum
- * intrinsic QuarticAutomorphisms(X::CrvPln :
+ * intrinsic AutomorphismsOfPlaneQuartic(X::CrvPln :
  *     geometric := false) -> SeqEnum
  *
- * intrinsic AutomorphismGroupQuartic(f::RngMPolElt, Autos::SeqEnum :
+ * intrinsic AutomorphismGroupOfTernaryQuartic(f::RngMPolElt, Autos::SeqEnum :
  *     explicit := false) -> GrpPerm, Map
- * intrinsic AutomorphismGroupQuartic(X::CrvPln, Autos::SeqEnum :
+ * intrinsic AutomorphismGroupOfPlaneQuartic(X::CrvPln, Autos::SeqEnum :
  *     explicit := false) ->  GrpPerm, Map
- * intrinsic AutomorphismGroupQuartic(f::RngMPolElt :
+ * intrinsic AutomorphismGroupOfTernaryQuartic(f::RngMPolElt :
  *     geometric := false, explicit := false) ->  GrpPerm, Map
- * intrinsic AutomorphismGroupQuartic(X::CrvPln :
+ * intrinsic AutomorphismGroupOfPlaneQuartic(X::CrvPln :
  *     geometric := false, explicit := false) ->  GrpPerm, Map
  *
  ********************************************************************/
@@ -65,7 +65,7 @@ function ProjectiveMatrixGroup(L)
 end function;
 
 /**/
-intrinsic QuarticIsomorphisms(f1::RngMPolElt, f2::RngMPolElt :
+intrinsic IsomorphismsOfTernaryQuartics(f1::RngMPolElt, f2::RngMPolElt :
     geometric := false) -> SeqEnum
     {Isomorphisms between the ternary quartics f1 and f2.}
 
@@ -111,7 +111,7 @@ intrinsic QuarticIsomorphisms(f1::RngMPolElt, f2::RngMPolElt :
 
 end intrinsic;
 
-intrinsic QuarticIsomorphisms(X1::CrvPln, X2::CrvPln :
+intrinsic IsomorphismsOfPlaneQuartics(X1::CrvPln, X2::CrvPln :
     geometric := false) -> SeqEnum
     {Isomorphisms between the ternary quartics f1 and f2.}
 
@@ -126,31 +126,31 @@ intrinsic QuarticIsomorphisms(X1::CrvPln, X2::CrvPln :
     f1 := DefiningPolynomial(X1);
     f2 := DefiningPolynomial(X2);
 
-    return QuarticIsomorphisms(f1, f2 : geometric := geometric);
+    return IsomorphismsOfTernaryQuartics(f1, f2 : geometric := geometric);
 
 end intrinsic;
 
 /**/
-intrinsic IsIsomorphicQuartic(f1::RngMPolElt, f2::RngMPolElt :
+intrinsic IsIsomorphicTernaryQuartics(f1::RngMPolElt, f2::RngMPolElt :
     geometric := false) -> BoolElt, SeqEnum
     {Tests for the existence of isomorphisms between the ternary quartics f1 and f2, and returns these if they exist.}
 
-    Autos := QuarticIsomorphisms(f1, f2 : geometric := geometric);
+    Autos := IsomorphismsOfTernaryQuartics(f1, f2 : geometric := geometric);
     return #Autos ne 0, Autos;
 
 end intrinsic;
 
-intrinsic IsIsomorphicQuartic(X1::CrvPln, X2::CrvPln :
+intrinsic IsIsomorphicPlaneQuartics(X1::CrvPln, X2::CrvPln :
     geometric := false) -> BoolElt, SeqEnum
     {Tests for the existence of isomorphisms between the plane quartic curves X1 and X2, and returns these if they exist.}
 
-    Autos := QuarticIsomorphisms(X1, X2 : geometric := geometric);
+    Autos := IsomorphismsOfPlaneQuartics(X1, X2 : geometric := geometric);
     return #Autos ne 0, Autos;
 
 end intrinsic;
 
 /**/
-intrinsic QuarticAutomorphisms(f::RngMPolElt :
+intrinsic AutomorphismsOfTernaryQuartic(f::RngMPolElt :
     geometric := false) -> SeqEnum
     {Find the automorphism group of the ternary quartic f as matrices.}
 
@@ -168,11 +168,11 @@ intrinsic QuarticAutomorphisms(f::RngMPolElt :
         end if;
     end if;
 
-    return QuarticIsomorphisms(_f, _f : geometric := geometric);
+    return IsomorphismsOfTernaryQuartics(_f, _f : geometric := geometric);
 
 end intrinsic;
 
-intrinsic QuarticAutomorphisms(X::CrvPln :
+intrinsic AutomorphismsOfPlaneQuartic(X::CrvPln :
     geometric := false) -> SeqEnum
     {Find the automorphism group of the plane quartic curve X as matrices.}
 
@@ -180,12 +180,12 @@ intrinsic QuarticAutomorphisms(X::CrvPln :
     require IsProjective(PP) and Dimension(PP) eq 2 and Degree(X) eq 4 and Genus(X) eq 3 :
         "X must be a smooth projective plane quartic curve.";
 
-    return QuarticIsomorphisms(X, X : geometric := geometric);
+    return IsomorphismsOfPlaneQuartics(X, X : geometric := geometric);
 
 end intrinsic;
 
 /**/
-intrinsic AutomorphismGroupQuartic(f::RngMPolElt, Autos::SeqEnum :
+intrinsic AutomorphismGroupOfTernaryQuartic(f::RngMPolElt, Autos::SeqEnum :
     explicit := false) -> GrpPerm, Map
     {Finds the automorphism group of ternary quartic f as matrices.}
 
@@ -203,7 +203,7 @@ intrinsic AutomorphismGroupQuartic(f::RngMPolElt, Autos::SeqEnum :
 
 end intrinsic;
 
-intrinsic AutomorphismGroupQuartic(X::CrvPln, Autos::SeqEnum :
+intrinsic AutomorphismGroupOfPlaneQuartic(X::CrvPln, Autos::SeqEnum :
     explicit := false) ->  GrpPerm, Map
     {Finds the automorphism group of the plane quartic curve X as matrices.}
 
@@ -212,21 +212,21 @@ intrinsic AutomorphismGroupQuartic(X::CrvPln, Autos::SeqEnum :
         "X must be a smooth projective plane quartic curve.";
 
     f := DefiningPolynomial(X);
-    return AutomorphismGroupQuartic(f, Autos : explicit := explicit);
+    return AutomorphismGroupOfTernaryQuartic(f, Autos : explicit := explicit);
 
 end intrinsic;
 
 /**/
-intrinsic AutomorphismGroupQuartic(f::RngMPolElt :
+intrinsic AutomorphismGroupOfTernaryQuartic(f::RngMPolElt :
     geometric := false, explicit := false) ->  GrpPerm, Map
     {Finds the automorphism group of ternary quartic f as matrices.}
 
-    _, Autos := IsIsomorphicQuartic(f, f : geometric := geometric);
-    return AutomorphismGroupQuartic(f, Autos : explicit := explicit);
+    _, Autos := IsIsomorphicTernaryQuartics(f, f : geometric := geometric);
+    return AutomorphismGroupOfTernaryQuartic(f, Autos : explicit := explicit);
 
 end intrinsic;
 
-intrinsic AutomorphismGroupQuartic(X::CrvPln :
+intrinsic AutomorphismGroupOfPlaneQuartic(X::CrvPln :
     geometric := false, explicit := false) ->  GrpPerm, Map
     {Finds the automorphism group of the plane quartic curve X as matrices.}
 
@@ -235,6 +235,6 @@ intrinsic AutomorphismGroupQuartic(X::CrvPln :
         "X must be a smooth projective plane quartic curve.";
 
     f := DefiningPolynomial(X);
-    return AutomorphismGroupQuartic(f : geometric := geometric, explicit := explicit);
+    return AutomorphismGroupOfTernaryQuartic(f : geometric := geometric, explicit := explicit);
 
 end intrinsic;

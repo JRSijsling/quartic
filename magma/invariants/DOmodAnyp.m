@@ -186,7 +186,7 @@ function DOInvariantsCharAnyp(Phi : IntegralNormalization := false, PrimaryOnly 
     if degmin le 27 then
 
 	//    "I27...";
-	I27 := QuarticDiscriminant(Phi : IntegralNormalization := IntegralNormalization);
+	I27 := TernaryQuarticDiscriminant(Phi : IntegralNormalization := IntegralNormalization);
 
 	Append(~DOs, I27); Append(~WG, 27);
 

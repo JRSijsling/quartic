@@ -39,9 +39,9 @@
 /***
  * Exported intrinsics.
  *
- * intrinsic QuarticTwists(C::Crv, Autos::SeqEnum  :
+ * intrinsic TwistsOfPlaneQuartic(C::Crv, Autos::SeqEnum  :
  *     AutomorphismGroup := false) -> SeqEnum[Crv], GrpPerm
- * intrinsic QuarticTwists(C::Crv :
+ * intrinsic TwistsOfPlaneQuartic(C::Crv :
  *     AutomorphismGroup := false) -> SeqEnum[Crv], GrpPerm
  *
  * intrinsic Twists(C::Crv :
@@ -79,7 +79,7 @@ function ProjectiveMatrixGroup(L)
 end function;
 
 
-intrinsic QuarticTwists(C::Crv, Autos::SeqEnum  :
+intrinsic TwistsOfPlaneQuartic(C::Crv, Autos::SeqEnum  :
     AutomorphismGroup := false) -> SeqEnum[Crv], GrpPerm
     {Compute twisted genus 3 plane curves, and their automorphism groups}
 
@@ -103,7 +103,7 @@ intrinsic QuarticTwists(C::Crv, Autos::SeqEnum  :
 
 end intrinsic;
 
-intrinsic QuarticTwists(C::Crv :
+intrinsic TwistsOfPlaneQuartic(C::Crv :
     AutomorphismGroup := false) -> SeqEnum[Crv], GrpPerm
     {Compute twisted genus 3 plane curves, and their automorphism groups}
 
@@ -116,7 +116,7 @@ intrinsic QuarticTwists(C::Crv :
     require IsProjective(PP) and Dimension(PP) eq 2 and Degree(C) eq 4 and Genus(C) eq 3 :
         "C must be a smooth projective plane quartic curve.";
 
-    return QuarticTwists(C : AutomorphismGroup := AutomorphismGroup);
+    return TwistsOfPlaneQuartic(C : AutomorphismGroup := AutomorphismGroup);
 
 end intrinsic;
 
@@ -145,9 +145,9 @@ intrinsic Twists(C::Crv :
     require IsProjective(PP) and Dimension(PP) eq 2 and Degree(C) eq 4 and Genus(C) eq 3 :
         "If not hyperelliptic, Argument must be a smooth projective plane quartic curve.";
 
-    _, Autos := IsIsomorphicQuartic(C, C : geometric:=true);
+    _, Autos := IsIsomorphicPlaneQuartics(C, C : geometric:=true);
 
-    return QuarticTwists(C, Autos : AutomorphismGroup := AutomorphismGroup);
+    return TwistsOfPlaneQuartic(C, Autos : AutomorphismGroup := AutomorphismGroup);
 
 end intrinsic;
 
@@ -172,7 +172,7 @@ intrinsic GeometricAutomorphismGroup(C::Crv) -> GrpPerm
     require IsProjective(PP) and Dimension(PP) eq 2 and Degree(C) eq 4 and Genus(C) eq 3 :
         "If not hyperelliptic, argument must be a smooth projective plane quartic curve.";
 
-    _, Autos := IsIsomorphicQuartic(C, C : geometric:=true);
+    _, Autos := IsIsomorphicPlaneQuartics(C, C : geometric:=true);
     Autos := [ NormalizedM(Transpose(A^(-1))) : A in Autos ];
     aut, _ := ProjectiveMatrixGroup(Autos);
 

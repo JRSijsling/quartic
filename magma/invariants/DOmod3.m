@@ -334,7 +334,7 @@ function DOInvariantsChar3(F : PrimaryOnly := false, AllInvs := true, degmax := 
          if degmax lt 27 then return DOs, WG; end if;
 
          // "I27...";
-         I27 := 2^40 * QuarticDiscriminant(Phi);
+         I27 := 2^40 * TernaryQuarticDiscriminant(Phi);
          i27 := (29205*I03^9 + 136229*I03^7*i6 + 20536*I03^5*i6^2 + 176042*I03^3*i6^3 +
              108072*I03*i6^4 + 108025*I03^6*i9 + 5552*I03^4*i6*i9 + 112933*I03^2*i6^2*i9 +
              702*i6^3*i9 + 6423*I03^3*i9^2 + 72744*I03*i6*i9^2 + 147258*i9^3 + 13634*I03^6*j9

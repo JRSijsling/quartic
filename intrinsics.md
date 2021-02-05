@@ -21,7 +21,7 @@ intrinsic DixmierOhnoInvariants(C::Crv :
     PrimaryOnly := false, degmax := 10^6, degmin := 1,
     PolynomialOnly:=true) -> SeqEnum, SeqEnum
 
-intrinsic QuarticDiscriminant(f::RngMPolElt :
+intrinsic TernaryQuarticDiscriminant(f::RngMPolElt :
     IntegralNormalization := false) -> Any
 intrinsic DiscriminantFromDixmierOhnoInvariants(DO::SeqEnum) -> .
 
@@ -42,29 +42,29 @@ intrinsic TernaryQuarticFromDixmierOhnoInvariants(DO::SeqEnum :
 ### Isomorphisms
 
 ```
-intrinsic IsIsomorphicQuartic(X1::CrvPln, X2::CrvPln :
+intrinsic IsIsomorphicPlaneQuartics(X1::CrvPln, X2::CrvPln :
     geometric := false) -> BoolElt, SeqEnum
-intrinsic QuarticIsomorphisms(X1::CrvPln, X2::CrvPln :
+intrinsic IsomorphismsOfPlaneQuartics(X1::CrvPln, X2::CrvPln :
     geometric := false) -> SeqEnum
 
-intrinsic IsIsomorphicQuartic(f1::RngMPolElt, f2::RngMPolElt :
+intrinsic IsIsomorphicTernaryQuartics(f1::RngMPolElt, f2::RngMPolElt :
     geometric := false) -> BoolElt, SeqEnum
-intrinsic QuarticIsomorphisms(f1::RngMPolElt, f2::RngMPolElt :
+intrinsic IsomorphismsOfTernaryQuartics(f1::RngMPolElt, f2::RngMPolElt :
     geometric := false) -> SeqEnum
 
 
-intrinsic QuarticAutomorphisms(X::CrvPln :
+intrinsic AutomorphismsOfPlaneQuartic(X::CrvPln :
     geometric := false) -> SeqEnum
-intrinsic AutomorphismGroupQuartic(X::CrvPln :
+intrinsic AutomorphismGroupOfPlaneQuartic(X::CrvPln :
     geometric := false, explicit := false) ->  GrpPerm, Map
-intrinsic AutomorphismGroupQuartic(X::CrvPln, Autos::SeqEnum :
+intrinsic AutomorphismGroupOfPlaneQuartic(X::CrvPln, Autos::SeqEnum :
     explicit := false) ->  GrpPerm, Map
 
-intrinsic QuarticAutomorphisms(f::RngMPolElt :
+intrinsic AutomorphismsOfTernaryQuartic(f::RngMPolElt :
     geometric := false) -> SeqEnum
-intrinsic AutomorphismGroupQuartic(f::RngMPolElt :
+intrinsic AutomorphismGroupOfTernaryQuartic(f::RngMPolElt :
     geometric := false, explicit := false) ->  GrpPerm, Map
-intrinsic AutomorphismGroupQuartic(f::RngMPolElt, Autos::SeqEnum :
+intrinsic AutomorphismGroupOfTernaryQuartic(f::RngMPolElt, Autos::SeqEnum :
     explicit := false) -> GrpPerm, Map
 
 intrinsic GeometricAutomorphismGroup(C::Crv) -> GrpPerm
@@ -73,9 +73,9 @@ intrinsic GeometricAutomorphismGroup(C::Crv) -> GrpPerm
 ### Twists
 
 ```
-intrinsic QuarticTwists(C::Crv :
+intrinsic TwistsOfPlaneQuartic(C::Crv :
     AutomorphismGroup := false) -> SeqEnum[Crv], GrpPerm
-intrinsic QuarticTwists(C::Crv, Autos::SeqEnum  :
+intrinsic TwistsOfPlaneQuartic(C::Crv, Autos::SeqEnum  :
     AutomorphismGroup := false) -> SeqEnum[Crv], GrpPerm
 
 intrinsic Twists(C::Crv :
