@@ -21,7 +21,7 @@ intrinsic DixmierOhnoInvariants(C::Crv :
     PrimaryOnly := false, degmax := 10^6, degmin := 1,
     PolynomialOnly:=true) -> SeqEnum, SeqEnum
 
-intrinsic TernaryQuarticDiscriminant(f::RngMPolElt :
+intrinsic DiscriminantOfTernaryQuartic(f::RngMPolElt :
     IntegralNormalization := false) -> Any
 intrinsic DiscriminantFromDixmierOhnoInvariants(DO::SeqEnum) -> .
 

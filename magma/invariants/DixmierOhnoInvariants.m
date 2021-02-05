@@ -49,7 +49,7 @@
  *     PrimaryOnly := false, degmax := 10^6, degmin := 1,
  *     PolynomialOnly:=true) -> SeqEnum, SeqEnum
  *
- * intrinsic TernaryQuarticDiscriminant(f::RngMPolElt :
+ * intrinsic DiscriminantOfTernaryQuartic(f::RngMPolElt :
  *     IntegralNormalization := false) -> Any
  * intrinsic DiscriminantFromDixmierOhnoInvariants(DO::SeqEnum) -> .
  * intrinsic DixmierOhnoInvariantsEqual(V1::SeqEnum, V2::SeqEnum) -> BoolElt
@@ -388,7 +388,7 @@ function DixmierInvariant(Phi,i :IntegralNormalization := false)
     P := Parent(Phi);
     K := BaseRing(P);
     if i eq 27 then
-        I27 := TernaryQuarticDiscriminant(Phi);
+        I27 := DiscriminantOfTernaryQuartic(Phi);
         if IntegralNormalization then
             I27 *:= 1099511627776;
         end if;
@@ -611,7 +611,7 @@ end intrinsic;
 // Discriminant of a quartic
 // (by a deformation method, to be characteristic safe,
 // see [BJ14])
-function TernaryQuarticDiscriminantByDeformation(Q)
+function DiscriminantOfTernaryQuarticByDeformation(Q)
 
     Pxyz := Parent(Q);
     x := Pxyz.1; y :=  Pxyz.2; z :=  Pxyz.3;
@@ -679,7 +679,7 @@ function TernaryQuarticDiscriminantByDeformation(Q)
 end function;
 
 
-intrinsic TernaryQuarticDiscriminant(f::RngMPolElt : IntegralNormalization := false) -> Any
+intrinsic DiscriminantOfTernaryQuartic(f::RngMPolElt : IntegralNormalization := false) -> Any
     {Discriminant of a plane quartic}
 
     P := Parent(f);
@@ -702,7 +702,7 @@ intrinsic TernaryQuarticDiscriminant(f::RngMPolElt : IntegralNormalization := fa
     X,Y,Z := Explode([ P.i : i in [1..3] ]);
 
     if Characteristic(K) in {2, 3} then
-        return TernaryQuarticDiscriminantByDeformation(Phi);
+        return DiscriminantOfTernaryQuarticByDeformation(Phi);
     end if;
 
     CLASSICAL := true;
