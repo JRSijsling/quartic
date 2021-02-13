@@ -39,6 +39,6 @@ Citing this code
 
 Please cite the following preprint if this code has been helpful in your research:
 
-Reynald Lercier, Christophe Ritzenthaler, and Jeroen Sijsling
-*Reconstructing plane quartics from their invariants*
-[Discrete Comput. Geom. 63 (2020), no. 1, 73–113](https://doi.org/10.1007/s00454-018-0047-4)
+Reynald Lercier, Jeroen Sijsling, Christophe Ritzenthaler,
+*Functionalities for genus 2 and 3 curves*,
+[arXiv:2102.04372](https://arxiv.org/abs/2102.04372)
