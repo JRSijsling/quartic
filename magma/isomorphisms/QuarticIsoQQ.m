@@ -10,7 +10,7 @@
 import "Ingredients.m":
     DifferentialOperation, EffSPProduct, SmallSplittingFieldOverRationals,
     TrivializeAlgebra, TransformTernaryForm, Normalize33, BinQuadInvs,
-    IsMultiple, AssertTs;
+    IsMultiple, AbsolutizeTs, AssertTs;
 import "IsoC3.m": IsoC3;
 import "IsoG16.m": IsoG16;
 import "Strata.m": IsInStratumC3Proper, IsInStratumG16Proper, IsInStratumC1orC2Proper;
@@ -570,25 +570,33 @@ function QuarticIsomorphismsQQ(f1, f2 : geometric := false);
                             T := T^(-1);
                         end if;
 
-                        test,factor := IsMultiple(TransformTernaryForm(f1newFF,T),f2newFF);
-                        if test then
+                        test0,factor := IsMultiple(TransformTernaryForm(f1newFF,T),f2newFF);
+                        if test0 then
                             N := Normalize33(TT1FF*T*TT2FF^(-1));
                             C := ElementToSequence(N);
                             test := true;
-                            for i:=1 to #C do
-                                test := test and (C[i] in F);
-                            end for;
+                            if not geometric then
+                                for i:=1 to #C do
+                                    test := test and (C[i] in F);
+                                end for;
+                            end if;
                             if test then
                                 C0 := [ ];
                                 for c in C do
-                                    Append(~C0,F!c);
+                                    if not geometric then
+                                        c0 := F ! c;
+                                    else
+                                        c0 := c;
+                                    end if;
+                                    Append(~C0,c0);
                                 end for;
-                                Append(~Ts,Matrix(F,3,3,C0));
+                                Append(~Ts,Matrix(3,3,C0));
                             end if;
                         end if;
                     end for;
                     //Ts;
-                    AssertTs(f1, f2, Ts);
+                    Ts := AbsolutizeTs(Ts : geometric := geometric);
+                    AssertTs(f1, f2, Ts : geometric := geometric);
                     return (#Ts ne 0),Ts,false;
 
                 end if;
@@ -637,25 +645,33 @@ function QuarticIsomorphismsQQ(f1, f2 : geometric := false);
                             T := T^(-1);
                         end if;
 
-                        test,factor := IsMultiple(TransformTernaryForm(f1newFF,T),f2newFF);
-                        if test then
+                        test0,factor := IsMultiple(TransformTernaryForm(f1newFF,T),f2newFF);
+                        if test0 then
                             N := Normalize33(TT1FF*T*TT2FF^(-1));
                             C := ElementToSequence(N);
                             test := true;
-                            for i:=1 to #C do
-                                test := test and (C[i] in F);
-                            end for;
+                            if not geometric then
+                                for i:=1 to #C do
+                                    test := test and (C[i] in F);
+                                end for;
+                            end if;
                             if test then
                                 C0 := [ ];
                                 for c in C do
-                                    Append(~C0,F!c);
+                                    if not geometric then
+                                        c0 := F ! c;
+                                    else
+                                        c0 := c;
+                                    end if;
+                                    Append(~C0,c0);
                                 end for;
-                                Append(~Ts,Matrix(F,3,3,C0));
+                                Append(~Ts,Matrix(3,3,C0));
                             end if;
                         end if;
                     end for;
                     //Ts;
-                    AssertTs(f1, f2, Ts);
+                    Ts := AbsolutizeTs(Ts : geometric := geometric);
+                    AssertTs(f1, f2, Ts : geometric := geometric);
                     return (#Ts ne 0),Ts,false;
 
                 end if;
@@ -693,26 +709,35 @@ function QuarticIsomorphismsQQ(f1, f2 : geometric := false);
                         else
                             T := T^(-1);
                         end if;
+                        N := Normalize33(TT1FF*T*TT2FF^(-1));
 
-                        test,factor := IsMultiple(TransformTernaryForm(f1newFF,T),f2newFF);
-                        if test then
+                        test0,factor := IsMultiple(TransformTernaryForm(f1newFF,T),f2newFF);
+                        if test0 then
                             N := Normalize33(TT1FF*T*TT2FF^(-1));
                             C := ElementToSequence(N);
                             test := true;
-                            for i:=1 to #C do
-                                test := test and (C[i] in F);
-                            end for;
+                            if not geometric then
+                                for i:=1 to #C do
+                                    test := test and (C[i] in F);
+                                end for;
+                            end if;
                             if test then
                                 C0 := [ ];
                                 for c in C do
-                                    Append(~C0,F!c);
+                                    if not geometric then
+                                        c0 := F ! c;
+                                    else
+                                        c0 := c;
+                                    end if;
+                                    Append(~C0,c0);
                                 end for;
-                                Append(~Ts,Matrix(F,3,3,C0));
+                                Append(~Ts,Matrix(3,3,C0));
                             end if;
                         end if;
                     end for;
                     //Ts;
-                    AssertTs(f1, f2, Ts);
+                    Ts := AbsolutizeTs(Ts : geometric := geometric);
+                    AssertTs(f1, f2, Ts : geometric := geometric);
                     return (#Ts ne 0),Ts,false;
                 end if;
 
@@ -759,25 +784,33 @@ function QuarticIsomorphismsQQ(f1, f2 : geometric := false);
                         T := T^(-1);
                     end if;
 
-                    test,factor := IsMultiple(TransformTernaryForm(f1newFF,T),f2newFF);
-                    if test then
+                    test0,factor := IsMultiple(TransformTernaryForm(f1newFF,T),f2newFF);
+                    if test0 then
                         N := Normalize33(TT1FF*T*TT2FF^(-1));
                         C := ElementToSequence(N);
                         test := true;
-                        for i:=1 to #C do
-                            test := test and (C[i] in F);
-                        end for;
+                        if not geometric then
+                            for i:=1 to #C do
+                                test := test and (C[i] in F);
+                            end for;
+                        end if;
                         if test then
                             C0 := [ ];
                             for c in C do
-                                Append(~C0,F!c);
+                                if not geometric then
+                                    c0 := F ! c;
+                                else
+                                    c0 := c;
+                                end if;
+                                Append(~C0,c0);
                             end for;
-                            Append(~Ts,Matrix(F,3,3,C0));
+                            Append(~Ts,Matrix(3,3,C0));
                         end if;
                     end if;
                 end for;
                 //Ts;
-                AssertTs(f1, f2, Ts);
+                Ts := AbsolutizeTs(Ts : geometric := geometric);
+                AssertTs(f1, f2, Ts : geometric := geometric);
                 return (#Ts ne 0),Ts,false;
 
             end if;
