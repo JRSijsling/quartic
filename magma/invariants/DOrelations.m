@@ -30,7 +30,7 @@
  ********************************************************************/
 
 intrinsic DixmierOhnoAlgebraicRelations(DOinv::SeqEnum) -> SeqEnum
-    {Return the relation ideal of Dixmier-Ohno invariants}
+    {Return generators of the ideal of relations between the Dixmier-Ohno invariants.}
 
     K := Universe(DOinv);
 
