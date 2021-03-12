@@ -680,7 +680,7 @@ function DiscriminantOfTernaryQuarticByDeformation(Q)
 end function;
 
 
-intrinsic DiscriminantOfTernaryQuartic(f::RngMPolElt : IntegralNormalization := false) -> Any
+intrinsic DiscriminantOfTernaryQuartic(f::RngMPolElt : IntegralNormalization := true) -> Any
     {Compute the discriminant of the ternary quartic form f. If IntegralNormalization is set to true, then the classical value of this discriminant is multiplied by the factor 2^40 to ensure good behavior under reduction.}
 
     P := Parent(f);
