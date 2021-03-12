@@ -67,7 +67,9 @@ end function;
 /**/
 intrinsic IsomorphismsOfTernaryQuartics(f1::RngMPolElt, f2::RngMPolElt :
     geometric := false) -> SeqEnum
-    {Isomorphisms between the ternary quartics f1 and f2.}
+    {Return the isomorphisms between the ternary quartic forms f1 and f2. If
+    the flag geometric is set to true, then the isomorphisms over the algebraic
+    closure of the base field are returned.}
 
     P := Parent(f1);
     require
@@ -113,7 +115,9 @@ end intrinsic;
 
 intrinsic IsomorphismsOfPlaneQuartics(X1::CrvPln, X2::CrvPln :
     geometric := false) -> SeqEnum
-    {Isomorphisms between the ternary quartics f1 and f2.}
+    {Return the isomorphisms between the plane quartic curves X1 and X2. If the
+    flag geometric is set to true, then the isomorphisms over the algebraic
+    closure of the base field are returned.}
 
     PP1 := AmbientSpace(X1);
     require IsProjective(PP1) and Dimension(PP1) eq 2 and Degree(X1) eq 4 and Genus(X1) eq 3 :
@@ -133,7 +137,10 @@ end intrinsic;
 /**/
 intrinsic IsIsomorphicTernaryQuartics(f1::RngMPolElt, f2::RngMPolElt :
     geometric := false) -> BoolElt, SeqEnum
-    {Tests for the existence of isomorphisms between the ternary quartics f1 and f2, and returns these if they exist.}
+    {Determine if the ternary quartic forms f1 and f2 are isomorphic, and
+    return the isomorphism between them. If the flag geometric is set to true,
+    then test is performed over the algebraic closure of the base field, over
+    which the isomorphisms are then determined as well.}
 
     Autos := IsomorphismsOfTernaryQuartics(f1, f2 : geometric := geometric);
     return #Autos ne 0, Autos;
@@ -142,7 +149,10 @@ end intrinsic;
 
 intrinsic IsIsomorphicPlaneQuartics(X1::CrvPln, X2::CrvPln :
     geometric := false) -> BoolElt, SeqEnum
-    {Tests for the existence of isomorphisms between the plane quartic curves X1 and X2, and returns these if they exist.}
+    {Determine if the plane quartic curves X1 and X2 are isomorphic, and return
+    the isomorphism between them. If the flag geometric is set to true, then
+    test is performed over the algebraic closure of the base field, over which
+    the isomorphisms are then determined as well.}
 
     Autos := IsomorphismsOfPlaneQuartics(X1, X2 : geometric := geometric);
     return #Autos ne 0, Autos;
@@ -152,7 +162,9 @@ end intrinsic;
 /**/
 intrinsic AutomorphismsOfTernaryQuartic(f::RngMPolElt :
     geometric := false) -> SeqEnum
-    {Find the automorphism group of the ternary quartic f as matrices.}
+    {Return the automorphisms of the ternary quartic form f as matrices. If the
+    flag geometric is set to true, then the automorphisms over the algebraic
+    closure of the base field are returned.}
 
     P := Parent(f);
     require
@@ -174,7 +186,9 @@ end intrinsic;
 
 intrinsic AutomorphismsOfPlaneQuartic(X::CrvPln :
     geometric := false) -> SeqEnum
-    {Find the automorphism group of the plane quartic curve X as matrices.}
+    {Return the automorphisms of the plane quartic curve X as matrices. If the
+    flag geometric is set to true, then the automorphisms over the algebraic
+    closure of the base field are returned.}
 
     PP := AmbientSpace(X);
     require IsProjective(PP) and Dimension(PP) eq 2 and Degree(X) eq 4 and Genus(X) eq 3 :
@@ -187,7 +201,9 @@ end intrinsic;
 /**/
 intrinsic AutomorphismGroupOfTernaryQuartic(f::RngMPolElt, Autos::SeqEnum :
     explicit := false) -> GrpPerm, Map
-    {Finds the automorphism group of ternary quartic f as matrices.}
+    {Return the automorphisms Autos of the ternary quartic form f as an
+    abstract group, along with a map from said group to a matrix group if the
+    flag explicit is set to true.}
 
     P := Parent(f);
     require
@@ -205,7 +221,9 @@ end intrinsic;
 
 intrinsic AutomorphismGroupOfPlaneQuartic(X::CrvPln, Autos::SeqEnum :
     explicit := false) ->  GrpPerm, Map
-    {Finds the automorphism group of the plane quartic curve X as matrices.}
+    {Return the automorphisms Autos of the plane quartic curve X as an abstract
+    group, along with a map from said group to a matrix group if the flag
+    explicit is set to true.}
 
     PP := AmbientSpace(X);
     require IsProjective(PP) and Dimension(PP) eq 2 and Degree(X) eq 4 and Genus(X) eq 3 :
@@ -219,7 +237,10 @@ end intrinsic;
 /**/
 intrinsic AutomorphismGroupOfTernaryQuartic(f::RngMPolElt :
     geometric := false, explicit := false) ->  GrpPerm, Map
-    {Finds the automorphism group of ternary quartic f as matrices.}
+    {Return the automorphisms of the ternary quartic form f as an abstract
+    group, along with a map from said group to a matrix group if the flag
+    explicit is set to true. If the flag geometric is set to true, then the
+    automorphisms over the algebraic closure of the base field are returned.}
 
     _, Autos := IsIsomorphicTernaryQuartics(f, f : geometric := geometric);
     return AutomorphismGroupOfTernaryQuartic(f, Autos : explicit := explicit);
@@ -228,7 +249,10 @@ end intrinsic;
 
 intrinsic AutomorphismGroupOfPlaneQuartic(X::CrvPln :
     geometric := false, explicit := false) ->  GrpPerm, Map
-    {Finds the automorphism group of the plane quartic curve X as matrices.}
+    {Return the automorphisms of the plane quartic curve X as an abstract
+    group, along with a map from said group to a matrix group if the flag
+    explicit is set to true. If the flag geometric is set to true, then the
+    automorphisms over the algebraic closure of the base field are returned.}
 
     PP := AmbientSpace(X);
     require IsProjective(PP) and Dimension(PP) eq 2 and Degree(X) eq 4 and Genus(X) eq 3 :

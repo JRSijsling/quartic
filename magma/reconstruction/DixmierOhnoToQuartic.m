@@ -81,12 +81,12 @@ forward DixmierOhnoToBinaryQuartic;
 
 intrinsic TernaryQuarticFromDixmierOhnoInvariantsI12ne0(DO::SeqEnum :
     exact := false, minimize := true, descent := true, search_point := true) -> RngMPolElt, SeqEnum
-    {Reconstructs a ternary quartic from a given tuple of Dixmier-Ohno
+    {Reconstruct a ternary quartic from a given tuple of Dixmier-Ohno
     invariants DO, and also returns the binary forms associated to it by the
     usual equivariant morphism. The invariant I12 is supposed to be not equal
     to zero.
 
-    If the flag exact is set to true, then a ternary forms is returned whose
+    If the flag exact is set to true, then a ternary form is returned whose
     Dixmier-Ohno invariants exactly equal DOInv (instead of merely being
     equal in the corresponding weighted projective space).
 
@@ -97,7 +97,8 @@ intrinsic TernaryQuarticFromDixmierOhnoInvariantsI12ne0(DO::SeqEnum :
     made to return as small a model as possible.
 
     If the flag search_point is set to true, then the algorithm tries to find a
-    rational point of the Mestre conic of the associated binary form.}
+    rational point on the Mestre conic of the associated binary form. This is
+    required when reconstructing over the base field.}
 
     vprint QuarticRec : "";
     vprint QuarticRec : "Start of quartic reconstruction.";
@@ -593,10 +594,10 @@ end function;
 
 intrinsic TernaryQuarticFromDixmierOhnoInvariants(DO::SeqEnum :
     exact := false, minimize := true, descent := true, search_point := true) -> RngMPolElt, SeqEnum
-    {Reconstructs a ternary quartic from a given tuple of Dixmier-Ohno
+    {Reconstruct a ternary quartic from a given tuple of Dixmier-Ohno
     invariants DO.
 
-    If the flag exact is set to true, then a ternary forms is returned whose
+    If the flag exact is set to true, then a ternary form is returned whose
     Dixmier-Ohno invariants exactly equal DOInv (instead of merely being
     equal in the corresponding weighted projective space).
 
@@ -607,7 +608,8 @@ intrinsic TernaryQuarticFromDixmierOhnoInvariants(DO::SeqEnum :
     made to return as small a model as possible.
 
     If the flag search_point is set to true, then the algorithm tries to find a
-    rational point of the Mestre conic of the associated binary form.}
+    rational point on the Mestre conic of the associated binary form. This is
+    required when reconstructing over the base field.}
 
     FF := Universe(DO);
 
@@ -768,10 +770,10 @@ end intrinsic;
 
 intrinsic PlaneQuarticFromDixmierOhnoInvariants(DO::SeqEnum :
     exact := false, minimize := true, descent := true, search_point := true) -> Crv, SeqEnum
-    {Reconstructs a plane quartic from a given tuple of Dixmier-Ohno
+    {Reconstruct a plane quartic from a given tuple of Dixmier-Ohno
     invariants DO.
 
-    If the flag exact is set to true, then a ternary forms is returned whose
+    If the flag exact is set to true, then a ternary form is returned whose
     Dixmier-Ohno invariants exactly equal DOInv (instead of merely being
     equal in the corresponding weighted projective space).
 
@@ -782,7 +784,8 @@ intrinsic PlaneQuarticFromDixmierOhnoInvariants(DO::SeqEnum :
     made to return as small a model as possible.
 
     If the flag search_point is set to true, then the algorithm tries to find a
-    rational point of the Mestre conic of the associated binary form.}
+    rational point on the Mestre conic of the associated binary form. This is
+    required when reconstructing over the base field.}
 
     f, aut, twists := TernaryQuarticFromDixmierOhnoInvariants(DO :
         exact := exact, minimize := minimize, descent := descent, search_point := search_point);

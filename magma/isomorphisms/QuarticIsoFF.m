@@ -485,7 +485,7 @@ function QuarticIsomorphismsFF(f1, f2 : geometric := false);
                             end if;
                         end for;
                         //Ts;
-                        AssertTs(f1, f2, Ts);
+                        AssertTs(f1, f2, Ts : geometric := geometric);
                         return (#Ts ne 0),Ts,false;
 
                     end if;
@@ -541,7 +541,7 @@ function QuarticIsomorphismsFF(f1, f2 : geometric := false);
                             end if;
                         end for;
                         //Ts;
-                        AssertTs(f1, f2, Ts);
+                        AssertTs(f1, f2, Ts : geometric := geometric);
                         return (#Ts ne 0),Ts,false;
 
                     end if;
@@ -586,7 +586,7 @@ function QuarticIsomorphismsFF(f1, f2 : geometric := false);
                             end if;
                         end for;
                         //Ts;
-                        AssertTs(f1, f2, Ts);
+                        AssertTs(f1, f2, Ts : geometric := geometric);
                         return (#Ts ne 0),Ts,false;
 
                     end if;
@@ -640,7 +640,7 @@ function QuarticIsomorphismsFF(f1, f2 : geometric := false);
                         end if;
                     end for;
                     //Ts;
-                    AssertTs(f1, f2, Ts);
+                    AssertTs(f1, f2, Ts : geometric := geometric);
                     return (#Ts ne 0),Ts,false;
 
                 end if;

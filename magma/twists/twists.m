@@ -81,7 +81,10 @@ end function;
 
 intrinsic TwistsOfPlaneQuartic(C::Crv, Autos::SeqEnum  :
     AutomorphismGroup := false) -> SeqEnum[Crv], GrpPerm
-    {Compute twisted genus 3 plane curves, and their automorphism groups}
+    {Compute the twists of the plane quartic curve C from its geometric
+    automorphism group Auts. If AutomorphismGroup is set to true, then the
+    furnished automorphism group is additionally returned as an abstract
+    group.}
 
     F := CoefficientRing(C);
 
@@ -103,9 +106,12 @@ intrinsic TwistsOfPlaneQuartic(C::Crv, Autos::SeqEnum  :
 
 end intrinsic;
 
+
 intrinsic TwistsOfPlaneQuartic(C::Crv :
     AutomorphismGroup := false) -> SeqEnum[Crv], GrpPerm
-    {Compute twisted genus 3 plane curves, and their automorphism groups}
+    {Compute the twists of the plane quartic curve C. If AutomorphismGroup is
+    set to true, then the geometric automorphism group of C is additionally
+    returned as an abstract group.}
 
     F := CoefficientRing(C);
 
@@ -120,9 +126,12 @@ intrinsic TwistsOfPlaneQuartic(C::Crv :
 
 end intrinsic;
 
+
 intrinsic Twists(C::Crv :
     AutomorphismGroup := false) -> SeqEnum, GrpPerm
-    {Compute twisted elliptic or hyperelliptic or genus 3 plane curves, and their geometric automorphism groups}
+    {Compute the twists of the elliptic, hyperelliptic, or plane quartic curve
+    C. If AutomorphismGroup is set to true, then the geometric automorphism
+    group of C is additionally returned as an abstract group.}
 
     F := CoefficientRing(C);
 
@@ -152,9 +161,9 @@ intrinsic Twists(C::Crv :
 end intrinsic;
 
 
-
 intrinsic GeometricAutomorphismGroup(C::Crv) -> GrpPerm
-    {Compute the automorphism group of elliptic or hyperelliptic or genus 3 plane curves.}
+    {Compute the geometric automorphism group of the elliptic, hyperelliptic,
+    or plane quartic curve C.}
 
     F := CoefficientRing(C);
 

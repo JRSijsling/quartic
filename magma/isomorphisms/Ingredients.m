@@ -1078,6 +1078,21 @@ function IsMultiplePolynomial(f, f0)
 
 end function;
 
+function AbsolutizeTs(Ts : geometric := false);
+
+    if (not geometric) or (#Ts eq 0) then
+        return Ts;
+    end if;
+
+    L := BaseRing(Ts[1]);
+    A := AbsoluteField(L);
+    Ts := [ ChangeRing(T, A) : T in Ts ];
+    K := sub< A | &cat[ Eltseq(T) : T in Ts ] >;
+    Ts := [ ChangeRing(T, K) : T in Ts ];
+    return Ts;
+
+end function;
+
 procedure AssertTs(f1, f2, Ts : geometric := false)
 
     if not geometric then

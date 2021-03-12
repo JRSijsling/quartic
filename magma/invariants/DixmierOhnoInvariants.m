@@ -510,7 +510,7 @@ function DixmierInvariant(Phi,i :IntegralNormalization := false)
 end function;
 
 intrinsic CovariantHessian(Phi::RngMPolElt) -> RngMPolElt
-    {Hessian covariant of a plane quartic}
+    {Compute the Hessian covariant of the ternary quartic form Phi.}
     require Rank(Parent(Phi)) eq 3 and IsHomogeneous(Phi) :
 	"Argument must be a homogeneous ternary forms.";
     DPhi_i := [ Derivative(Phi,i) : i in [1..3] ];
@@ -527,7 +527,7 @@ end intrinsic;
 
 
 intrinsic ContravariantSigmaAndPsi(Phi::RngMPolElt) -> RngMPolElt, RngMPolElt
-    {Sigma and Psi contravariants of a plane quartic (Salmon 3rd ed. p. 78)}
+    {Compute the covariants Sigma and Psi of a ternary quartic form Phi, as defined in Salmon (3rd ed. p. 78).}
     // Input: Homogeneous ternary quartic.
     // Output: Contravariants Sigma and Psi of Dixmier & Ohno
     // (Salmon 3rd ed. p. 78). These should really be in the
@@ -571,8 +571,9 @@ intrinsic ContravariantSigmaAndPsi(Phi::RngMPolElt) -> RngMPolElt, RngMPolElt
     return Sigma, Psi;
 end intrinsic;
 
+
 intrinsic QuarticCovariantsAndContravariants(Phi::RngMPolElt) -> SeqEnum
-    {Covariant and contravariant algebra of a plane quartic}
+    {Computes generators of the covariant and contravariant algebra of the ternary quartic form Phi.}
     P := Parent(Phi);
     K := BaseRing(P);
     require IsUnit(K!12) :
@@ -680,7 +681,7 @@ end function;
 
 
 intrinsic DiscriminantOfTernaryQuartic(f::RngMPolElt : IntegralNormalization := false) -> Any
-    {Discriminant of a plane quartic}
+    {Compute the discriminant of the ternary quartic form f. If IntegralNormalization is set to true, then the classical value of this discriminant is multiplied by the factor 2^40 to ensure good behavior under reduction.}
 
     P := Parent(f);
     require
@@ -940,6 +941,7 @@ intrinsic DiscriminantFromDixmierOhnoInvariants(DO::SeqEnum) -> .
     return DO[13];
 
 end intrinsic;
+
 
 intrinsic DixmierOhnoInvariantsEqual(V1::SeqEnum, V2::SeqEnum) -> BoolElt
     {Check whether Dixmier-Ohno Invariants V1 and V2 of two quartics are equivalent.}
