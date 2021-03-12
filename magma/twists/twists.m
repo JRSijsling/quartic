@@ -116,7 +116,7 @@ intrinsic TwistsOfPlaneQuartic(C::Crv :
     require IsProjective(PP) and Dimension(PP) eq 2 and Degree(C) eq 4 and Genus(C) eq 3 :
         "C must be a smooth projective plane quartic curve.";
 
-    return TwistsOfPlaneQuartic(C : AutomorphismGroup := AutomorphismGroup);
+    return Twists(C : AutomorphismGroup := AutomorphismGroup);
 
 end intrinsic;
 
