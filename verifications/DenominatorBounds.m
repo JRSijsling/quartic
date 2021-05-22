@@ -22,9 +22,9 @@
  */
 
 SetMemoryLimit(16*2^30);
-AttachSpec("../package/spec");
-import "../package/DixmierOhnoInvariants.m": Rho, ContravariantSigmaAndPsi, DifferentialOperation, JOperation11;
-import "../package/TernaryForms.m": TernaryToBinary, TransformForm;
+AttachSpec("../magma/spec");
+import "../magma/invariants/DixmierOhnoInvariants.m": Rho, ContravariantSigmaAndPsi, DifferentialOperation, JOperation11;
+import "../magma/reconstruction/TernaryForms.m": TernaryToBinary;
 load "Ingredients.m";
 
 print "We check that the generic divisility properties by I12 of the joint invariants hold.";

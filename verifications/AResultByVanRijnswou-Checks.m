@@ -22,8 +22,8 @@
  */
 
 SetMemoryLimit(16*2^30);
-AttachSpec("../package/spec");
-import "../package/TernaryForms.m": TernaryToBinary, TransformForm;
+AttachSpec("../magma/spec");
+import "../magma/reconstruction/TernaryForms.m": TernaryToBinary;
 load "Ingredients.m";
 
 print "We perform some random sanity checks on Van Rijnswou's results.";

@@ -22,8 +22,8 @@
  */
 
 SetMemoryLimit(16*2^30);
-AttachSpec("../package/spec");
-import "../package/TernaryForms.m": TransformForm, TernaryToBinary;
+AttachSpec("../magma/spec");
+import "../magma/reconstruction/TernaryForms.m": TernaryToBinary;
 load "Ingredients.m";
 
 print "We check integrality properties of a specific normalizing matrix.";

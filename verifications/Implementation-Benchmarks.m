@@ -21,8 +21,8 @@
  *  Copyright 2016 R. Lercier, C. Ritzenthaler & J.R. Sijsling
  */
 
-AttachSpec("../package/spec");
-AttachSpec("../g3twists_v2-0/spec");
+AttachSpec("../magma/spec");
+AttachSpec("../../hyperelliptic/magma/spec");
 filename := "Implementation-Benchmarks.dat";
 
 n_max := 4;

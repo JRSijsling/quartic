@@ -22,12 +22,12 @@
  */
 
 SetMemoryLimit(16*2^30);
-AttachSpec("../package/spec");
-import "../package/DixmierOhnoInvariants.m": Rho;
-import "../package/TernaryForms.m": TransformForm, TernaryToBinary, QuadricNormalizer, Dehomogenization;
-import "../package/JointCovariants.dat": S8S4Cov;
-import "../package/JointCovariants.m": IthJointInvariant, JointCovariant;
-import "../package/Interpolations.m": JointInvariantFromDixmierOhno;
+AttachSpec("../magma/spec");
+import "../magma/invariants/DixmierOhnoInvariants.m": Rho;
+import "../magma/reconstruction/TernaryForms.m": TernaryToBinary, QuadricNormalizer, Dehomogenization;
+import "../magma/reconstruction/JointCovariantsData.m": S8S4Cov;
+import "../magma/reconstruction/JointCovariants.m": IthJointInvariant, JointCovariant;
+import "../magma/reconstruction/Interpolations.m": JointInvariantFromDixmierOhno;
 load "Ingredients.m";
 
 print "We verify our invariant interpolations.";

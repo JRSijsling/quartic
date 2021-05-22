@@ -22,7 +22,7 @@
  */
 
 /* Usage:
- * FdCov is record of fundamental covariants, typically S8S4Cov after loading JointCovariants.dat.
+ * FdCov is record of fundamental covariants, typically S8S4Cov after loading JointCovariantsData.m.
  * JointCovariant(S8S4Cov, [g, f], n) then returns the nth joint covariant
  * AllJointInvariants(S8S4Cov, [g, f]) returns all joint invariants along with their weights.
  * FirstJointInvariants(S8S4Cov, [g, f], n) returns the first n joint invariants.
@@ -34,7 +34,7 @@
  /* The characteristic must not be in [ 2, 3, 5, 7, 11, 13, 37 ] */
 
 import "TernaryForms.m": Homogenization, Dehomogenization;
-import "JointCovariants.dat": S8S4Cov;
+import "JointCovariantsData.m": S8S4Cov;
 
 /* A covariant (U, V)^level */
 COV_t :=  recformat<

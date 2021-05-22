@@ -22,8 +22,7 @@
  */
 
 SetMemoryLimit(16*2^30);
-AttachSpec("../package/spec");
-import "../package/TernaryForms.m": TransformForm;
+AttachSpec("../magma/spec");
 
 F := Rationals();
 R<t> := PolynomialRing(F);

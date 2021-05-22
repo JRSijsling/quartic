@@ -22,9 +22,9 @@
  */
 
 SetMemoryLimit(16*2^30);
-AttachSpec("../package/spec");
-import "../package/DixmierOhnoInvariants.m": Rho, Tau, DifferentialOperation, JOperation11;
-import "../package/TernaryForms.m": TransformForm, QuadricNormalizer, TernaryToBinary;
+AttachSpec("../magma/spec");
+import "../magma/invariants/DixmierOhnoInvariants.m": Rho, Tau, DifferentialOperation, JOperation11;
+import "../magma/reconstruction/TernaryForms.m": QuadricNormalizer, TernaryToBinary;
 load "Ingredients.m";
 
 print "We give a random check of the equalities in the fundamental lemma.";

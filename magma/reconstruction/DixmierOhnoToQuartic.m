@@ -52,7 +52,7 @@ import "../invariants/DixmierOhnoInvariants.m":
     Rho, DixmierInvariant;
 import "TernaryForms.m":
     TernaryToBinary, BinaryToTernary, Homogenization;
-import "JointCovariants.dat":
+import "JointCovariantsData.m":
     S8S4Cov;
 import "JointCovariants.m":
     IthJointInvariant, JointCovariant,

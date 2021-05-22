@@ -22,8 +22,8 @@
  */
 
 SetMemoryLimit(16*2^30);
-AttachSpec("../package/spec");
-import "../package/TernaryForms.m": BinaryToTernary;
+AttachSpec("../magma/spec");
+import "../magma/reconstruction/TernaryForms.m": BinaryToTernary;
 load "Ingredients.m";
 
 print "We verify our statements on stability.";

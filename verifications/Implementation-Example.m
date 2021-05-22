@@ -21,9 +21,9 @@
  *  Copyright 2016 R. Lercier, C. Ritzenthaler & J.R. Sijsling
  */
 
-AttachSpec("../package/spec");
-AttachSpec("../g3twists_v2-0/spec");
-SetVerbose("Reconstruction", 2);
+AttachSpec("../magma/spec");
+AttachSpec("../../hyperelliptic/magma/spec");
+SetVerbose("PlaneQuartic", 1);
 
 print "We reconstruct the curve from the paper.";
 
