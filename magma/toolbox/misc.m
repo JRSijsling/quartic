@@ -53,6 +53,9 @@ function ChangeBaseRing(elt, F)
 
     if MyIsPrimeField(F) then
 	if Characteristic(F) eq 0 then
+            if Type(Parent(elt)) eq FldRat then
+                return F!(Rationals()!elt);
+            end if;
 	    return F!(IntegerRing()!elt);
 	end if;
 	return F!(elt);
