@@ -1,6 +1,6 @@
 {
   Ingredients.m
-  IsCFProperlyEquivalent.m0
+  IsCFProperlyEquivalent.m
   IsoC3.m
   IsoG16.m
   Normalize.m
