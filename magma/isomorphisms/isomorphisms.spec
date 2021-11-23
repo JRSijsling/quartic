@@ -1,4 +1,12 @@
 {
-  QuarticIso.m
+  Ingredients.m
+  IsCFProperlyEquivalent.m0
+  IsoC3.m
+  IsoG16.m
   Normalize.m
+  QuarticIso.m
+  QuarticIsoFF.m
+  QuarticIsoQQ.m
+  Strata.m
+  Sutherland.m
 }

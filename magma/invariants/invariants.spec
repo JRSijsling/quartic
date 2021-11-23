@@ -1,4 +1,9 @@
 {
-  DixmierOhnoInvariants.m
+  DOmod2.m
+  DOmod3.m
+  DOmod5.m
+  DOmod7.m
+  DOmodAnyp.m
   DOrelations.m
+  DixmierOhnoInvariants.m
 }

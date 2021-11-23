@@ -22,7 +22,6 @@
  */
 
 SetVerbose("QuarticRec", 1);
-SetVerbose("G3Twists", 1);
 SetVerbose("PlaneQuartic", 1);
 SetVerbose("ClusterReduction", 1);
 
