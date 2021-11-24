@@ -10,7 +10,7 @@ Prerequisites
 
 An installation of Magma.
 
-The algorithms use the Magma algorithm `MinimizeReducePlaneQuartic`, due to Elsenhans and Stoll, to simplify any output over the rationals. In order for this to work properly, one needs a bug fix of the file `magma/package/Geometry/SrfDP/`, which can be found in `magma/BugFix.m`. Be warned that this new file is attached by default and supersedes its version in Magma.
+The algorithms use the Magma algorithm `MinimizeReducePlaneQuartic`, due to Elsenhans and Stoll, to simplify any output over the rationals. In order for this to work properly, one needs a bug fix of a function at the end of the file `magma/package/Geometry/SrfDP/minred.m`, which can be found in `magma/BugFix.m`. Be warned that this new file is attached by default and supersedes its version in Magma.
 
 Installation
 --
