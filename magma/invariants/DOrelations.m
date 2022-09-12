@@ -38,6 +38,7 @@ intrinsic DixmierOhnoAlgebraicRelations(DOinv::SeqEnum) -> SeqEnum
        "Argument must be a sequence over a ring in which 2, 3 5 and 7 are units.";
 
     I03,I06,I09,J09,I12,J12,I15,J15,I18,J18,I21,J21,I27 := Explode(DOinv);
+    if Characteristic(Universe(DOinv)) in {19, 47, 277, 523} then I09 +:= J09; end if;
 
     return [
         -5036828658438865578042413996310528000*I03^6*I06^2 -

@@ -36,6 +36,7 @@ function TernaryQuartic_S3_I12eq0(DO)
     P3 := PolynomialRing(FF, 3); x := P3.1; y := P3.2; z := P3.3;
 
     I03,I06,I09,J09,I12,J12,I15,J15,I18,J18,I21,J21,I27 := Explode(DO);
+    if Characteristic(Universe(DO)) in {19, 47, 277, 523} then I09 +:= J09; end if;
 
     if
         18800*J09^3-1212825600*J09*I06^3+6583910400*I09*I06^3+1533600*I09^2*I06*I03+7586611200*I06^4*I03-324080640*J09*I06^2*I03^2+458081280*I09*I06^2*I03^2+123852*J09^2*I03^3-10560*J09*I09*I03^3-31353*I09^2*I03^3-2251514880*I06^3*I03^3+7653024*J09*I06*I03^4-8363808*I09*I06*I03^4-114600960*I06^2*I03^5+116154*J09*I03^6-38718*I09*I03^6+3484620*I06*I03^7 eq 0
@@ -187,6 +188,7 @@ function TernaryQuartic_C3(DO)
     P3 := PolynomialRing(FF, 3); x := P3.1; y := P3.2; z := P3.3;
 
     I03,I06,I09,J09,I12,J12,I15,J15,I18,J18,I21,J21,I27 := Explode(DO);
+    if Characteristic(Universe(DO)) in {19, 47, 277, 523} then I09 +:= J09; end if;
 
     if J09 - 1/3*I09 eq 0 and J18 - 2/3*I18 eq 0 then
         vprint QuarticRec : "Dim. 1 model";
@@ -248,6 +250,7 @@ function TernaryQuartic_D8_I12eq0(DO)
     P3 := PolynomialRing(FF, 3); x := P3.1; y := P3.2; z := P3.3;
 
     I03,I06,I09,J09,I12,J12,I15,J15,I18,J18,I21,J21,I27 := Explode(DO);
+    if Characteristic(Universe(DO)) in {19, 47, 277, 523} then I09 +:= J09; end if;
 
     if
         J09^2+2*J09*I09+I09^2+72*I09*I06*I03+9/2*I09*I03^3 eq 0
@@ -348,6 +351,7 @@ function TernaryQuartic_D4_I12eq0(DO)
     P3 := PolynomialRing(FF, 3); x := P3.1; y := P3.2; z := P3.3;
 
     I03,I06,I09,J09,I12,J12,I15,J15,I18,J18,I21,J21,I27 := Explode(DO);
+    if Characteristic(Universe(DO)) in {19, 47, 277, 523} then I09 +:= J09; end if;
 
     Dim2Model := func <
         a, b |

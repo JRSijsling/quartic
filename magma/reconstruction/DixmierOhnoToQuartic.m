@@ -103,6 +103,8 @@ intrinsic TernaryQuarticFromDixmierOhnoInvariantsI12ne0(DO::SeqEnum :
     vprint QuarticRec : "";
     vprint QuarticRec : "Start of quartic reconstruction.";
     I03,I06,I09,J09,I12,J12,I15,J15,I18,J18,I21,J21,I27 := Explode(DO);
+    if Characteristic(Universe(DO)) in {19, 47, 277, 523} then I09 +:= J09; end if;
+
     F := Universe(DO);
 
     ratbase := (Type(F) eq FldRat) and (F eq Rationals());
@@ -372,6 +374,8 @@ end function;
 function DixmierOhnoToJointShioda(DO)
 
     I03,I06,I09,J09,I12,J12,I15,J15,I18,J18,I21,J21,I27 := Explode(DO);
+    if Characteristic(Universe(DO)) in {19, 47, 277, 523} then I09 +:= J09; end if;
+
     FirstJointShiodaNames := [ "s2", "s3", "s4", "s5", "s6", "s7", "s8" ];
     FirstJointShiodaInvs := [ JointInvariantFromDixmierOhno(s, DO) : s in FirstJointShiodaNames ];
     s2, s3, s4, s5, s6, s7, s8 := Explode(FirstJointShiodaInvs);
@@ -472,6 +476,8 @@ function DixmierOhnoToBinaryQuartic(DO, b8 : lambda := 1);
     /* Additionally, we try to add more (but non-linear) constraints, which
      * impose that the covariant of the end result is normalized */
     I03,I06,I09,J09,I12,J12,I15,J15,I18,J18,I21,J21,I27 := Explode(DO);
+    if Characteristic(Universe(DO)) in {19, 47, 277, 523} then I09 +:= J09; end if;
+
     S := PolynomialRing(CoefficientRing(B4), 2); x := S.1; y := S.2;
     B8h := S ! Homogenization(B8 : degree := 8);
     B4h := S ! Homogenization(B4 : degree := 4);
@@ -635,6 +641,8 @@ intrinsic TernaryQuarticFromDixmierOhnoInvariants(DO::SeqEnum :
         "Only non singular curves (I27 <> 0) are currently handled";
 
     I03,I06,I09,J09,I12,J12,I15,J15,I18,J18,I21,J21,I27 := Explode(DO);
+    if Characteristic(Universe(DO)) in {19, 47, 277, 523} then I09 +:= J09; end if;
+
     twists := []; aut := <>;
 
     /*** Zero dimensional cases ***/

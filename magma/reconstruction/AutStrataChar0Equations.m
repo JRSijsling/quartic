@@ -27,6 +27,7 @@
 function IsInStratumC9(DO)
 
     I03,I06,I09,J09,I12,J12,I15,J15,I18,J18,I21,J21,I27 := Explode(DO);
+    if Characteristic(Universe(DO)) in {19, 47, 277, 523} then I09 +:= J09; end if;
 
     if
         I03 eq 0
@@ -63,6 +64,7 @@ end function;
 function IsInStratumG48(DO)
 
     I03,I06,I09,J09,I12,J12,I15,J15,I18,J18,I21,J21,I27 := Explode(DO);
+    if Characteristic(Universe(DO)) in {19, 47, 277, 523} then I09 +:= J09; end if;
 
     if
         I03 eq 0
@@ -99,6 +101,7 @@ end function;
 function IsInStratumG96(DO)
 
     I03,I06,I09,J09,I12,J12,I15,J15,I18,J18,I21,J21,I27 := Explode(DO);
+    if Characteristic(Universe(DO)) in {19, 47, 277, 523} then I09 +:= J09; end if;
 
     if
         I06 eq 0
@@ -136,6 +139,7 @@ end function;
 function IsInStratumG168(DO)
 
     I03,I06,I09,J09,I12,J12,I15,J15,I18,J18,I21,J21,I27 := Explode(DO);
+    if Characteristic(Universe(DO)) in {19, 47, 277, 523} then I09 +:= J09; end if;
 
     if
         16*I06 + I03^2 eq 0
@@ -172,6 +176,7 @@ end function;
 function IsInStratumC6(DO)
 
     I03,I06,I09,J09,I12,J12,I15,J15,I18,J18,I21,J21,I27 := Explode(DO);
+    if Characteristic(Universe(DO)) in {19, 47, 277, 523} then I09 +:= J09; end if;
 
     if
         I03 eq 0
@@ -206,6 +211,7 @@ end function;
 function IsInStratumG16(DO)
 
     I03,I06,I09,J09,I12,J12,I15,J15,I18,J18,I21,J21,I27 := Explode(DO);
+    if Characteristic(Universe(DO)) in {19, 47, 277, 523} then I09 +:= J09; end if;
 
     if
         I06 eq 0
@@ -240,6 +246,7 @@ end function;
 function IsInStratumS4(DO)
 
     I03,I06,I09,J09,I12,J12,I15,J15,I18,J18,I21,J21,I27 := Explode(DO);
+    if Characteristic(Universe(DO)) in {19, 47, 277, 523} then I09 +:= J09; end if;
 
     if
         60928*I27 - 746636341248*I15*I06^2 - 37823037557760*J09*I06^3 + 34246275130368*I09*I06^3 +
@@ -349,6 +356,7 @@ end function;
 function IsInStratumC3(DO)
 
     I03,I06,I09,J09,I12,J12,I15,J15,I18,J18,I21,J21,I27 := Explode(DO);
+    if Characteristic(Universe(DO)) in {19, 47, 277, 523} then I09 +:= J09; end if;
 
     if
         I03 eq 0
@@ -377,6 +385,7 @@ end function;
 function IsInStratumD8(DO)
 
     I03,I06,I09,J09,I12,J12,I15,J15,I18,J18,I21,J21,I27 := Explode(DO);
+    if Characteristic(Universe(DO)) in {19, 47, 277, 523} then I09 +:= J09; end if;
 
     if
         1680*J18 - 1120*I18 + 315*J09^2 + 210*J09*I09 - 105*I09^2 + 16000*J12*I06 -
@@ -702,6 +711,7 @@ end function;
 function IsInStratumS3(DO)
 
     I03,I06,I09,J09,I12,J12,I15,J15,I18,J18,I21,J21,I27 := Explode(DO);
+    if Characteristic(Universe(DO)) in {19, 47, 277, 523} then I09 +:= J09; end if;
 
     if
         975421440000*J18*I18 - 270950400000*I18*I09^2 -
@@ -1572,6 +1582,7 @@ end function;
 function IsInStratumD4(DO)
 
     I03,I06,I09,J09,I12,J12,I15,J15,I18,J18,I21,J21,I27 := Explode(DO);
+    if Characteristic(Universe(DO)) in {19, 47, 277, 523} then I09 +:= J09; end if;
 
      if
          19908000*J21 - 139104000*I21 - 61311600*J12*J09 + 119145600*I12*J09 -
