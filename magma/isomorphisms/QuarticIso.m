@@ -102,14 +102,14 @@ intrinsic IsomorphismsOfTernaryQuartics(f1::RngMPolElt, f2::RngMPolElt :
     K := BaseRing(Parent(_f1));
 
     if Type(K) eq FldFin then
-        _, Autos := QuarticIsomorphismsFF(_f1, _f2 : geometric := geometric);
+        _, isos := QuarticIsomorphismsFF(_f1, _f2 : geometric := geometric);
     elif Type(K) eq FldRat then
-        _, Autos := QuarticIsomorphismsQQ(_f1, _f2 : geometric := geometric);
+        _, isos := QuarticIsomorphismsQQ(_f1, _f2 : geometric := geometric);
     else
-        _, Autos := SPQIsIsomorphic(_f1, _f2 : geometric := geometric);
+        _, isos := SPQIsIsomorphic(_f1, _f2 : geometric := geometric);
     end if;
 
-    return [ NormalizedM(T) : T in Autos ];
+    return [ NormalizedM(T^(-1)) : T in isos ];
 
 end intrinsic;
 

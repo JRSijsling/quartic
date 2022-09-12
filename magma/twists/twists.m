@@ -95,7 +95,8 @@ intrinsic TwistsOfPlaneQuartic(C::Crv, Autos::SeqEnum  :
     require IsProjective(PP) and Dimension(PP) eq 2 and Degree(C) eq 4 and Genus(C) eq 3 :
         "C must be a smooth projective plane quartic curve.";
 
-    Aut := [ NormalizedM(Transpose(A^(-1))) : A in Autos ];
+    //Aut := [ NormalizedM(Transpose(A^(-1))) : A in Autos ];
+    Aut := [ NormalizedM(A) : A in Autos ];
     twists := Twists(C, Aut);
     if AutomorphismGroup then
         aut, _ := ProjectiveMatrixGroup(Aut);
@@ -182,7 +183,8 @@ intrinsic GeometricAutomorphismGroup(C::Crv) -> GrpPerm
         "If not hyperelliptic, argument must be a smooth projective plane quartic curve.";
 
     _, Autos := IsIsomorphicPlaneQuartics(C, C : geometric:=true);
-    Autos := [ NormalizedM(Transpose(A^(-1))) : A in Autos ];
+    //Autos := [ NormalizedM(Transpose(A^(-1))) : A in Autos ];
+    Autos := [ NormalizedM(A) : A in Autos ];
     aut, _ := ProjectiveMatrixGroup(Autos);
 
     return aut;

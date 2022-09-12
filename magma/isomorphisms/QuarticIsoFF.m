@@ -72,9 +72,11 @@ function QuarticIsomorphismsFF(f1, f2 : geometric := false);
         //end try;
     end if;
 
+    /*
     if IsInStratumC1orC2Proper(I1) and (f1 eq f2) then
         geometric := false;
     end if;
+    */
 
     try
         //Finding a suitable quadratic contravariant
