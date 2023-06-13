@@ -13,10 +13,6 @@
   {
     +invariants.spec
   }
-  toolbox
-  {
-    misc.m
-  }
   twists
   {
     twists.m

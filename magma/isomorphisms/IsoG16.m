@@ -16,7 +16,7 @@ function IsoG16(f01,f02 : geometric := false);
 
     F := BaseRing(Parent(f01));
     P2 := ProjectiveSpace(F,2); x := P2.1; y := P2.2; z := P2.3;
-    R2 := CoordinateRing(P2); x := R2.1; y := R2.2; z := R2.3;
+    R2<> := CoordinateRing(P2); x := R2.1; y := R2.2; z := R2.3;
     R := PolynomialRing(F,2); s := R.1; t := R.2;
     S := PolynomialRing(F); u := S.1;
     h := hom<R -> S | [u,1]>;

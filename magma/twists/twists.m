@@ -103,7 +103,7 @@ intrinsic TwistsOfPlaneQuartic(C::Crv, Autos::SeqEnum  :
         return twists, aut;
     end if;
 
-    return twists;
+    return twists, _;
 
 end intrinsic;
 
@@ -142,13 +142,13 @@ intrinsic Twists(C::Crv :
     if Genus(C) eq 1 then
         Ec := EllipticCurve(C);
         twists := Twists(Ec);
-        if not AutomorphismGroup then return twists; end if;
+        if not AutomorphismGroup then return twists, _; end if;
         return twists, GeometricAutomorphismGroup(Ec);
     end if;
 
     ishyper, H :=  IsHyperelliptic(C);
     if ishyper then
-        return Twists(H : AutomorphismGroup := AutomorphismGroup);
+        return Twists(H : AutomorphismGroup := AutomorphismGroup), _;
     end if;
 
     PP := AmbientSpace(C);

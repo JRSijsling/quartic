@@ -25,7 +25,7 @@ SetMemoryLimit(16*2^30);
 AttachSpec("../magma/spec");
 import "../magma/invariants/DixmierOhnoInvariants.m": Rho;
 import "../magma/reconstruction/TernaryForms.m": TernaryToBinary, QuadricNormalizer, Dehomogenization;
-import "../magma/reconstruction/JointCovariantsData.m": S8S4Cov;
+import "../magma/reconstruction/JointCovariants.dat": S8S4Cov;
 import "../magma/reconstruction/JointCovariants.m": IthJointInvariant, JointCovariant;
 import "../magma/reconstruction/Interpolations.m": JointInvariantFromDixmierOhno;
 load "Ingredients.m";
