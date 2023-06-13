@@ -23,12 +23,11 @@
 
 SetSeed(3190700876);
 SetVerbose("QuarticRec", 1);
-SetVerbose("G3Twists", 1);
 SetVerbose("PlaneQuartic", 1);
 SetVerbose("ClusterReduction", 1);
 
 /* Start from a random ternary quartic */
-F := GF(23);/* Rationals(); */  B := 2^10; Domain := [-B..B];
+F := GF(101);/* Rationals(); */  B := 2^10; Domain := [-B..B];
 //R<x> := PolynomialRing(Rationals()); F<r> := NumberField(x^2 - 2);  B := 2^3; Domain := [-B..B];
 //F := GF(NextPrime(10^5));  Domain := F;
 R<x1, x2, x3> := PolynomialRing(F, 3);

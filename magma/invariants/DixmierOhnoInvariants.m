@@ -835,7 +835,7 @@ intrinsic DixmierOhnoInvariants(f::RngMPolElt, p::RngIntElt :
 	DOs, WG := DOInvariantsChar7(F : PrimaryOnly := PrimaryOnly, degmax := degmax, degmin := degmin);
 
     else
-	DOs, WG := DOInvariantsCharAnyp(F : IntegralNormalization := IntegralNormalization, PrimaryOnly := PrimaryOnly, degmax := degmax, degmin := degmin);
+	DOs, WG := DOInvariantsCharAnyp(F : p := p, IntegralNormalization := IntegralNormalization, PrimaryOnly := PrimaryOnly, degmax := degmax, degmin := degmin);
 
     end if;
 

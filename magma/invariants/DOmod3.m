@@ -19503,7 +19503,6 @@ function DOInvariantsChar3(F : PrimaryOnly := false, AllInvs := true, degmax := 
              Append(~DOs, ConvFct(Kx, PolRing));  Append(~WG, 81);
          end if;
 
-
          return DOs, WG;
 
-     end function;
+end function;
