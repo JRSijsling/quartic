@@ -72,12 +72,109 @@ import "AutStrataChar0Reconstruction.m":
     TernaryQuartic_S3, TernaryQuartic_D8;
 import "Descent.m":
     IsomorphismFromB8, NormalizeCocycle;
-
-
+import "AlternativeReconstruction.m": lin_ind, P1111, P1112, P1113, P1122, P1123,
+    P1133, P1222, P1223, P1233, P1333, P2222, P2223, P2233, P2333, P3333,
+    lin_ind_5, P1111_5, P1112_5, P1113_5, P1122_5, P1123_5, P1133_5, 
+    P1222_5, P1223_5, P1233_5, P1333_5, P2222_5, P2223_5, P2233_5, P2333_5, P3333_5,
+    lin_ind_7, P1111_7, P1112_7, P1113_7, P1122_7, P1123_7, P1133_7, 
+    P1222_7, P1223_7, P1233_7, P1333_7, P2222_7, P2223_7, P2233_7, P2333_7, P3333_7,
+    lin_ind_17, P1111_17, P1112_17, P1113_17, P1122_17, P1123_17, P1133_17, 
+    P1222_17, P1223_17, P1233_17, P1333_17, P2222_17, P2223_17, P2233_17, P2333_17, P3333_17,
+    lin_ind_37, P1111_37, P1112_37, P1113_37, P1122_37, P1123_37, P1133_37, 
+    P1222_37, P1223_37, P1233_37, P1333_37, P2222_37, P2223_37, P2233_37, P2333_37, P3333_37;
+    
 forward XGCDUnique;
 forward HyperellipticPolynomialFromJointShiodaInvariants;
 forward DixmierOhnoToJointShioda;
 forward DixmierOhnoToBinaryQuartic;
+
+intrinsic TernaryQuarticFromDixmierOhnoInvariantsGeneric(DO::SeqEnum :
+    exact := false, minimize := true) -> RngMPolElt, SeqEnum
+    {Reconstruct a ternary quartic from a given tuple of (generic) Dixmier-Ohno
+    invariants DO.
+
+    If the flag exact is set to true, then a ternary form is returned whose
+    Dixmier-Ohno invariants exactly equal DOInv (instead of merely being
+    equal in the corresponding weighted projective space).
+
+    If the flag minimize is set to true, then over the rationals an effort is
+    made to return as small a model as possible.}
+    
+    vprint QuarticRec : "";
+    vprint QuarticRec : "Start of quartic reconstruction.";
+
+    _<x,y,z> := PolynomialRing(FieldOfFractions(Universe(DO)), 3);
+    p := Characteristic(Universe(DO));
+    
+    require not p in {2, 3} : "Reconstruction not yet implemented for char 2, 3";
+
+    if Characteristic(Universe(DO)) in {19, 47, 277, 523} then DO[3] +:= DO[4]; end if;
+
+    vprint QuarticRec : "";
+    vprint QuarticRec : "Computing coefficients of reconstructed ternary quartic...";
+
+    if p in {5,7,17,37} then
+        if (eval "lin_ind_" cat Sprint(p))(DO) eq 0 then 
+            error("Contravariants are not linearly independent, this method does not work.");
+        end if;
+        
+        f := (eval "P1111_" cat Sprint(p))(DO)*x^4+
+            4*(eval "P1112_" cat Sprint(p))(DO)*x^3*y+
+            4*(eval "P1113_" cat Sprint(p))(DO)*x^3*z+
+            6*(eval "P1122_" cat Sprint(p))(DO)*x^2*y^2+
+            12*(eval "P1123_" cat Sprint(p))(DO)*x^2*y*z+
+            6*(eval "P1133_" cat Sprint(p))(DO)*x^2*z^2+
+            4*(eval "P1222_" cat Sprint(p))(DO)*x*y^3+
+            12*(eval "P1223_" cat Sprint(p))(DO)*x*y^2*z+
+            12*(eval "P1233_" cat Sprint(p))(DO)*x*y*z^2+
+            4*(eval "P1333_" cat Sprint(p))(DO)*x*z^3+
+            (eval "P2222_" cat Sprint(p))(DO)*y^4+
+            4*(eval "P2223_" cat Sprint(p))(DO)*y^3*z+
+            6*(eval "P2233_" cat Sprint(p))(DO)*y^2*z^2+
+            4*(eval "P2333_" cat Sprint(p))(DO)*y*z^3+
+            (eval "P3333_" cat Sprint(p))(DO)*z^4;         
+    else
+        if lin_ind(DO) eq 0 then
+            error("Contravariants are not linearly independent, this method does not work.");
+        end if;
+
+        f := P1111(DO)*x^4+
+            4*P1112(DO)*x^3*y+
+            4*P1113(DO)*x^3*z+
+            6*P1122(DO)*x^2*y^2+
+            12*P1123(DO)*x^2*y*z+
+            6*P1133(DO)*x^2*z^2+
+            4*P1222(DO)*x*y^3+
+            12*P1223(DO)*x*y^2*z+
+            12*P1233(DO)*x*y*z^2+
+            4*P1333(DO)*x*z^3+
+            P2222(DO)*y^4+
+            4*P2223(DO)*y^3*z+
+            6*P2233(DO)*y^2*z^2+
+            4*P2333(DO)*y*z^3+
+            P3333(DO)*z^4;  
+            
+        if minimize and Type(Universe(DO)) eq FldRat then
+            vprint QuarticRec : "";
+            vprint QuarticRec : "Reducing coefficients...";
+            f := MinRedTernaryForm(f);
+        end if;
+    end if;
+
+    if exact then
+        /* Scale via the 3-4 trick: */
+        W := [ 3, 6, 9, 9, 12, 12, 15, 15, 18, 18, 21, 21, 27 ];
+        indices := [ i : i in [1..#DO] | DO[i] ne 0 ];
+        gcd, L := XGCDUnique([ W[i] : i in indices ]);
+        I := DixmierOhnoInvariants(f);
+        lambda3 := &*[ (DO[i] / I[i])^(L[i]) : i in indices ];
+        f := (1/lambda3) * Evaluate(f, [ lambda3*x, y, z ]);
+    end if;
+
+    return f;
+end intrinsic;
+
+
 
 intrinsic TernaryQuarticFromDixmierOhnoInvariantsI12ne0(DO::SeqEnum :
     exact := false, minimize := true, descent := true, search_point := true) -> RngMPolElt, SeqEnum
@@ -628,12 +725,22 @@ intrinsic TernaryQuarticFromDixmierOhnoInvariants(DO::SeqEnum :
            $$(ChangeUniverse(DO, Rationals()) : exact := exact, search_point := search_point);
     end if;
 
+    vprint QuarticRec : "";
+    vprint QuarticRec : "Trying method with contravariants...";
+    try 
+        f := TernaryQuarticFromDixmierOhnoInvariantsGeneric(DO : exact := exact, minimize := minimize);
+        return f;
+    catch e 
+        vprint QuarticRec : "";
+        vprint QuarticRec : "Fail. Switching to usual method...";
+    end try;
+
     P3 := PolynomialRing(FF, 3); x := P3.1; y := P3.2; z := P3.3;
 
     require
-        (Characteristic(FF) eq 0) or (Characteristic(FF) gt 7)
+        (not Characteristic(FF) in {2,3,5,7})
         :
-        "Characteristic must be 0 or > 7";
+        "Characteristic must be p = 0 or p > 7";
 
     require
         #DO eq 13 and DO[#DO] ne 0
