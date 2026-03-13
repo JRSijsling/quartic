@@ -1111,3 +1111,107 @@ procedure AssertTs(f1, f2, Ts : geometric := false)
     end if;
 
 end procedure;
+
+
+/* Copied from Thomas' GL-Equivalence package */
+// Return the only (up to d-th root of unity) preimage of GL_n -> GL(Sym^d(K^n)) of M_tilde, where M_tilde is assumed to be in the image
+function FindPreImage(M_tilde, n, d)
+    K := BaseRing(M_tilde);
+
+    vprint Equivalence, 2 : "Computing representation matrix symbolically...";
+    R0<[a]> := PolynomialRing(K, n^2);
+    S := PolynomialRing(R0, n);
+    Basis := MonomialsOfDegree(S, d);
+
+    Change := [
+        &+[ a[i + n*(j-1)] * S.i : i in [1..n] ]
+        : j in [1..n]
+    ];
+
+    M_rep := Matrix(
+        [ [ MonomialCoefficient(Evaluate(f, Change), g)
+            : f in Basis ]
+          : g in Basis ]
+    );
+    
+    // Locate a power entry to normalize
+    pos := [ <i,j> : i,j in [1..Ncols(M_rep)]
+             | IsPower(Basis[i], d) and M_tilde[i][j] ne 0 ];
+    if #pos eq 0 then
+        vprint Equivalence, 2 : "No suitable normalization was found.";
+        error("No suitable normalization entry found.");
+    end if;
+
+    i0, j0 := Explode(pos[1]);
+    _, variable := IsPower(M_rep[i0][j0], d);
+
+    alpha := M_tilde[i0][j0];
+    M_tilde /:= alpha;
+
+    // Restrict to monomial entries
+    Indices := [
+        <i,j> : i,j in [1..Ncols(M_rep)]
+        | #Monomials(M_rep[i][j]) eq 1
+    ];
+
+    MonomialRelations :=
+        [ variable - R0!1 ] cat
+        [ M_rep[i][j] - R0!M_tilde[i][j]
+          where i,j := Explode(ind) : ind in Indices ];
+
+    Relations :=
+        [ variable - R0!1 ] cat
+        [ M_rep[i][j] - R0!M_tilde[i][j]
+          : i, j in [1..n] ];
+
+    vprint Equivalence, 2 : "Computing variety defined by the monomial relations...";
+    V := Variety(Ideal(MonomialRelations));
+
+    if V ne [] then // we look only at monomials, therefore we miss some information
+        for v in V do
+            v_list := [el : el in v];
+            if [Evaluate(rel, v_list) : rel in Relations] eq [0 : _ in [1..n^2+1]] then
+                return Matrix(n, n, v_list[1..n^2]), true;
+            end if;
+        end for;
+    end if;
+    
+    error("There exists no preimage over the base field.");
+end function;
+
+
+/* Copied from Thomas' GL-Equivalence package */
+// Normalize a matrix by the first nonzero entry in its first row
+function NormalizeMatrix(M)
+    idx := Min([ i : i in [1..Ncols(M)] | M[1][i] ne 0 ]);
+    return M / M[1][idx];
+end function;
+
+/* Copied from Jeroen's hyperelliptic package */
+// Extended GCD with unique coefficient vector
+function XGCDUnique(L)
+    if #L eq 0 then
+        return 0, [];
+    end if;
+
+    if #L eq 1 then
+        return L[1], [ Universe(L)!1 ];
+    end if;
+
+    g := GCD(L);
+    C := [ Universe(L)!0 : _ in L ];
+
+    gc, C[1], C[2] := XGCD(L[1], L[2]);
+    idx := 2;
+
+    while gc ne g do
+        idx +:= 1;
+        gc, x, C[idx] := XGCD(gc, L[idx]);
+        for i in [1..idx-1] do
+            C[i] *:= x;
+        end for;
+    end while;
+
+    return g, C;
+end function;
+

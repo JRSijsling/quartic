@@ -37,6 +37,7 @@
 import "QuarticIsoFF.m": QuarticIsomorphismsFF;
 import "QuarticIsoQQ.m": QuarticIsomorphismsQQ;
 import "Sutherland.m": SPQIsIsomorphic;
+import "Ingredients.m": IsGL3EquivalentFast;
 
 function NormalizedM(M)
 
@@ -100,15 +101,22 @@ intrinsic IsomorphismsOfTernaryQuartics(f1::RngMPolElt, f2::RngMPolElt :
     end if;
 
     K := BaseRing(Parent(_f1));
-
-    if Type(K) eq FldFin then
-        _, isos := QuarticIsomorphismsFF(_f1, _f2 : geometric := geometric);
-    elif Type(K) eq FldRat then
-        _, isos := QuarticIsomorphismsQQ(_f1, _f2 : geometric := geometric);
-    else
-        _, isos := SPQIsIsomorphic(_f1, _f2 : geometric := geometric);
-    end if;
-
+    try 
+        time test, isos := IsGL3EquivalentFast(_f1, _f2);
+        if not test then 
+            return [];
+        end if;
+        return [ NormalizedM(isos[1]) ];
+    catch e
+        if Type(K) eq FldFin then
+            _, isos := QuarticIsomorphismsFF(_f1, _f2 : geometric := geometric);
+        elif Type(K) eq FldRat then
+            _, isos := QuarticIsomorphismsQQ(_f1, _f2 : geometric := geometric);
+        else
+            _, isos := SPQIsIsomorphic(_f1, _f2 : geometric := geometric);
+        end if;
+    end try;
+    
     return [ NormalizedM(T^(-1)) : T in isos ];
 
 end intrinsic;
