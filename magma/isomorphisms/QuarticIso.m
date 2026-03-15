@@ -37,7 +37,7 @@
 import "QuarticIsoFF.m": QuarticIsomorphismsFF;
 import "QuarticIsoQQ.m": QuarticIsomorphismsQQ;
 import "Sutherland.m": SPQIsIsomorphic;
-import "Ingredients.m": IsGL3EquivalentFast;
+import "GL3-equivalence.m": IsGL3EquivalentFast;
 
 function NormalizedM(M)
 
@@ -99,10 +99,9 @@ intrinsic IsomorphismsOfTernaryQuartics(f1::RngMPolElt, f2::RngMPolElt :
             _f2 *:= LCM([Denominator(e) : e in Coefficients(_f2)]);
         end if;
     end if;
-
     K := BaseRing(Parent(_f1));
     try 
-        time test, isos := IsGL3EquivalentFast(_f1, _f2);
+        test, isos := IsGL3EquivalentFast(_f1, _f2);
         if not test then 
             return [];
         end if;

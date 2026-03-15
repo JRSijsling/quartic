@@ -1,5 +1,5 @@
 import "Ingredients.m":
-    FindPreImage, XGCDUnique, NormalizeMatrix; 
+    DPairing, TransvectantGeneral, FindPreImage, XGCDUnique, NormalizeMatrix; 
 
 // Return a contravariant of f using the Clebsch transfer principle
 function DualTernaryForm(f) 
@@ -127,7 +127,6 @@ function LinCov(f)
     C := [c0,c1,c2];
     
     if Rank(Matrix([[MonomialCoefficient(c, m) : m in MonomialsOfDegree(R, 1)] : c in C])) lt #C then
-        vprint Equivalence, 1 : "Warning: the covariants are not linearly independent";
         return C, [19, 25, 34], false;
     end if;
     
@@ -167,7 +166,6 @@ function CubCov(f)
     C := [c93, c123, c143, c153, c163, c173, c1731, c193, c1931, c213];
     
     if Rank(Matrix([[MonomialCoefficient(c, m) : m in MonomialsOfDegree(R, 3)] : c in C])) lt #C then
-        vprint Equivalence, 1 : "Warning: the covariants are not linearly independent";
         return C, [9, 12, 14, 15, 16, 17, 17, 19, 19, 21], false;
     end if;
     
@@ -194,7 +192,6 @@ end function;
 // Given two homogeneous polynomials in 3 variables, return true and the only possible M in GL_3 (up to scaling) such that f^M = c*g, where c is a scalar. 
 // If they are not equivalent, only false is returned. When this method fails, an error is returned.
 function IsGL3EquivalentFast(f, g)
-
     R := Parent(f);
     K := BaseRing(R);
     g := R!g;
@@ -203,7 +200,6 @@ function IsGL3EquivalentFast(f, g)
     
     assert (n eq 3) and IsHomogeneous(f) and IsHomogeneous(g);
     assert BaseRing(Parent(f)) eq BaseRing(Parent(g));
-    assert Degree(g);
     
     if d le 3 then 
         error("Not covered by this method");
